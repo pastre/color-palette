@@ -22,28 +22,9 @@ enum Harmony{
     case triad
 }
 
-class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.presentingData.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "default", for: indexPath)
-        let hsv = self.presentingData[indexPath.item]
-//        print(hsv.h, hsv.s, hsv.v)
-        cell.backgroundColor = hsv.getUIColor()
-        return cell
-    }
-    
-    
-    @IBOutlet weak var debugView: UIView!
+class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
+
     @IBOutlet weak var cameraView: UIView!
-    @IBOutlet weak var collectionView: UICollectionView!
     
     var session: ARSession!
     var renderer: Renderer!
@@ -61,11 +42,10 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICo
         // Set the view's delegate
         self.currentHarmony = .mono
         self.currentColor = HSV(hue: 126, saturation: 0.8, value: 0.9)
+        
         session = ARSession()
         session.delegate = self
-        
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
+//        session.configuration
         
         // Set the view to use the default device
         if let view = self.cameraView as? MTKView {
@@ -77,15 +57,12 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICo
                 print("Metal is not supported on this device")
                 return
             }
-            
+//            view.orien
             // Configure the renderer to draw to the view
             renderer = Renderer(session: session, metalDevice: view.device!, renderDestination: view)
-            
             renderer.drawRectResized(size: view.bounds.size)
         }
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleTap(gestureRecognize:)))
-        self.cameraView.addGestureRecognizer(tapGesture)
         square.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
         square.layer.cornerRadius = square.bounds.width / 2
         self.view.addSubview(square)
@@ -96,18 +73,17 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICo
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
         
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = .horizontal
+        
+
         // Run the view's session
         session.run(configuration)
     }
     
-    
-    
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         // Pause the view's session
         session.pause()
     }
@@ -147,53 +123,8 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICo
             
         }
         
-//        self.presentingData = palletes.getTriad()
-        self.collectionView.reloadData()
     }
-    
-    @objc
-    func handleTap(gestureRecognize: UITapGestureRecognizer) {
-        // Create anchor using the camera's current position
-//        let pos = gestureRecognize.location(in: self.view)
-//        guard let color = self.getColor(x: pos.x, y: pos.y) else { return }
-//        self.square.center = pos
-//        self.square.backgroundColor = color
-//        print("Pos is", pos)
-//        let ci = CIColor(color: color)
-//        color?.ciColor.colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
-//        print("A cor vale", ci.red * 255, ci.green * 255, ci.blue * 255)
-//        self.view.bringSubviewToFront(self.debugView)
-//        self.debugView.backgroundColor = color
-//        if let currentFrame = session.currentFrame {
-//
-//            // Create a transform with a translation of 0.2 meters in front of the camera
-//            var translation = matrix_identity_float4x4
-//            translation.columns.3.z = -0.2
-//            let transform = simd_mul(currentFrame.camera.transform, translation)
-//
-//            // Add a new anchor to the session
-//            let anchor = ARAnchor(transform: transform)
-//            session.add(anchor: anchor)
-//        }
-    }
-    
-    // MARK: - MTKViewDelegate
-    
-    // Called whenever view changes orientation or layout is changed
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        renderer.drawRectResized(size: size)
-    }
-    
-    // Called whenever the view needs to render
-    func draw(in view: MTKView) {
-        renderer.update()
-        view.framebufferOnly = false
-//        view.transform = view.transform.rotated(by: CGFloat.pi / 2)
-        self.currentDrawable = view.currentDrawable
-        
-    }
-    
-    
+
     func getColor(x: CGFloat, y: CGFloat) -> RGB? {
         
         if let curDrawable = self.currentDrawable {
@@ -207,7 +138,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICo
             let red: CGFloat   = CGFloat(pixel[2]) / 255.0
             let green: CGFloat = CGFloat(pixel[1]) / 255.0
             let blue: CGFloat  = CGFloat(pixel[0]) / 255.0
-            let alpha: CGFloat = CGFloat(pixel[3]) / 255.0
+            let _: CGFloat = CGFloat(pixel[3]) / 255.0
             print("RED", pixel[2])
             print("GREEN", pixel[1])
             print("BLUE", pixel[0])
@@ -216,11 +147,42 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICo
         }
         return nil
     }
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
-        for t in touches{
-            self.updateColor(touch: t)
+   
+    
+    @IBAction func onSegmentedPicked(_ sender: Any) {
+        let seg = sender as! UISegmentedControl
+        
+        switch seg.selectedSegmentIndex {
+        case 0:
+            self.currentHarmony = .mono
+        case 1:
+            self.currentHarmony = .analog
+        case 2:
+            self.currentHarmony = .comp
+        case 3:
+            self.currentHarmony = .triad
+        default:
+            break
         }
+        self.updatePresentingPalette()
     }
+    
+    // MARK: - MTKViewDelegate
+    
+    // Called whenever view changes orientation or layout is changed
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        renderer.drawRectResized(size: size)
+    }
+    
+    // Called whenever the view needs to render
+    func draw(in view: MTKView) {
+        renderer.update()
+        view.framebufferOnly = false
+        //        view.transform = view.transform.rotated(by: CGFloat.pi / 2)
+        self.currentDrawable = view.currentDrawable
+        
+    }
+
     
     // MARK: - ARSessionDelegate
     
@@ -238,21 +200,19 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UICo
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
-    @IBAction func onSegmentedPicked(_ sender: Any) {
-        let seg = sender as! UISegmentedControl
-        
-        switch seg.selectedSegmentIndex {
-        case 0:
-            self.currentHarmony = .mono
-        case 1:
-            self.currentHarmony = .analog
-        case 2:
-            self.currentHarmony = .comp
-        case 3:
-            self.currentHarmony = .triad
-        default:
-            break
+    
+
+    
+    // MARK: - Touch overrides
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches{
+            self.updateColor(touch: t)
         }
-        self.updatePresentingPalette()
+    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
+        for t in touches{
+            self.updateColor(touch: t)
+        }
     }
 }
