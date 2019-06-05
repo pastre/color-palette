@@ -97,7 +97,7 @@ class Renderer {
         self.device = device
         self.renderDestination = renderDestination
         loadMetal()
-        loadAssets()
+//        loadAssets()
     }
     
     func drawRectResized(size: CGSize) {
@@ -492,16 +492,16 @@ class Renderer {
         renderEncoder.setVertexBuffer(sharedUniformBuffer, offset: sharedUniformBufferOffset, index: Int(kBufferIndexSharedUniforms.rawValue))
         renderEncoder.setFragmentBuffer(sharedUniformBuffer, offset: sharedUniformBufferOffset, index: Int(kBufferIndexSharedUniforms.rawValue))
         
-        // Set mesh's vertex buffers
-        for bufferIndex in 0..<cubeMesh.vertexBuffers.count {
-            let vertexBuffer = cubeMesh.vertexBuffers[bufferIndex]
-            renderEncoder.setVertexBuffer(vertexBuffer.buffer, offset: vertexBuffer.offset, index:bufferIndex)
-        }
-        
-        // Draw each submesh of our mesh
-        for submesh in cubeMesh.submeshes {
-            renderEncoder.drawIndexedPrimitives(type: submesh.primitiveType, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset, instanceCount: anchorInstanceCount)
-        }
+//        // Set mesh's vertex buffers
+//        for bufferIndex in 0..<cubeMesh.vertexBuffers.count {
+//            let vertexBuffer = cubeMesh.vertexBuffers[bufferIndex]
+//            renderEncoder.setVertexBuffer(vertexBuffer.buffer, offset: vertexBuffer.offset, index:bufferIndex)
+//        }
+//        
+//        // Draw each submesh of our mesh
+//        for submesh in cubeMesh.submeshes {
+//            renderEncoder.drawIndexedPrimitives(type: submesh.primitiveType, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset, instanceCount: anchorInstanceCount)
+//        }
         
         renderEncoder.popDebugGroup()
     }
