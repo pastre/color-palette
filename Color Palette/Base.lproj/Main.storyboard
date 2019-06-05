@@ -37,8 +37,8 @@
                                             <action selector="onSegmentedPicked:" destination="BV1-FR-VrT" eventType="valueChanged" id="vvz-Md-wfF"/>
                                         </connections>
                                     </segmentedControl>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RgK-35-5aI">
-                                        <rect key="frame" x="20" y="43" width="374" height="31.5"/>
+                                    <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RgK-35-5aI">
+                                        <rect key="frame" x="20" y="43" width="374" height="26.5"/>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.69392123287671237" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -62,7 +62,7 @@
                             <constraint firstItem="3C0-cp-GOg" firstAttribute="bottom" secondItem="Dhj-0b-dSY" secondAttribute="bottom" id="Obg-We-adV"/>
                             <constraint firstItem="oir-x9-RVc" firstAttribute="height" secondItem="Dhj-0b-dSY" secondAttribute="height" multiplier="0.2" id="QQy-z0-Fb3"/>
                             <constraint firstItem="Dhj-0b-dSY" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="Vqs-nZ-af0"/>
-                            <constraint firstItem="RgK-35-5aI" firstAttribute="bottom" secondItem="3C0-cp-GOg" secondAttribute="bottom" constant="-5" id="Vue-5Z-BYB"/>
+                            <constraint firstItem="RgK-35-5aI" firstAttribute="bottom" secondItem="3C0-cp-GOg" secondAttribute="bottom" constant="-10" id="Vue-5Z-BYB"/>
                             <constraint firstAttribute="bottom" secondItem="oir-x9-RVc" secondAttribute="bottom" id="etA-P1-9HK"/>
                             <constraint firstItem="3C0-cp-GOg" firstAttribute="trailing" secondItem="oir-x9-RVc" secondAttribute="trailing" id="kI7-sM-aqw"/>
                             <constraint firstItem="Dhj-0b-dSY" firstAttribute="trailing" secondItem="3C0-cp-GOg" secondAttribute="trailing" id="xGg-Qv-AkE"/>

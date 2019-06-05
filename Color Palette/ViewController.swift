@@ -40,6 +40,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
     var currentColor: HSV!
     var currentHarmony: Harmony!
     
+    // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,19 +74,8 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
         self.view.insertSubview(self.square, belowSubview: self.overlayView)
         self.setupSegmented()
         
-    }
-    
-    func setupSegmented(){
-        let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-        let selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
-        let defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        self.becomeFirstResponder()
         
-        self.paletteSegmentedControl.backgroundColor = clearColor
-        self.paletteSegmentedControl.tintColor = clearColor
-        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: defaultColor], for: .normal)
-        
-        
-        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +96,25 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
         // Pause the view's session
         session.pause()
     }
+   
+    override var canBecomeFirstResponder: Bool{
+        return true
+    }
     
+    func setupSegmented(){
+        let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        let selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
+        let defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        self.paletteSegmentedControl.backgroundColor = clearColor
+        self.paletteSegmentedControl.tintColor = clearColor
+        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: defaultColor], for: .normal)
+        
+        
+        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
+    }
+    
+    // MARK: - Color logic
     func updateColor(touch: UITouch){
         let pos = touch.location(in: self.view)
         if !self.cameraView.bounds.contains(pos) { return }
@@ -152,6 +160,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
 //                ballView.clipsToBounds = true
                 ballView.backgroundColor = color.getUIColor()
             
+            //  TODO: COLOCAR A LARGURA IGUAL A ALTURA 
                 ballView.translatesAutoresizingMaskIntoConstraints = false
 //                ballView.widthAnchor.constraint(equalToConstant: ballRadius).isActive = true
                 ballView.heightAnchor.constraint(equalToConstant: ballRadius).isActive = true
@@ -185,7 +194,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
         return nil
     }
    
-    
+    // MARK: - Callbacks
     @IBAction func onSegmentedPicked(_ sender: Any) {
         let seg = sender as! UISegmentedControl
         
@@ -202,6 +211,12 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
             break
         }
         self.updatePresentingPalette()
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            print("shake")
+        }
     }
     
     // MARK: - MTKViewDelegate
