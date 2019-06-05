@@ -22,10 +22,10 @@ class RGB{
     }
     
     func getMax() -> CGFloat{
-        if self.red > self.green && self.red > self.blue{
+        if self.red >= self.green && self.red >= self.blue{
             return self.red
         }
-        if self.green > self.red && self.green > self.blue {
+        if self.green >= self.red && self.green >= self.blue {
             return self.green
         }
         
@@ -33,10 +33,10 @@ class RGB{
     }
     
     func getMin() -> CGFloat{
-        if self.red < self.green && self.red < self.blue{
+        if self.red <= self.green && self.red <= self.blue{
             return self.red
         }
-        if self.green < self.red && self.green < self.blue {
+        if self.green <= self.red && self.green <= self.blue {
             return self.green
         }
         
@@ -120,11 +120,11 @@ class HSV{
         let max = rgb.getMax()
         let min = rgb.getMin()
         
-        if g >= r && g > b {
+        if g > r && g > b {
             return CGFloat( (60 * (b - r) / (max - min)) + 120 )
         }
         
-        if b > g && b >= r {
+        if b > g && b > r {
             return CGFloat( (60 * (r - g) / (max - min)) + 240 )
         }
         
