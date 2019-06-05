@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Explore-->
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="Color_Palette" customModuleProvider="target" sceneMemberID="viewController">
@@ -70,7 +70,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3C0-cp-GOg"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="rxD-Qk-ej7"/>
+                    <tabBarItem key="tabBarItem" title="Explore" image="world" id="rxD-Qk-ej7"/>
                     <connections>
                         <outlet property="cameraView" destination="Dhj-0b-dSY" id="2wH-Wa-4Cu"/>
                         <outlet property="colorsStackView" destination="RgK-35-5aI" id="S6v-Iv-Eyp"/>
@@ -93,11 +93,32 @@
                     </tabBar>
                     <connections>
                         <segue destination="BV1-FR-VrT" kind="relationship" relationship="viewControllers" id="z7O-nA-k48"/>
+                        <segue destination="nJB-zk-CnN" kind="relationship" relationship="viewControllers" id="jzE-ok-J8e"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zfB-a5-JjT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="138" y="1134"/>
         </scene>
+        <!--Palettes-->
+        <scene sceneID="zjM-Em-OoF">
+            <objects>
+                <viewController id="nJB-zk-CnN" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ffZ-QX-ObQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="YTC-dn-ftI"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Palettes" image="palette" id="8SD-Di-199"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mDM-xs-u3H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1009" y="1416"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="palette" width="18" height="18"/>
+        <image name="world" width="24" height="24"/>
+    </resources>
 </document>

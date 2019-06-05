@@ -239,8 +239,9 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
 //        saveOverlay.heightAnchor.constraint(equalTo: self.overlayView.heightAnchor).isActive = true
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
+        
         UIView.animate(withDuration: 0.5, animations: {
-            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 2, y: 2)
+            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.5, y: 1.5)
             self.colorsStackView.alpha = 0
         }) { (_) in
             generator.impactOccurred()
