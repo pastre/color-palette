@@ -24,6 +24,8 @@ enum Harmony{
 
 class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
 
+    
+    @IBOutlet weak var colorsStackView: UIStackView!
     @IBOutlet weak var overlayView: Overlay!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var paletteSegmentedControl: UISegmentedControl!
@@ -138,6 +140,24 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
         case .triad:
             self.presentingData = palettes.getTriad()
             
+        }
+        
+        for view in self.colorsStackView.arrangedSubviews{
+            self.colorsStackView.removeArrangedSubview(view)
+        }
+        
+        for color in self.presentingData{
+            let ballRadius: CGFloat = 20
+            let ballView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+//                ballView.clipsToBounds = true
+                ballView.backgroundColor = color.getUIColor()
+            
+                ballView.translatesAutoresizingMaskIntoConstraints = false
+//                ballView.widthAnchor.constraint(equalToConstant: ballRadius).isActive = true
+                ballView.heightAnchor.constraint(equalToConstant: ballRadius).isActive = true
+            
+                ballView.layer.cornerRadius = ballRadius / 2
+            self.colorsStackView.addArrangedSubview(ballView)
         }
         
     }

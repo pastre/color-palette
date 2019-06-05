@@ -162,7 +162,7 @@ class ColorPalette{
         return [
             lightComp,
             light,
-            baseComp,
+//            baseComp,
             baseHSV,
             saturated,
             saturatedComp
