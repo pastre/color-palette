@@ -10,6 +10,7 @@ import UIKit
 import Metal
 import MetalKit
 import ARKit
+import AudioToolbox
 
 extension MTKView : RenderDestinationProvider {
     
@@ -215,8 +216,38 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
+            self.playSaveEffect()
             print("shake")
         }
+    }
+    
+    func playSaveEffect(){
+//        let saveOverlay: UIView = {
+//            let v = UIView()
+//            v.translatesAutoresizingMaskIntoConstraints = false
+//            v.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+//            v.layer.cornerRadius = self.overlayView.layer.cornerRadius
+//            return v
+//        }()
+//
+//        self.overlayView.addSubview(saveOverlay)
+//
+//        saveOverlay.centerXAnchor.constraint(equalTo: self.overlayView.centerXAnchor).isActive = true
+//        saveOverlay.centerYAnchor.constraint(equalTo: self.overlayView.centerYAnchor).isActive = true
+//
+//        saveOverlay.widthAnchor.constraint(equalTo: self.overlayView.widthAnchor).isActive = true
+//        saveOverlay.heightAnchor.constraint(equalTo: self.overlayView.heightAnchor).isActive = true
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator.impactOccurred()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 2, y: 2)
+            self.colorsStackView.alpha = 0
+        }) { (_) in
+            generator.impactOccurred()
+            self.colorsStackView.alpha = 1
+            self.colorsStackView.transform = .identity
+        }
+        
     }
     
     // MARK: - MTKViewDelegate
