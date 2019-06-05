@@ -24,7 +24,9 @@ enum Harmony{
 
 class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
 
+    @IBOutlet weak var overlayView: Overlay!
     @IBOutlet weak var cameraView: UIView!
+    @IBOutlet weak var paletteSegmentedControl: UISegmentedControl!
     
     var session: ARSession!
     var renderer: Renderer!
@@ -65,8 +67,23 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
         
         square.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
         square.layer.cornerRadius = square.bounds.width / 2
-        self.view.addSubview(square)
+//        self.view.addSubview(square)
+        self.view.insertSubview(self.square, belowSubview: self.overlayView)
+        self.setupSegmented()
         
+    }
+    
+    func setupSegmented(){
+        let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        let selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
+        let defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        self.paletteSegmentedControl.backgroundColor = clearColor
+        self.paletteSegmentedControl.tintColor = clearColor
+        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: defaultColor], for: .normal)
+        
+        
+        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -171,7 +188,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
     
     // Called whenever view changes orientation or layout is changed
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        renderer.drawRectResized(size: size)
+//        renderer.drawRectResized(size: size)
     }
     
     // Called whenever the view needs to render

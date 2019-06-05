@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D702C03822A635F200CDD45B /* RGBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = D702C03722A635F200CDD45B /* RGBA.swift */; };
-		D755160422A71E82008D2313 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D755160322A71E82008D2313 /* ColorPickerViewController.swift */; };
 		D799256C22A55B93008596CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799256B22A55B93008596CF /* AppDelegate.swift */; };
 		D799256E22A55B93008596CF /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = D799256D22A55B93008596CF /* Shaders.metal */; };
 		D799257122A55B93008596CF /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799257022A55B93008596CF /* Renderer.swift */; };
@@ -18,6 +17,7 @@
 		D799257B22A55B94008596CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D799257922A55B94008596CF /* LaunchScreen.storyboard */; };
 		D799258722A55B94008596CF /* Color_PaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799258622A55B94008596CF /* Color_PaletteTests.swift */; };
 		D799259222A55B94008596CF /* Color_PaletteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799259122A55B94008596CF /* Color_PaletteUITests.swift */; };
+		D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5EFFA22A7367D00E0C956 /* Overlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		D702C03722A635F200CDD45B /* RGBA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBA.swift; sourceTree = "<group>"; };
-		D755160322A71E82008D2313 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		D799256822A55B93008596CF /* Color Palette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Palette.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799256B22A55B93008596CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D799256D22A55B93008596CF /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
@@ -57,6 +56,7 @@
 		D799258D22A55B94008596CF /* Color PaletteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Color PaletteUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799259122A55B94008596CF /* Color_PaletteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_PaletteUITests.swift; sourceTree = "<group>"; };
 		D799259322A55B94008596CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7E5EFFA22A7367D00E0C956 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +107,7 @@
 		D799256A22A55B93008596CF /* Color Palette */ = {
 			isa = PBXGroup;
 			children = (
+				D7E5EFF922A7365E00E0C956 /* designables */,
 				D799256B22A55B93008596CF /* AppDelegate.swift */,
 				D799256D22A55B93008596CF /* Shaders.metal */,
 				D799256F22A55B93008596CF /* ShaderTypes.h */,
@@ -118,7 +119,6 @@
 				D799257C22A55B94008596CF /* Info.plist */,
 				D799257D22A55B94008596CF /* Color_Palette-Bridging-Header.h */,
 				D702C03722A635F200CDD45B /* RGBA.swift */,
-				D755160322A71E82008D2313 /* ColorPickerViewController.swift */,
 			);
 			path = "Color Palette";
 			sourceTree = "<group>";
@@ -139,6 +139,14 @@
 				D799259322A55B94008596CF /* Info.plist */,
 			);
 			path = "Color PaletteUITests";
+			sourceTree = "<group>";
+		};
+		D7E5EFF922A7365E00E0C956 /* designables */ = {
+			isa = PBXGroup;
+			children = (
+				D7E5EFFA22A7367D00E0C956 /* Overlay.swift */,
+			);
+			path = designables;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,8 +282,8 @@
 			files = (
 				D799256E22A55B93008596CF /* Shaders.metal in Sources */,
 				D799257122A55B93008596CF /* Renderer.swift in Sources */,
-				D755160422A71E82008D2313 /* ColorPickerViewController.swift in Sources */,
 				D799257322A55B94008596CF /* ViewController.swift in Sources */,
+				D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */,
 				D799256C22A55B93008596CF /* AppDelegate.swift in Sources */,
 				D702C03822A635F200CDD45B /* RGBA.swift in Sources */,
 			);
