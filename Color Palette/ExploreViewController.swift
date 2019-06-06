@@ -119,7 +119,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
 
     // MARK: - Color logic
-    func updateColor(touch: UITouch){
+    func updateTouch(touch: UITouch){
         let pos = touch.location(in: self.view)
         if !self.cameraView.bounds.contains(pos) { return }
         guard let rgb = self.getColor(x: pos.x, y: pos.y) else { return }
@@ -127,16 +127,17 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         self.square.center = pos
         self.square.backgroundColor = hsv.getUIColor()
-        self.currentColor = hsv
-        self.updatePresentingPalette()
+        self.updateColor(to: hsv)
 //        self.presentingData = palletes.getComplementaryPalette()
 //        self.presentingData = palletes.getAnalogous()
 //        print("Complementary", complementary.h, complementary.s, complementary.v)
-        for h in self.presentingData{
-            print("HSV", h.hue!, h.saturation!, h.value!)
-        }
-        print("------------ ")
         
+    }
+    
+    func updateColor(to hsv: HSV){
+        
+        self.currentColor = hsv
+        self.updatePresentingPalette()
     }
     
     // Updates the stackView
@@ -163,12 +164,17 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         for color in self.presentingData{
             let ballView = color.asCircularView()
             
-            let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
-            tapGR.delegate = self
-            tapGR.numberOfTapsRequired = 2
+            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
+            doubleTap.delegate = self
+            doubleTap.numberOfTapsRequired = 2
+           
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
+            tap.delegate = self
+            tap.numberOfTapsRequired = 1
             
-            ballView.addGestureRecognizer(tapGR)
-            
+            ballView.addGestureRecognizer(tap)
+            ballView.addGestureRecognizer(doubleTap)
+            tap.require(toFail: doubleTap)
             self.colorsStackView.addArrangedSubview(ballView)
         }
         
@@ -198,12 +204,24 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
    
     // MARK: - Callbacks
-    @objc func onDoubleTap(_ sender: Any?){
+   
+    @objc func onTap(_ sender: Any?){
         let tap = sender as! UITapGestureRecognizer
         let view = tap.view as! BallView
         let color = view.hsv
         
         self.performSegue(withIdentifier: "detailSegue", sender: color)
+        
+    }
+    
+    @objc func onDoubleTap(_ sender: Any?){
+        
+        let tap = sender as! UITapGestureRecognizer
+        let view = tap.view as! BallView
+        let color = view.hsv!
+        
+        self.updateColor(to: color)
+        
     }
     
     @IBAction func onSegmentedPicked(_ sender: Any) {
@@ -301,7 +319,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
         super.touchesMoved(touches, with: event)
         for t in touches{
-            self.updateColor(touch: t)
+            self.updateTouch(touch: t)
         }
     }
     
@@ -312,3 +330,4 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         }
     }
 }
+
