@@ -39,7 +39,7 @@
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.66336686643835618" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75230094178082196" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="EVa-QB-vK1" secondAttribute="trailing" constant="20" id="BO2-D1-zdk"/>
                                     <constraint firstItem="EVa-QB-vK1" firstAttribute="leading" secondItem="9IK-69-fek" secondAttribute="leading" constant="20" id="Txr-mw-XiW"/>
@@ -81,7 +81,7 @@
                                         <rect key="frame" x="20" y="10" width="374" height="61.5"/>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.54390517979452058" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="RgK-35-5aI" firstAttribute="top" secondItem="oir-x9-RVc" secondAttribute="top" constant="10" id="ICW-RR-RP3"/>
                                     <constraint firstAttribute="trailing" secondItem="RgK-35-5aI" secondAttribute="trailing" constant="20" id="sCc-EO-Ha5"/>

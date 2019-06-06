@@ -34,8 +34,11 @@ class HarmonyProvider{
     }
     
     func addPalette(colors: [HSV]){
-        let palette = Palette(name: "#\(self.palettes.count)", colors: colors)
+        let palette = Palette(name: "#\(self.palettes.count + 1)", colors: colors)
         self.palettes.append(palette)
+        self.palettes.sort { (p1, p2) -> Bool in
+            return p1.name < p2.name
+        }
     }
     
     func getPalettes() -> [Palette]{
