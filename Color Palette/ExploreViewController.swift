@@ -156,7 +156,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         }
         
         while self.colorsStackView.arrangedSubviews.count != 0{
-            self.colorsStackView.removeArrangedSubview(self.colorsStackView.arrangedSubviews.first!)
+            self.colorsStackView.arrangedSubviews.first!.removeFromSuperview() // Thanks @Ailton
+//            self.colorsStackView.removeArrangedSubview(self.colorsStackView.arrangedSubviews.first!)
         }
         
         for color in self.presentingData{

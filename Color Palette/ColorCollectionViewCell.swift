@@ -1,0 +1,37 @@
+//
+//  ColorCollectionViewCell.swift
+//  Color Palette
+//
+//  Created by Bruno Pastre on 06/06/19.
+//  Copyright © 2019 Bruno Pastre. All rights reserved.
+//
+
+import UIKit
+
+class ColorCollectionViewCell: UICollectionViewCell {
+    
+    @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var hexCodeLabel: UILabel!
+    @IBOutlet weak var redLabel: UILabel!
+    @IBOutlet weak var greenLabel: UILabel!
+    @IBOutlet weak var blueLabel: UILabel!
+    
+    var color: HSV!
+
+    func setupCell(){
+        self.hexCodeLabel.adjustsFontSizeToFitWidth = true
+        self.redLabel.adjustsFontSizeToFitWidth = true
+        self.greenLabel.adjustsFontSizeToFitWidth = true
+        self.blueLabel.adjustsFontSizeToFitWidth = true
+        
+        self.colorView.backgroundColor = self.color.getUIColor()
+        self.colorView.layer.cornerRadius = self.colorView.frame.width / 2
+        self.colorView.clipsToBounds = true
+    }
+    
+    
+    @IBAction func onShare(_ sender: Any) {
+        
+    }
+    
+}
