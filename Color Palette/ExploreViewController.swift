@@ -23,9 +23,10 @@ enum Harmony{
     case triad
 }
 
-class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
+class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
 
     
+    @IBOutlet weak var savedView: UIView!
     @IBOutlet weak var colorsStackView: UIStackView!
     @IBOutlet weak var overlayView: UIView!
     @IBOutlet weak var cameraView: UIView!
@@ -44,7 +45,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
     // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.savedView.alpha = 0
         // Set the view's delegate
         self.currentHarmony = .mono
         self.currentColor = HSV(hue: 126, saturation: 0.8, value: 0.9)
@@ -213,31 +214,21 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
     }
     
     func playSaveEffect(){
-//        let saveOverlay: UIView = {
-//            let v = UIView()
-//            v.translatesAutoresizingMaskIntoConstraints = false
-//            v.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-//            v.layer.cornerRadius = self.overlayView.layer.cornerRadius
-//            return v
-//        }()
-//
-//        self.overlayView.addSubview(saveOverlay)
-//
-//        saveOverlay.centerXAnchor.constraint(equalTo: self.overlayView.centerXAnchor).isActive = true
-//        saveOverlay.centerYAnchor.constraint(equalTo: self.overlayView.centerYAnchor).isActive = true
-//
-//        saveOverlay.widthAnchor.constraint(equalTo: self.overlayView.widthAnchor).isActive = true
-//        saveOverlay.heightAnchor.constraint(equalTo: self.overlayView.heightAnchor).isActive = true
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
         
         UIView.animate(withDuration: 0.5, animations: {
             self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.5, y: 1.5)
             self.colorsStackView.alpha = 0
+            self.savedView.alpha = 1
         }) { (_) in
             generator.impactOccurred()
             self.colorsStackView.alpha = 1
             self.colorsStackView.transform = .identity
+            
+            UIView.animate(withDuration: 1, animations: {
+                self.savedView.alpha = 0
+            })
         }
         
     }

@@ -13,7 +13,7 @@
         <!--Explore-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="Color_Palette" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" customClass="ExploreViewController" customModule="Color_Palette" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="3se-qz-xqx" customClass="MTKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -51,6 +51,29 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfR-NR-QK1">
+                                <rect key="frame" x="155.5" y="386" width="103.5" height="41"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92M-CG-QIl">
+                                        <rect key="frame" x="10" y="10" width="83.5" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.89667166099999995" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.79045376712328763" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="92M-CG-QIl" secondAttribute="bottom" constant="10" id="YrE-me-Es4"/>
+                                    <constraint firstItem="92M-CG-QIl" firstAttribute="top" secondItem="zfR-NR-QK1" secondAttribute="top" constant="10" id="flQ-4A-btM"/>
+                                    <constraint firstAttribute="trailing" secondItem="92M-CG-QIl" secondAttribute="trailing" constant="10" id="gYJ-Un-SqV"/>
+                                    <constraint firstItem="92M-CG-QIl" firstAttribute="leading" secondItem="zfR-NR-QK1" secondAttribute="leading" constant="10" id="mNe-D7-J5Z"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oir-x9-RVc" userLabel="colorsView">
                                 <rect key="frame" x="0.0" y="731.5" width="414" height="81.5"/>
                                 <subviews>
@@ -75,10 +98,14 @@
                             <constraint firstItem="oir-x9-RVc" firstAttribute="height" secondItem="Dhj-0b-dSY" secondAttribute="height" multiplier="0.1" id="QQy-z0-Fb3"/>
                             <constraint firstItem="Dhj-0b-dSY" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="Vqs-nZ-af0"/>
                             <constraint firstItem="RgK-35-5aI" firstAttribute="bottom" secondItem="3C0-cp-GOg" secondAttribute="bottom" constant="-10" id="Vue-5Z-BYB"/>
+                            <constraint firstItem="zfR-NR-QK1" firstAttribute="width" secondItem="Dhj-0b-dSY" secondAttribute="width" multiplier="0.25" id="Y33-8U-Gds"/>
+                            <constraint firstItem="zfR-NR-QK1" firstAttribute="centerY" secondItem="Dhj-0b-dSY" secondAttribute="centerY" id="c7M-hA-DRx"/>
                             <constraint firstItem="3C0-cp-GOg" firstAttribute="bottom" secondItem="oir-x9-RVc" secondAttribute="bottom" id="etA-P1-9HK"/>
                             <constraint firstItem="3C0-cp-GOg" firstAttribute="trailing" secondItem="oir-x9-RVc" secondAttribute="trailing" id="kI7-sM-aqw"/>
                             <constraint firstItem="9IK-69-fek" firstAttribute="centerX" secondItem="3C0-cp-GOg" secondAttribute="centerX" id="lwl-OU-Xo6"/>
+                            <constraint firstItem="zfR-NR-QK1" firstAttribute="centerX" secondItem="Dhj-0b-dSY" secondAttribute="centerX" id="qzn-XT-6LS"/>
                             <constraint firstItem="3C0-cp-GOg" firstAttribute="trailing" secondItem="9IK-69-fek" secondAttribute="trailing" constant="-2" id="tHn-fi-sjL"/>
+                            <constraint firstItem="zfR-NR-QK1" firstAttribute="height" secondItem="Dhj-0b-dSY" secondAttribute="height" multiplier="0.05" id="uDP-Dh-Fn5"/>
                             <constraint firstItem="Dhj-0b-dSY" firstAttribute="trailing" secondItem="3C0-cp-GOg" secondAttribute="trailing" id="xGg-Qv-AkE"/>
                             <constraint firstItem="oir-x9-RVc" firstAttribute="leading" secondItem="3C0-cp-GOg" secondAttribute="leading" id="yUh-FB-UiA"/>
                         </constraints>
@@ -90,6 +117,7 @@
                         <outlet property="colorsStackView" destination="RgK-35-5aI" id="S6v-Iv-Eyp"/>
                         <outlet property="overlayView" destination="9IK-69-fek" id="gZl-vU-cbB"/>
                         <outlet property="paletteSegmentedControl" destination="EVa-QB-vK1" id="7oi-sv-cMc"/>
+                        <outlet property="savedView" destination="zfR-NR-QK1" id="iaS-IF-pnI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -118,7 +146,6 @@
         <!--Palettes-->
         <scene sceneID="zjM-Em-OoF">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mDM-xs-u3H" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="nJB-zk-CnN" customClass="ColorsViewController" customModule="Color_Palette" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ffZ-QX-ObQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -241,6 +268,7 @@
                         <outlet property="collectionView" destination="ZuZ-rG-dkn" id="8gu-3b-glG"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mDM-xs-u3H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1008.6956521739131" y="1415.625"/>
         </scene>
