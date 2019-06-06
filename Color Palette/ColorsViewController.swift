@@ -31,7 +31,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.collectionView()
+        self.collectionView.reloadData()
     }
     
     // MARK: - Collection delegates
