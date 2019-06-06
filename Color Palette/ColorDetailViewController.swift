@@ -13,7 +13,9 @@ class ColorDetailViewController: UIViewController {
     
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var colorCodeLabel: UILabel!
+    @IBOutlet weak var likedButton: UIButton!
     
+    let source = HarmonyProvider.instance
     
     var color: HSV!
     
@@ -25,18 +27,22 @@ class ColorDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.colorView.backgroundColor = color.getUIColor()
+        if self.source.containsColor(self.color){
+            self.likedButton.setImage(UIImage(named: "heart"), for: .normal)
+        }
     }
     
     @IBAction func onFavorite(_ sender: Any) {
         
-        let button = sender as! UIButton
         if self.color.isFavorite{
-            button.setImage(UIImage(named: "heartOutline"), for: .normal)
+            self.likedButton.setImage(UIImage(named: "heartOutline"), for: .normal)
             self.color.isFavorite = false
         }else{
-            button.setImage(UIImage(named: "heart"), for: .normal)
+            self.likedButton.setImage(UIImage(named: "heart"), for: .normal)
             self.color.isFavorite = true
         }
+        
+        self.source.updateColors(with: self.color)
     }
     
     @IBAction func onTap(_ sender: Any) {

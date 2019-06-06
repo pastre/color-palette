@@ -109,5 +109,8 @@ class HSV{
         return ballView
     }
     
+    static func == (lhs: HSV, rhs: HSV) -> Bool{
+        return lhs.hue == rhs.hue && lhs.saturation == rhs.saturation && lhs.value == rhs.value
+    }
 }
 

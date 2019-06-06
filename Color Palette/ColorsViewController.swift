@@ -64,7 +64,8 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath)
-        
+        let color = self.source.getColor(at: indexPath)
+        cell.backgroundColor = color.getUIColor()
         return cell
     }
     

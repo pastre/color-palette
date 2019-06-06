@@ -47,6 +47,26 @@ class HarmonyProvider{
         })
     }
     
+    func containsColor(_ color: HSV) -> Bool{
+        return  self.colors.contains(where: { (h) -> Bool in
+            h == color
+        })
+    }
+    
+    func updateColors(with color: HSV){
+        
+        if self.containsColor(color){
+            for (i, j) in self.colors.enumerated(){
+                if j == color{
+                    self.colors.remove(at: i)
+                    break
+                }
+            }
+        } else {
+            self.colors.append(color)
+        }
+    }
+    
     func getPallete(at index: IndexPath) -> Palette{
         return self.palettes[index.item]
     }
@@ -62,6 +82,8 @@ class HarmonyProvider{
     func getColorCount() -> Int{
         return self.colors.count
     }
+    
+    
     
     func getPalettes() -> [Palette]{
         return self.palettes.sorted(by: { (p1, p2) -> Bool in

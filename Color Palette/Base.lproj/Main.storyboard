@@ -239,29 +239,18 @@
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="colorCell" id="fRL-IV-CDn" customClass="PaletteCollectionViewCell" customModule="Color_Palette" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="193" width="414" height="183"/>
+                                        <rect key="frame" x="182" y="193" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="183"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xhy-En-KWd">
-                                                    <rect key="frame" x="18" y="52" width="378" height="113"/>
-                                                    <color key="backgroundColor" red="0.45968000856164382" green="0.0" blue="0.0" alpha="0.75339790240000004" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="20"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                            </subviews>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="xhy-En-KWd" firstAttribute="top" secondItem="fRL-IV-CDn" secondAttribute="topMargin" id="d2w-Jo-vrr"/>
-                                            <constraint firstItem="xhy-En-KWd" firstAttribute="leading" secondItem="fRL-IV-CDn" secondAttribute="leadingMargin" constant="10" id="fRb-PF-rHK"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="xhy-En-KWd" secondAttribute="trailing" constant="10" id="hAQ-Vk-BGl"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="xhy-En-KWd" secondAttribute="bottom" constant="10" id="lwB-DR-WOl"/>
-                                        </constraints>
+                                        <size key="customSize" width="50" height="50"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="25"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -367,6 +356,7 @@
                     <connections>
                         <outlet property="colorCodeLabel" destination="IkP-8L-TM9" id="ZgS-Vn-nJw"/>
                         <outlet property="colorView" destination="DvE-uG-1qu" id="GJm-Fr-P57"/>
+                        <outlet property="likedButton" destination="eyA-W4-hoG" id="Phw-wd-8Im"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wj4-xy-Kgw" userLabel="First Responder" sceneMemberID="firstResponder"/>
