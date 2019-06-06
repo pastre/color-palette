@@ -23,7 +23,7 @@ enum Harmony{
     case triad
 }
 
-class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
+class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate {
 
     
     @IBOutlet weak var savedView: UIView!
@@ -101,9 +101,9 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         session.pause()
     }
    
-    override var canBecomeFirstResponder: Bool{
-        return true
-    }
+//    override var canBecomeFirstResponder: Bool{
+//        return true
+//    }
     
     func setupSegmented(){
         let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
@@ -117,7 +117,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
     }
-    
+
     // MARK: - Color logic
     func updateColor(touch: UITouch){
         let pos = touch.location(in: self.view)
@@ -161,6 +161,13 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         for color in self.presentingData{
             let ballView = color.asCircularView()
+            
+            let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
+            tapGR.delegate = self
+            tapGR.numberOfTapsRequired = 2
+            
+            ballView.addGestureRecognizer(tapGR)
+            
             self.colorsStackView.addArrangedSubview(ballView)
         }
         
@@ -190,6 +197,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
    
     // MARK: - Callbacks
+    @objc func onDoubleTap(_ sender: Any?){
+        let tap = sender as! UITapGestureRecognizer
+        let view = tap.view as! BallView
+        let color = view.hsv
+        
+        self.performSegue(withIdentifier: "detailSegue", sender: color)
+    }
+    
     @IBAction func onSegmentedPicked(_ sender: Any) {
         let seg = sender as! UISegmentedControl
         
@@ -275,14 +290,24 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     // MARK: - Touch overrides
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        super.touchesBegan(touches, with: event)
+//        for t in touches{
+//            self.updateColor(touch: t)
+//        }
+//    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
+        super.touchesMoved(touches, with: event)
         for t in touches{
             self.updateColor(touch: t)
         }
     }
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
-        for t in touches{
-            self.updateColor(touch: t)
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailSegue"{
+            let dest = segue.destination as! ColorDetailViewController
+            dest.color = sender as! HSV
         }
     }
 }

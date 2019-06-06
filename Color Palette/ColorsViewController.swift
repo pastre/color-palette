@@ -11,6 +11,8 @@ import UIKit
 enum DisplayOptions{
     case palettes
     case colors
+    
+    
 }
 
 class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -40,19 +42,28 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //        if self.currentDisplay == .palettes{
-        return source.getPalettes().count
-        //        }
-        //
-        //        return source.getColors().count
+        if self.currentDisplay == .palettes{
+            return self.source.getPaletteCount()
+        }
+        return self.source.getColorCount()
+    }
+    
+    func addressOf<T: AnyObject>(_ o: T) -> String {
+        let addr = unsafeBitCast(o, to: Int.self)
+        return String(format: "%p", addr)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if self.currentDisplay == .palettes{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
-        let palette = self.source.getPalettes()[indexPath.item]
-        
+        let palette = self.source.getPallete(at: indexPath)
+        print(addressOf(palette))
         cell.palette = palette
         cell.setupCell()
+        
+        return cell
+        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath)
         
         return cell
     }
@@ -61,6 +72,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
 
     @IBAction func onDisplayChange(_ sender: Any) {
         let segmented = sender as! UISegmentedControl
+        let prevState = self.currentDisplay
         switch segmented.selectedSegmentIndex{
         case 0:
             self.currentDisplay = .palettes
@@ -68,14 +80,15 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             self.currentDisplay = .colors
         default: break
         }
-        
-        self.updatePresentingCollection()
+        if prevState != self.currentDisplay{
+            self.updatePresentingCollection()
+        }
     }
     
     // MARK: - State functions
     
     func updatePresentingCollection(){
-        
+     self.collectionView.reloadData()
     }
     /*
     // MARK: - Navigation

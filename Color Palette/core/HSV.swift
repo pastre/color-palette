@@ -9,23 +9,29 @@
 import Foundation
 import UIKit
 
+class BallView: UIView {
+    var hsv: HSV!
+}
+
 class HSV{
     
     var hue: CGFloat!
     var saturation: CGFloat!
     var value: CGFloat!
-    
+    var isFavorite: Bool!
     
     internal init(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) {
         self.hue = hue
         self.saturation = saturation
         self.value = value
+        self.isFavorite = false
     }
     
     init(from rgb: RGB){
         self.hue = self.getHue(from: rgb)
         self.saturation = self.getSaturation(from: rgb)
         self.value = rgb.getMax()
+        self.isFavorite = false
     }
     
     func rotated(by degrees: CGFloat) -> HSV{
@@ -89,7 +95,7 @@ class HSV{
     
     func asCircularView(radius ballRadius: CGFloat = 50) -> UIView{
         //        let ballRadius:  = 50
-        let ballView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        let ballView = BallView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         //                ballView.clipsToBounds = true
         ballView.backgroundColor = self.getUIColor()
         ballView.layer.cornerRadius = ballRadius / 2
@@ -97,10 +103,11 @@ class HSV{
         //  TODO: COLOCAR A LARGURA IGUAL A ALTURA
         ballView.translatesAutoresizingMaskIntoConstraints = false
         ballView.widthAnchor.constraint(equalToConstant: ballRadius).isActive = true
-        //                ballView.heightAnchor.constraint(equalToConstant: ballRadius).isActive = true
+        //                ballView.heigUIExtendedSRGBColorSpacehtAnchor.constraint(equalToConstant: ballRadius).isActive = true
         ballView.heightAnchor.constraint(equalTo: ballView.widthAnchor).isActive = true
-        
+        ballView.hsv = self
         return ballView
     }
     
 }
+

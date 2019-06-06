@@ -42,9 +42,25 @@ class HarmonyProvider{
             return h
         }), createdAt: Date())
         self.palettes.append(palette)
-        self.palettes.sort { (p1, p2) -> Bool in
-            return p1.name < p2.name
-        }
+        self.palettes = self.palettes.sorted(by: { (p1, p2) -> Bool in
+            return p1.createdAt < p2.createdAt
+        })
+    }
+    
+    func getPallete(at index: IndexPath) -> Palette{
+        return self.palettes[index.item]
+    }
+    
+    func getColor(at index: IndexPath) -> HSV {
+        return self.colors[index.item]
+    }
+    
+    func getPaletteCount() -> Int{
+        return self.palettes.count
+    }
+    
+    func getColorCount() -> Int{
+        return self.colors.count
     }
     
     func getPalettes() -> [Palette]{
