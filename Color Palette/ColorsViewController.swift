@@ -15,8 +15,6 @@ enum DisplayOptions{
 
 class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-
-
     @IBOutlet weak var collectionView: UICollectionView!
     
     let source = HarmonyProvider.instance
@@ -33,7 +31,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.collectionView.reloadData()
+        self.collectionView.≈()
     }
     
     // MARK: - Collection delegates
@@ -72,7 +70,6 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
         
         self.updatePresentingCollection()
-        
     }
     
     // MARK: - State functions
