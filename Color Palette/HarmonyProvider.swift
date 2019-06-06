@@ -39,6 +39,8 @@ class HarmonyProvider{
     }
     
     func getPalettes() -> [Palette]{
+        return self.palettes
+        
         return [
             Palette(name: "teste", colors: [
                 HSV(hue: 30, saturation: 1, value: 1),

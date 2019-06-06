@@ -22,7 +22,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     let source = HarmonyProvider.instance
     var currentDisplay: DisplayOptions!
     
-    
+    // MARK: - Setup
     override func viewDidLoad() {
         self.currentDisplay = .palettes
         super.viewDidLoad()
@@ -31,10 +31,9 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
 
         // Do any additional setup after loading the view.
     }
-    
-    
-    func updatePresentingCollection(){
-        
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.collectionView.reloadData()
     }
     
     // MARK: - Collection delegates
@@ -59,6 +58,8 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         return cell
     }
+    
+    // MARK: - Callbacks
 
     @IBAction func onDisplayChange(_ sender: Any) {
         let segmented = sender as! UISegmentedControl
@@ -71,6 +72,12 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
         
         self.updatePresentingCollection()
+        
+    }
+    
+    // MARK: - State functions
+    
+    func updatePresentingCollection(){
         
     }
     /*

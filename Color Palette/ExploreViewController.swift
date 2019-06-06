@@ -42,6 +42,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     var currentColor: HSV!
     var currentHarmony: Harmony!
     
+    let source = HarmonyProvider.instance
+    
     // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -208,15 +210,15 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
-            self.playSaveEffect()
+            self.savePallete()
             print("shake")
         }
     }
     
-    func playSaveEffect(){
+    func savePallete(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
-        
+        self.source.addPalette(colors: self.presentingData)
         UIView.animate(withDuration: 0.5, animations: {
             self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.5, y: 1.5)
             self.colorsStackView.alpha = 0
@@ -230,6 +232,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
                 self.savedView.alpha = 0
             })
         }
+        
+        
         
     }
     
