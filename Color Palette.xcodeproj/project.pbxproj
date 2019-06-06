@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D702C03822A635F200CDD45B /* RGBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = D702C03722A635F200CDD45B /* RGBA.swift */; };
+		D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768909F22A848530035A8FD /* HarmonyProvider.swift */; };
+		D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A122A8493C0035A8FD /* ColorsViewController.swift */; };
+		D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */; };
 		D799256C22A55B93008596CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799256B22A55B93008596CF /* AppDelegate.swift */; };
 		D799256E22A55B93008596CF /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = D799256D22A55B93008596CF /* Shaders.metal */; };
 		D799257122A55B93008596CF /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799257022A55B93008596CF /* Renderer.swift */; };
@@ -39,6 +42,9 @@
 
 /* Begin PBXFileReference section */
 		D702C03722A635F200CDD45B /* RGBA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBA.swift; sourceTree = "<group>"; };
+		D768909F22A848530035A8FD /* HarmonyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HarmonyProvider.swift; sourceTree = "<group>"; };
+		D76890A122A8493C0035A8FD /* ColorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsViewController.swift; sourceTree = "<group>"; };
+		D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteCollectionViewCell.swift; sourceTree = "<group>"; };
 		D799256822A55B93008596CF /* Color Palette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Palette.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799256B22A55B93008596CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D799256D22A55B93008596CF /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
@@ -108,17 +114,20 @@
 			isa = PBXGroup;
 			children = (
 				D7E5EFF922A7365E00E0C956 /* designables */,
+				D799257222A55B94008596CF /* ViewController.swift */,
+				D76890A122A8493C0035A8FD /* ColorsViewController.swift */,
+				D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */,
+				D768909F22A848530035A8FD /* HarmonyProvider.swift */,
+				D702C03722A635F200CDD45B /* RGBA.swift */,
+				D799257422A55B94008596CF /* Main.storyboard */,
 				D799256B22A55B93008596CF /* AppDelegate.swift */,
 				D799256D22A55B93008596CF /* Shaders.metal */,
 				D799256F22A55B93008596CF /* ShaderTypes.h */,
 				D799257022A55B93008596CF /* Renderer.swift */,
-				D799257222A55B94008596CF /* ViewController.swift */,
-				D799257422A55B94008596CF /* Main.storyboard */,
 				D799257722A55B94008596CF /* Assets.xcassets */,
 				D799257922A55B94008596CF /* LaunchScreen.storyboard */,
 				D799257C22A55B94008596CF /* Info.plist */,
 				D799257D22A55B94008596CF /* Color_Palette-Bridging-Header.h */,
-				D702C03722A635F200CDD45B /* RGBA.swift */,
 			);
 			path = "Color Palette";
 			sourceTree = "<group>";
@@ -283,9 +292,12 @@
 				D799256E22A55B93008596CF /* Shaders.metal in Sources */,
 				D799257122A55B93008596CF /* Renderer.swift in Sources */,
 				D799257322A55B94008596CF /* ViewController.swift in Sources */,
+				D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */,
 				D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */,
 				D799256C22A55B93008596CF /* AppDelegate.swift in Sources */,
 				D702C03822A635F200CDD45B /* RGBA.swift in Sources */,
+				D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */,
+				D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

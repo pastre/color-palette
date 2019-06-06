@@ -27,7 +27,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
 
     
     @IBOutlet weak var colorsStackView: UIStackView!
-    @IBOutlet weak var overlayView: Overlay!
+    @IBOutlet weak var overlayView: UIView!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var paletteSegmentedControl: UISegmentedControl!
     
@@ -136,6 +136,7 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
         
     }
     
+    // Updates the stackView
     func updatePresentingPalette(){
         let palettes = ColorPalette(baseHSV: self.currentColor)
         
@@ -151,22 +152,12 @@ class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
             
         }
         
-        for view in self.colorsStackView.arrangedSubviews{
-            self.colorsStackView.removeArrangedSubview(view)
+        while self.colorsStackView.arrangedSubviews.count != 0{
+            self.colorsStackView.removeArrangedSubview(self.colorsStackView.arrangedSubviews.first!)
         }
         
         for color in self.presentingData{
-            let ballRadius: CGFloat = 20
-            let ballView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-//                ballView.clipsToBounds = true
-                ballView.backgroundColor = color.getUIColor()
-            
-            //  TODO: COLOCAR A LARGURA IGUAL A ALTURA 
-                ballView.translatesAutoresizingMaskIntoConstraints = false
-//                ballView.widthAnchor.constraint(equalToConstant: ballRadius).isActive = true
-                ballView.heightAnchor.constraint(equalToConstant: ballRadius).isActive = true
-            
-                ballView.layer.cornerRadius = ballRadius / 2
+            let ballView = color.asCircularView()
             self.colorsStackView.addArrangedSubview(ballView)
         }
         

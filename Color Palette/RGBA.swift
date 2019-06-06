@@ -138,6 +138,23 @@ class HSV{
         return UIColor(hue: self.hue / 360, saturation: self.saturation, brightness: self.value, alpha: 1)
     }
     
+    
+    func asCircularView(radius ballRadius: CGFloat = 50) -> UIView{
+//        let ballRadius:  = 50
+        let ballView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        //                ballView.clipsToBounds = true
+        ballView.backgroundColor = self.getUIColor()
+        ballView.layer.cornerRadius = ballRadius / 2
+        
+        //  TODO: COLOCAR A LARGURA IGUAL A ALTURA
+        ballView.translatesAutoresizingMaskIntoConstraints = false
+        ballView.widthAnchor.constraint(equalToConstant: ballRadius).isActive = true
+        //                ballView.heightAnchor.constraint(equalToConstant: ballRadius).isActive = true
+        ballView.heightAnchor.constraint(equalTo: ballView.widthAnchor).isActive = true
+        
+        return ballView
+    }
+    
 }
 
 
@@ -216,6 +233,7 @@ class ColorPalette{
             darkerLeft
         ]
     }
+ 
     
 //    func getTriad() -> [HSV] {
 //        /*
