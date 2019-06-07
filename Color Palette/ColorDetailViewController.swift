@@ -30,6 +30,7 @@ class ColorDetailViewController: UIViewController {
         if self.source.containsColor(self.color){
             self.likedButton.setImage(UIImage(named: "heart"), for: .normal)
         }
+        self.colorCodeLabel.text  = "#\(self.color.getDescriptiveHex())"
     }
     
     @IBAction func onFavorite(_ sender: Any) {

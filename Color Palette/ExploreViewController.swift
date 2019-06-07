@@ -86,13 +86,17 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        
+        let randomColor = HSV(hue: CGFloat.random(in: 0...360), saturation: CGFloat.random(in: 0...1), value: CGFloat.random(in: 0...1))
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
         
 
         // Run the view's session
         session.run(configuration)
+        
+        self.square.center = self.view.center
+        self.square.backgroundColor = randomColor.getUIColor()
+        self.updateColor(to: randomColor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -163,7 +167,6 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         for color in self.presentingData{
             let ballView = color.asCircularView()
-            
             let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
             doubleTap.delegate = self
             doubleTap.numberOfTapsRequired = 2

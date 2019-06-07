@@ -58,11 +58,11 @@ class HSV: NSObject, NSCoding{
     }
     
     func saturated(by offset: CGFloat) -> HSV{
-        return HSV(hue: self.hue, saturation: self.saturation + offset, value: self.value)
+        return HSV(hue: self.hue, saturation: self.saturation + offset > 1 ? 1 : self.saturation + offset, value: self.value)
     }
     
     func valued(by value: CGFloat) -> HSV{
-        return HSV(hue: self.hue, saturation: self.saturation, value: self.value + value)
+        return HSV(hue: self.hue, saturation: self.saturation, value: self.value + value > 1 ? 1 : self.value + value)
     }
     
     func withRotation(angle: CGFloat) -> HSV{
@@ -124,6 +124,28 @@ class HSV: NSObject, NSCoding{
         ballView.heightAnchor.constraint(equalTo: ballView.widthAnchor).isActive = true
         ballView.hsv = self
         return ballView
+    }
+    
+    func hexToString(hex: Int) -> String{
+        let hB = (hex & 0xF0) >> 8
+        let lB = (hex & 0x0F)
+        
+        return "\(String(UnicodeScalar(hB)!))\(String(UnicodeScalar(lB)!))"
+    }
+    
+    func getDescriptiveHex() -> String{
+        let rgb = RGB(fromHSV: self)
+        let r = Int(rgb.red * 255), g = Int(rgb.green * 255), b = Int(rgb.blue * 255)
+//        print(rgb.red, rgb.green, rgb.blue)
+        print(self.hue, self.saturation, self.value)
+        print(r, g, b)
+        
+//        let rH = (r & 0xFF0000) //>> 4
+//        let gH = (g & 0x00FF00) //>> 2
+//        let bH = b & 0x0000FF
+//        print(rH, gH, bH)
+        return (String(format: "%02X%02X%02X", r, g, b))
+        
     }
     
     static func == (lhs: HSV, rhs: HSV) -> Bool{

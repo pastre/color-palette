@@ -27,6 +27,13 @@ class ColorCollectionViewCell: UICollectionViewCell {
         self.colorView.backgroundColor = self.color.getUIColor()
         self.colorView.layer.cornerRadius = self.colorView.frame.width / 2
         self.colorView.clipsToBounds = true
+        self.hexCodeLabel.text = "#\(self.color.getDescriptiveHex())"
+        
+        let rgb = RGB(fromHSV: self.color)
+        
+        self.redLabel.text = "R: \(String(format: "%.2f", rgb.red))"
+        self.greenLabel.text = "G: \(String(format: "%.2f", rgb.green))"
+        self.blueLabel.text = "B: \(String(format: "%.2f", rgb.blue))"
     }
     
     
