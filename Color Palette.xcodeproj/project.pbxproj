@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D70116BE22A8A25300E5B6F7 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116BD22A8A25300E5B6F7 /* ColorPalette.swift */; };
+		D70116BE22A8A25300E5B6F7 /* PaletteGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116BD22A8A25300E5B6F7 /* PaletteGenerator.swift */; };
 		D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116BF22A8A29A00E5B6F7 /* HSV.swift */; };
 		D70116C322A971FB00E5B6F7 /* ColorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */; };
 		D70116C522A9993800E5B6F7 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */; };
@@ -24,6 +24,7 @@
 		D799257B22A55B94008596CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D799257922A55B94008596CF /* LaunchScreen.storyboard */; };
 		D799258722A55B94008596CF /* Color_PaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799258622A55B94008596CF /* Color_PaletteTests.swift */; };
 		D799259222A55B94008596CF /* Color_PaletteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799259122A55B94008596CF /* Color_PaletteUITests.swift */; };
+		D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E55A8822A9DE3F008A2CEA /* Palette.swift */; };
 		D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5EFFA22A7367D00E0C956 /* Overlay.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D70116BD22A8A25300E5B6F7 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		D70116BD22A8A25300E5B6F7 /* PaletteGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteGenerator.swift; sourceTree = "<group>"; };
 		D70116BF22A8A29A00E5B6F7 /* HSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSV.swift; sourceTree = "<group>"; };
 		D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDetailViewController.swift; sourceTree = "<group>"; };
 		D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -70,6 +71,7 @@
 		D799258D22A55B94008596CF /* Color PaletteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Color PaletteUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799259122A55B94008596CF /* Color_PaletteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_PaletteUITests.swift; sourceTree = "<group>"; };
 		D799259322A55B94008596CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7E55A8822A9DE3F008A2CEA /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		D7E5EFFA22A7367D00E0C956 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,15 +100,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D70116C122A8A2C700E5B6F7 /* core */ = {
+		D70116C122A8A2C700E5B6F7 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				D70116BD22A8A25300E5B6F7 /* ColorPalette.swift */,
+				D70116BD22A8A25300E5B6F7 /* PaletteGenerator.swift */,
 				D768909F22A848530035A8FD /* HarmonyProvider.swift */,
 				D70116BF22A8A29A00E5B6F7 /* HSV.swift */,
 				D702C03722A635F200CDD45B /* RGBA.swift */,
+				D7E55A8822A9DE3F008A2CEA /* Palette.swift */,
 			);
-			path = core;
+			path = model;
 			sourceTree = "<group>";
 		};
 		D799255F22A55B93008596CF = {
@@ -133,7 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				D7E5EFF922A7365E00E0C956 /* designables */,
-				D70116C122A8A2C700E5B6F7 /* core */,
+				D70116C122A8A2C700E5B6F7 /* model */,
 				D799257222A55B94008596CF /* ExploreViewController.swift */,
 				D76890A122A8493C0035A8FD /* ColorsViewController.swift */,
 				D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */,
@@ -316,12 +319,13 @@
 				D70116C322A971FB00E5B6F7 /* ColorDetailViewController.swift in Sources */,
 				D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */,
 				D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */,
-				D70116BE22A8A25300E5B6F7 /* ColorPalette.swift in Sources */,
+				D70116BE22A8A25300E5B6F7 /* PaletteGenerator.swift in Sources */,
 				D799256C22A55B93008596CF /* AppDelegate.swift in Sources */,
 				D702C03822A635F200CDD45B /* RGBA.swift in Sources */,
 				D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */,
 				D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */,
 				D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */,
+				D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,33 +8,35 @@
 
 import Foundation
 
-
-class Palette{
-    internal init(name: String?, colors: [HSV]?, createdAt: Date?) {
-        self.name = name
-        self.colors = colors
-        self.createdAt = createdAt
-    }
-    
-    
-    
-    var name: String!
-    var colors: [HSV]!
-    var createdAt: Date!
-    
-}
-
-
 class HarmonyProvider{
     
     static let instance = HarmonyProvider()
     
-    var palettes: [Palette]!
-    var colors: [HSV]!
+    var palettesFilePath: String {
+        let manager = FileManager.default
+        let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
+        return (url!.appendingPathComponent("palettes").path)
+    }
+    var colorsFilePath: String {
+        let manager = FileManager.default
+        let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
+        return (url!.appendingPathComponent("colors").path)
+    }
+    
+    var palettes: [Palette]! {
+        didSet{
+            NSKeyedArchiver.archiveRootObject(palettes!, toFile: self.palettesFilePath)
+        }
+    }
+    var colors: [HSV]!{
+        didSet{
+            NSKeyedArchiver.archiveRootObject(colors!, toFile: self.colorsFilePath)
+        }
+    }
     
     private init(){
-        self.palettes = [Palette]()
-        self.colors = [HSV]()
+        self.palettes = NSKeyedUnarchiver.unarchiveObject(withFile: self.palettesFilePath) as? [Palette] ?? [Palette]()
+        self.colors = NSKeyedUnarchiver.unarchiveObject(withFile: self.colorsFilePath) as? [HSV] ?? [HSV]()
     }
     
     func addPalette(colors: [HSV]){
@@ -82,8 +84,6 @@ class HarmonyProvider{
     func getColorCount() -> Int{
         return self.colors.count
     }
-    
-    
     
     func getPalettes() -> [Palette]{
         return self.palettes.sorted(by: { (p1, p2) -> Bool in

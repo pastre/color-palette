@@ -142,7 +142,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     // Updates the stackView
     func updatePresentingPalette(){
-        let palettes = ColorPalette(baseHSV: self.currentColor)
+        let palettes = PaletteGenerator(baseHSV: self.currentColor)
         
         switch self.currentHarmony! {
         case .mono:
@@ -326,7 +326,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailSegue"{
             let dest = segue.destination as! ColorDetailViewController
-            dest.color = sender as! HSV
+            dest.color = (sender as! HSV)
         }
     }
 }

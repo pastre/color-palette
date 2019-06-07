@@ -13,8 +13,8 @@ class BallView: UIView {
     var hsv: HSV!
 }
 
-class HSV{
-    
+class HSV: NSObject, NSCoding{
+
     var hue: CGFloat!
     var saturation: CGFloat!
     var value: CGFloat!
@@ -27,12 +27,23 @@ class HSV{
         self.isFavorite = false
     }
     
+    
+    
     init(from rgb: RGB){
+        super.init()
         self.hue = self.getHue(from: rgb)
         self.saturation = self.getSaturation(from: rgb)
         self.value = rgb.getMax()
         self.isFavorite = false
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.hue = (aDecoder.decodeObject(forKey: "hue") as! CGFloat)
+        self.saturation = (aDecoder.decodeObject(forKey: "saturation") as! CGFloat)
+        self.value = (aDecoder.decodeObject(forKey: "value") as! CGFloat)
+        self.isFavorite = (aDecoder.decodeObject(forKey: "isFavorite") as! Bool)
+    }
+    
     
     func rotated(by degrees: CGFloat) -> HSV{
         return HSV(hue: self.hue + degrees < 0 ? (self.hue + degrees) + 360 : self.hue + degrees, saturation: self.saturation, value: self.value)
@@ -92,6 +103,12 @@ class HSV{
         return UIColor(hue: self.hue / 360, saturation: self.saturation, brightness: self.value, alpha: 1)
     }
     
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.hue, forKey: "hue")
+        aCoder.encode(self.saturation, forKey: "saturation")
+        aCoder.encode(self.value, forKey: "value")
+        aCoder.encode(self.isFavorite, forKey: "isFavorite")
+    }
     
     func asCircularView(radius ballRadius: CGFloat = 50) -> UIView{
         //        let ballRadius:  = 50
