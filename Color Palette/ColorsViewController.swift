@@ -13,7 +13,36 @@ enum DisplayOptions{
     case colors
 }
 
-class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class HarmonifyProvider: UIActivityItemProvider{
+    
+//    init(item: String){
+//        super.init(placeholderItem: item)
+//    }
+//
+    override var item: Any{
+        switch self.activityType!
+        {
+        case .airDrop:
+            return "Hello"
+        default:
+            return "Whatever"
+        }
+    }
+    
+}
+
+
+
+class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate {
+    
+    func onSharePressed(sender: Any) {
+        
+        let item = HarmonifyProvider(placeholderItem: "asd")
+        let cell = sender as! ColorCollectionViewCell
+        let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+        
+        self.present(vc, animated: true, completion: nil)
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -65,6 +94,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         let color = self.source.getColor(at: indexPath)
         cell.color = color
         cell.setupCell()
+        cell.delegate = self
         return cell
     }
 //

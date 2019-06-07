@@ -36,7 +36,4 @@ class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
         self.colorsCollectionView.dataSource = self
 //        self.nameLabel.text = self.palette.name
     }
-    
-    
-    
 }

@@ -8,16 +8,20 @@
 
 import UIKit
 
-class ColorCollectionViewCell: UICollectionViewCell {
+protocol ShareDelegate{
+    func onSharePressed(sender: Any)
+}
+
+class ColorCollectionViewCell: BaseColorCollectionViewCell {
     
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var hexCodeLabel: UILabel!
     @IBOutlet weak var redLabel: UILabel!
     @IBOutlet weak var greenLabel: UILabel!
     @IBOutlet weak var blueLabel: UILabel!
-    
-    var color: HSV!
 
+    var delegate: ShareDelegate?
+    
     func setupCell(){
         self.hexCodeLabel.adjustsFontSizeToFitWidth = true
         self.redLabel.adjustsFontSizeToFitWidth = true
@@ -38,7 +42,7 @@ class ColorCollectionViewCell: UICollectionViewCell {
     
     
     @IBAction func onShare(_ sender: Any) {
-        
+        self.delegate?.onSharePressed(sender: self)
     }
     
 }
