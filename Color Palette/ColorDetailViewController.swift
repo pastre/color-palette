@@ -18,6 +18,9 @@ class ColorDetailViewController: UIViewController {
     let source = HarmonyProvider.instance
     
     var color: HSV!
+    var displaysBlur: Bool! = false
+    
+    @IBOutlet weak var blurView: UIVisualEffectView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +34,7 @@ class ColorDetailViewController: UIViewController {
             self.likedButton.setImage(UIImage(named: "heart"), for: .normal)
         }
         self.colorCodeLabel.text  = "#\(self.color.getDescriptiveHex())"
+        self.blurView.isHidden = !self.displaysBlur
     }
     
     @IBAction func onFavorite(_ sender: Any) {

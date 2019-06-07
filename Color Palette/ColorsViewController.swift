@@ -11,8 +11,6 @@ import UIKit
 enum DisplayOptions{
     case palettes
     case colors
-    
-    
 }
 
 class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -55,13 +53,13 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentDisplay == .palettes{
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
-        let palette = self.source.getPallete(at: indexPath)
-        print(addressOf(palette))
-        cell.palette = palette
-        cell.setupCell()
-        
-        return cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
+            let palette = self.source.getPallete(at: indexPath)
+            print(addressOf(palette))
+            cell.palette = palette
+            cell.setupCell()
+            
+            return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath) as! ColorCollectionViewCell
         let color = self.source.getColor(at: indexPath)
@@ -69,6 +67,13 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         cell.setupCell()
         return cell
     }
+//
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if self.currentDisplay != .palettes { return }
+//
+//
+//
+//    }
     
     // MARK: - Callbacks
 
@@ -92,14 +97,17 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func updatePresentingCollection(){
      self.collectionView.reloadData()
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "colorDetails"{
+            let src = sender as! BaseColorCollectionViewCell
+            let dest = segue.destination as! ColorDetailViewController
+            dest.color = src.color
+            dest.displaysBlur = true
+        }
     }
-    */
-
 }

@@ -12,6 +12,7 @@
 		D70116C322A971FB00E5B6F7 /* ColorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */; };
 		D70116C522A9993800E5B6F7 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */; };
 		D702C03822A635F200CDD45B /* RGBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = D702C03722A635F200CDD45B /* RGBA.swift */; };
+		D761A72022AAB40300EF6896 /* BaseColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D761A71F22AAB40300EF6896 /* BaseColorCollectionViewCell.swift */; };
 		D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768909F22A848530035A8FD /* HarmonyProvider.swift */; };
 		D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A122A8493C0035A8FD /* ColorsViewController.swift */; };
 		D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */; };
@@ -51,6 +52,7 @@
 		D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDetailViewController.swift; sourceTree = "<group>"; };
 		D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		D702C03722A635F200CDD45B /* RGBA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBA.swift; sourceTree = "<group>"; };
+		D761A71F22AAB40300EF6896 /* BaseColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		D768909F22A848530035A8FD /* HarmonyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HarmonyProvider.swift; sourceTree = "<group>"; };
 		D76890A122A8493C0035A8FD /* ColorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsViewController.swift; sourceTree = "<group>"; };
 		D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -139,9 +141,10 @@
 				D70116C122A8A2C700E5B6F7 /* model */,
 				D799257222A55B94008596CF /* ExploreViewController.swift */,
 				D76890A122A8493C0035A8FD /* ColorsViewController.swift */,
+				D761A71F22AAB40300EF6896 /* BaseColorCollectionViewCell.swift */,
+				D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */,
 				D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */,
 				D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */,
-				D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */,
 				D799257422A55B94008596CF /* Main.storyboard */,
 				D799257722A55B94008596CF /* Assets.xcassets */,
 				D799256B22A55B93008596CF /* AppDelegate.swift */,
@@ -320,6 +323,7 @@
 				D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */,
 				D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */,
 				D70116BE22A8A25300E5B6F7 /* PaletteGenerator.swift in Sources */,
+				D761A72022AAB40300EF6896 /* BaseColorCollectionViewCell.swift in Sources */,
 				D799256C22A55B93008596CF /* AppDelegate.swift in Sources */,
 				D702C03822A635F200CDD45B /* RGBA.swift in Sources */,
 				D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */,
