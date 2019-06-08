@@ -56,7 +56,8 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
 
-        // Do any additional setup after loading the view.
+        let a = SketchConverter(palette: self.source.palettes.first!)
+        print(a.getJson()!)
     }
 
     override func viewWillAppear(_ animated: Bool) {
