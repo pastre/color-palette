@@ -19,14 +19,55 @@ class HarmonifyProvider: UIActivityItemProvider{
 //        super.init(placeholderItem: item)
 //    }
 //
+    var palette =  HarmonyProvider.instance.palettes.first!
+    func getSketchPalette() -> URL?{
+        var url = URL(fileURLWithPath: NSTemporaryDirectory())
+        url.appendPathComponent(self.palette.name)
+        url.appendPathExtension("sketchpalette")
+        
+        guard let string = SketchConverter(palette: self.palette).getJson() else { return nil }
+        do {
+            try string.write(to: url, atomically: true, encoding: .utf8)
+            return url
+        } catch let error {
+            print("Error writing to file", error.localizedDescription)
+        }
+        return nil
+    }
+    
+    func getPaletteDescription() -> String{
+        var ret = ""
+        for color in self.palette.colors{
+            let rgb = RGB(fromHSV: color)
+            let hex = color.getDescriptiveHex()
+            let toAppend = """
+                #\(hex):
+                    Red: \(rgb.red),
+                    Green: \(rgb.green),
+                    Blue: \(rgb.blue),
+            
+            """
+            ret += toAppend
+        }
+        return ret
+    }
+    
     override var item: Any{
         switch self.activityType!
         {
         case .airDrop:
-            return "Hello"
-        default:
-            return "Whatever"
+            if let url = self.getSketchPalette(){
+                return url
+            }
+        default: break
         }
+        
+        return """
+        Check out this palette I created using Harmonify:
+        \(self.getPaletteDescription())
+        Harmonify is avaiable at App Store
+        Download now <COLOCAR A URL AQUI>
+        """
     }
     
 }
@@ -38,7 +79,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func onSharePressed(sender: Any) {
         
         let item = HarmonifyProvider(placeholderItem: "asd")
-        let cell = sender as! ColorCollectionViewCell
+//        let cell = sender as! ColorCollectionViewCell
         let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
         
         self.present(vc, animated: true, completion: nil)
