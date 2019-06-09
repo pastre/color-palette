@@ -239,6 +239,13 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
     }
     
+    @IBAction func onSave(_ sender: Any) {
+        self.savePallete()
+    }
+    
+    @IBAction func onNavigate(_ sender: Any) {
+        
+    }
     @objc func onDoubleTap(_ sender: Any?){
         
         let tap = sender as! UITapGestureRecognizer
