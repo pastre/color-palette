@@ -79,6 +79,7 @@ class HSV: NSObject, NSCoding{
         let max = rgb.getMax(), min = rgb.getMin()
         return CGFloat((max - min) / max)
     }
+    
     func getHue(from rgb: RGB) -> CGFloat{
         var r: CGFloat, g: CGFloat, b: CGFloat
         (r, g, b) = rgb.unpack()
@@ -124,13 +125,6 @@ class HSV: NSObject, NSCoding{
         ballView.heightAnchor.constraint(equalTo: ballView.widthAnchor).isActive = true
         ballView.hsv = self
         return ballView
-    }
-    
-    func hexToString(hex: Int) -> String{
-        let hB = (hex & 0xF0) >> 8
-        let lB = (hex & 0x0F)
-        
-        return "\(String(UnicodeScalar(hB)!))\(String(UnicodeScalar(lB)!))"
     }
     
     func getDescriptiveHex() -> String{

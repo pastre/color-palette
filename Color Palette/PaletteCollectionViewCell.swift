@@ -10,6 +10,25 @@ import UIKit
 
 class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var colorsCollectionView: UICollectionView!
+    
+    var palette: Palette!
+    var delegate: ShareDelegate?
+    
+    func setupCell(){
+        self.colorsCollectionView.delegate = self
+        self.colorsCollectionView.dataSource = self
+//        self.nameLabel.text = self.palette.name
+    }
+    
+    
+    @IBAction func onShare(_ sender: Any) {
+        self.delegate?.onSharePressed(sender: self.palette)
+    }
+    
+    // MARK: - Collection view delegate
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -24,16 +43,5 @@ class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
         cell.backgroundColor = color.getUIColor()
         cell.color = color
         return cell
-    }
-    
-    
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var colorsCollectionView: UICollectionView!
-    var palette: Palette!
-    
-    func setupCell(){
-        self.colorsCollectionView.delegate = self
-        self.colorsCollectionView.dataSource = self
-//        self.nameLabel.text = self.palette.name
     }
 }

@@ -26,6 +26,7 @@
 		D799258722A55B94008596CF /* Color_PaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799258622A55B94008596CF /* Color_PaletteTests.swift */; };
 		D799259222A55B94008596CF /* Color_PaletteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799259122A55B94008596CF /* Color_PaletteUITests.swift */; };
 		D7ACB2C022ABEA460070F086 /* Sketch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ACB2BF22ABEA460070F086 /* Sketch.swift */; };
+		D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */; };
 		D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E55A8822A9DE3F008A2CEA /* Palette.swift */; };
 		D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5EFFA22A7367D00E0C956 /* Overlay.swift */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		D799259122A55B94008596CF /* Color_PaletteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_PaletteUITests.swift; sourceTree = "<group>"; };
 		D799259322A55B94008596CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D7ACB2BF22ABEA460070F086 /* Sketch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketch.swift; sourceTree = "<group>"; };
+		D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteActivityItemProvider.swift; sourceTree = "<group>"; };
 		D7E55A8822A9DE3F008A2CEA /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		D7E5EFFA22A7367D00E0C956 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				D7ACB2BF22ABEA460070F086 /* Sketch.swift */,
+				D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */,
 			);
 			path = integration;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				D799256C22A55B93008596CF /* AppDelegate.swift in Sources */,
 				D702C03822A635F200CDD45B /* RGBA.swift in Sources */,
 				D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */,
+				D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */,
 				D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */,
 				D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */,
 				D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */,

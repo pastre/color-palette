@@ -35,12 +35,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     var session: ARSession!
     var renderer: Renderer!
     var currentDrawable:  CAMetalDrawable!
-    var square: UIView! = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    var square: UIView! = UIView(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
     
     var presentingData: [HSV]! = [HSV]()
     
     var currentColor: HSV!
     var currentHarmony: Harmony!
+    
+    var colorPickerImageView = UIImageView(image: UIImage(named: "colorPicker"))
     
     let source = HarmonyProvider.instance
     
@@ -71,12 +73,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             renderer = Renderer(session: session, metalDevice: view.device!, renderDestination: view)
             renderer.drawRectResized(size: view.bounds.size)
         }
-        
-        square.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
-        square.layer.cornerRadius = square.bounds.width / 2
-//        self.view.addSubview(square)
-        self.view.insertSubview(self.square, belowSubview: self.overlayView)
-        self.setupSegmented()
+                self.setupSegmented()
+        self.setupSquare()
         
         self.becomeFirstResponder()
         
@@ -108,6 +106,25 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //    override var canBecomeFirstResponder: Bool{
 //        return true
 //    }
+    
+    func setupSquare(){
+        
+        square.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
+        square.layer.cornerRadius = square.bounds.width / 2
+        square.layer.borderWidth = 4.0
+//        square.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
+        //        self.view.addSubview(square)
+        self.view.insertSubview(self.square, belowSubview: self.overlayView)
+
+        
+        colorPickerImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.square.addSubview(colorPickerImageView)
+        
+        colorPickerImageView.centerXAnchor.constraint(equalTo: self.square.centerXAnchor).isActive = true
+        colorPickerImageView.centerYAnchor.constraint(equalTo: self.square.centerYAnchor).isActive = true
+        colorPickerImageView.widthAnchor.constraint(equalTo: self.square.widthAnchor, multiplier: 0.6).isActive = true
+        colorPickerImageView.heightAnchor.constraint(equalTo: self.square.heightAnchor, multiplier: 0.6).isActive = true
+    }
     
     func setupSegmented(){
         let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
@@ -141,6 +158,11 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     func updateColor(to hsv: HSV){
         
         self.currentColor = hsv
+        
+        let comp = PaletteGenerator(baseHSV: hsv).getTriad()[0]
+       
+        self.colorPickerImageView.image = UIImage(named: "colorPicker")!.maskWithColor(color: comp.getUIColor())
+        self.square.layer.borderColor = comp.getUIColor().cgColor
         self.updatePresentingPalette()
     }
     
@@ -334,3 +356,31 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
 }
 
+
+extension UIImage {
+    
+    func maskWithColor(color: UIColor) -> UIImage? {
+        let maskImage = cgImage!
+        
+        let width = size.width
+        let height = size.height
+        let bounds = CGRect(x: 0, y: 0, width: width, height: height)
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+        let context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)!
+        
+        context.clip(to: bounds, mask: maskImage)
+        context.setFillColor(color.cgColor)
+        context.fill(bounds)
+        
+        if let cgImage = context.makeImage() {
+            let coloredImage = UIImage(cgImage: cgImage)
+            return coloredImage
+        } else {
+            return nil
+        }
+    }
+    
+    
+}
