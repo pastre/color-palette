@@ -23,7 +23,13 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             
             item.palette = palette
             self.present(vc, animated: true, completion: nil)
+        }else{
+            let color = sender as! HSV
+            let item = ColorActivityItemProvider(placeholderItem: "asd")
+            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
             
+            item.color = color
+            self.present(vc, animated: true, completion: nil)
         }
     }
     

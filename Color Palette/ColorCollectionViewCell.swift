@@ -42,7 +42,7 @@ class ColorCollectionViewCell: BaseColorCollectionViewCell {
     
     
     @IBAction func onShare(_ sender: Any) {
-        self.delegate?.onSharePressed(sender: self)
+        self.delegate?.onSharePressed(sender: self.color)
     }
     
 }
