@@ -129,8 +129,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     func setupSegmented(){
         let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-        let selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
-        let defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        var selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
+        var defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         self.paletteSegmentedControl.backgroundColor = clearColor
         self.paletteSegmentedControl.tintColor = clearColor
@@ -190,13 +190,17 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         for color in self.presentingData{
             let ballView = color.asCircularView()
-            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
-            doubleTap.delegate = self
-            doubleTap.numberOfTapsRequired = 2
-           
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
+            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
+            
+//            ballView.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+//            ballView.layer.borderWidth = 1
+//            
             tap.delegate = self
             tap.numberOfTapsRequired = 1
+            
+            doubleTap.delegate = self
+            doubleTap.numberOfTapsRequired = 2
             
             ballView.addGestureRecognizer(tap)
             ballView.addGestureRecognizer(doubleTap)

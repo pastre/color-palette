@@ -115,7 +115,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     // MARK: - State functions
     
     func updatePresentingCollection(){
-     self.collectionView.reloadData()
+        self.collectionView.reloadData()
     }
     
     // MARK: - Navigation

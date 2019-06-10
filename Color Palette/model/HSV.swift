@@ -15,26 +15,44 @@ class BallView: UIView {
 
 class HSV: NSObject, NSCoding{
 
+    static let HUE_CEILING: CGFloat = 360
+    static let HUE_FLOOR: CGFloat = 0
+    
     var hue: CGFloat!
     var saturation: CGFloat!
     var value: CGFloat!
     var isFavorite: Bool!
     
-    internal init(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) {
+    init(hue: CGFloat, saturation: CGFloat, value: CGFloat) {
+        let message = "Failed to create color with parameters: \(hue), \(saturation), \(value)"
+        
+            // SEERTIONS FOR DEBUGGING
+//        assert(hue <= HSV.HUE_CEILING && hue >= HSV.HUE_FLOOR, message)
+//        assert(saturation >= 0 && saturation <= 1, message)
+//        assert(value >= 0 && value <= 1, message)
         self.hue = hue
-        self.saturation = saturation
-        self.value = value
+        
+        if saturation < 0 {
+            self.saturation = 0
+        }else if saturation > 1{
+            self.saturation = 1
+        }
+        
+        if value < 0 {
+            self.value = 0
+        }else if value > 1{
+            self.value = 1
+        }
+        
         self.isFavorite = false
     }
-    
-    
-    
-    init(from rgb: RGB){
-        super.init()
-        self.hue = self.getHue(from: rgb)
-        self.saturation = self.getSaturation(from: rgb)
-        self.value = rgb.getMax()
-        self.isFavorite = false
+
+    convenience init(from rgb: RGB){
+        
+        let hue = HSV.getHue(from: rgb)
+        let saturation = HSV.getSaturation(from: rgb)
+        let value = rgb.getMax()
+        self.init(hue: hue, saturation: saturation, value: value)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -69,36 +87,38 @@ class HSV: NSObject, NSCoding{
         return HSV(hue: angle, saturation: self.saturation, value: self.value)
     }
     func withSaturation(saturation: CGFloat) -> HSV{
-        return HSV(hue: self.hue, saturation: saturation, value: self.value)
+        return HSV(hue: self.hue, saturation: saturation < 0 ? 0 : saturation, value: self.value)
     }
     func withValue(value: CGFloat) -> HSV{
-        return HSV(hue: self.hue, saturation: self.saturation, value: value)
+        return HSV(hue: self.hue, saturation: self.saturation, value: value <  0 ? 0 : value )
     }
     //
-    func getSaturation(from rgb: RGB) -> CGFloat {
+   static func getSaturation(from rgb: RGB) -> CGFloat {
         let max = rgb.getMax(), min = rgb.getMin()
-        return CGFloat((max - min) / max)
+        return CGFloat((max - min) / max).isNaN ? CGFloat(0) : CGFloat((max - min) / max)
     }
     
-    func getHue(from rgb: RGB) -> CGFloat{
+    static func getHue(from rgb: RGB) -> CGFloat{
         var r: CGFloat, g: CGFloat, b: CGFloat
         (r, g, b) = rgb.unpack()
         let max = rgb.getMax()
         let min = rgb.getMin()
         
+        var ret: CGFloat!
         if g > r && g > b {
-            return CGFloat( (60 * (b - r) / (max - min)) + 120 )
+            ret = CGFloat( (60 * (b - r) / (max - min)) + 120 )
+        }else if b > g && b > r {
+            ret = CGFloat( (60 * (r - g) / (max - min)) + 240 )
+        }else if g >= b{
+            ret = CGFloat( (60 * (g - b) / (max - min))  )
+        }else if r == 0 && r == 0 && b == 0{
+            ret = CGFloat(30)
+        }else{
+            ret =  CGFloat( (60 * (g - b) / (max - min)) + 360)
         }
-        
-        if b > g && b > r {
-            return CGFloat( (60 * (r - g) / (max - min)) + 240 )
-        }
-        
-        if g >= b{
-            return CGFloat( (60 * (g - b) / (max - min))  )
-        }
-        
-        return CGFloat( (60 * (g - b) / (max - min)) + 360)
+        ret = ret.isNaN ? CGFloat(120) : ret
+        assert(!ret.isNaN, "Deu NaN irmao")
+        return ret
     }
     func getUIColor() -> UIColor{
         return UIColor(hue: self.hue / 360, saturation: self.saturation, brightness: self.value, alpha: 1)
@@ -146,4 +166,5 @@ class HSV: NSObject, NSCoding{
         return lhs.hue == rhs.hue && lhs.saturation == rhs.saturation && lhs.value == rhs.value
     }
 }
+
 

@@ -39,7 +39,7 @@
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75230094178082196" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.7068172089041096" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="EVa-QB-vK1" secondAttribute="trailing" constant="20" id="BO2-D1-zdk"/>
                                     <constraint firstItem="EVa-QB-vK1" firstAttribute="leading" secondItem="9IK-69-fek" secondAttribute="leading" constant="20" id="Txr-mw-XiW"/>
@@ -79,6 +79,7 @@
                                 <subviews>
                                     <stackView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RgK-35-5aI">
                                         <rect key="frame" x="20" y="10" width="374" height="61.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -553,6 +554,6 @@
         <image name="world" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="u8d-Ji-rrD"/>
+        <segue reference="OdW-UF-g5T"/>
     </inferredMetricsTieBreakers>
 </document>

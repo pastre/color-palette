@@ -38,7 +38,8 @@ class PaletteGenerator{
     }
     
     func getMonochromatic() -> [HSV]{
-        let saturation = self.baseHSV.saturation - 0.4 <= 0 ? self.baseHSV.saturation - 0.3 : self.baseHSV.saturation + 0.3 > 1 ? 1 : self.baseHSV.saturation + 0.3
+        let saturation = self.baseHSV.saturation < 0.4 ? self.baseHSV.saturation + 0.3 : self.baseHSV.saturation - 0.3//self.baseHSV.saturation + 0.3 > 1 ? 1 : self.baseHSV.saturation + 0.3
+        
         return [
             HSV(hue: self.baseHSV.hue, saturation: self.baseHSV.saturation, value: 0.5),
             HSV(hue: self.baseHSV.hue, saturation: saturation, value: 1),

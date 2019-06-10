@@ -19,7 +19,7 @@ class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
     func setupCell(){
         self.colorsCollectionView.delegate = self
         self.colorsCollectionView.dataSource = self
-//        self.nameLabel.text = self.palette.name
+        self.nameLabel.text = self.palette.name
     }
     
     
@@ -40,6 +40,8 @@ class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath) as! BaseColorCollectionViewCell
         let color = self.palette.colors[indexPath.item]
         cell.layer.cornerRadius = cell.frame.width / 2
+        cell.layer.borderWidth = 2
+        cell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         cell.backgroundColor = color.getUIColor()
         cell.color = color
         return cell
