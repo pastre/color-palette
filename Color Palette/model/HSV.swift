@@ -26,7 +26,7 @@ class HSV: NSObject, NSCoding{
     init(hue: CGFloat, saturation: CGFloat, value: CGFloat) {
         let message = "Failed to create color with parameters: \(hue), \(saturation), \(value)"
         
-            // SEERTIONS FOR DEBUGGING
+            // ASSERTIONS FOR DEBUGGING
 //        assert(hue <= HSV.HUE_CEILING && hue >= HSV.HUE_FLOOR, message)
 //        assert(saturation >= 0 && saturation <= 1, message)
 //        assert(value >= 0 && value <= 1, message)
@@ -36,12 +36,16 @@ class HSV: NSObject, NSCoding{
             self.saturation = 0
         }else if saturation > 1{
             self.saturation = 1
+        }else{
+            self.saturation = saturation
         }
         
         if value < 0 {
             self.value = 0
         }else if value > 1{
             self.value = 1
+        }else {
+            self.value = value
         }
         
         self.isFavorite = false

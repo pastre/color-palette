@@ -84,7 +84,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let randomColor = HSV(hue: CGFloat.random(in: 0...360), saturation: CGFloat.random(in: 0...1), value: CGFloat.random(in: 0...1))
+        let randomColor = HSV(hue: CGFloat.random(in: 0...360), saturation: CGFloat.random(in: 0.1...1), value: CGFloat.random(in: 0.1...1))
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
         
