@@ -111,19 +111,20 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         square.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
         square.layer.cornerRadius = square.bounds.width / 2
-        square.layer.borderWidth = 4.0
+        square.layer.borderWidth = 0
 //        square.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
         //        self.view.addSubview(square)
         self.view.insertSubview(self.square, belowSubview: self.overlayView)
 
         
         colorPickerImageView.translatesAutoresizingMaskIntoConstraints = false
+        colorPickerImageView.contentMode = .scaleAspectFit
         self.square.addSubview(colorPickerImageView)
         
         colorPickerImageView.centerXAnchor.constraint(equalTo: self.square.centerXAnchor).isActive = true
         colorPickerImageView.centerYAnchor.constraint(equalTo: self.square.centerYAnchor).isActive = true
-        colorPickerImageView.widthAnchor.constraint(equalTo: self.square.widthAnchor, multiplier: 0.6).isActive = true
-        colorPickerImageView.heightAnchor.constraint(equalTo: self.square.heightAnchor, multiplier: 0.6).isActive = true
+        colorPickerImageView.widthAnchor.constraint(equalTo: self.square.widthAnchor, multiplier: 0.4).isActive = true
+        colorPickerImageView.heightAnchor.constraint(equalTo: self.square.heightAnchor, multiplier: 0.4).isActive = true
     }
     
     func setupSegmented(){

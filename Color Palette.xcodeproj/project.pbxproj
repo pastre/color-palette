@@ -531,7 +531,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.github.pastre.Color-Palette";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.pastre.harmonify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Color Palette/Color_Palette-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -550,7 +550,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.github.pastre.Color-Palette";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.pastre.harmonify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Color Palette/Color_Palette-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

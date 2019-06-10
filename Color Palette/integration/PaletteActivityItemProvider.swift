@@ -61,8 +61,8 @@ class PaletteActivityItemProvider: UIActivityItemProvider{
         return """
         Check out this palette I created using Harmonify:
         \(self.getPaletteDescription())
-        Harmonify is avaiable at App Store
-        Download now <COLOCAR A URL AQUI>
+        Harmonify is avaiable in App Store
+        Download now https://itunes.apple.com/us/app/apple-store/id1462797983
         """
     }
     

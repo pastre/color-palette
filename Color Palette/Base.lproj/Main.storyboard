@@ -88,7 +88,7 @@
                                     <constraint firstItem="RgK-35-5aI" firstAttribute="leading" secondItem="oir-x9-RVc" secondAttribute="leading" constant="20" id="uIx-0G-D2f"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BzT-J8-U0m" userLabel="navigateView">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BzT-J8-U0m" userLabel="navigateView">
                                 <rect key="frame" x="10" y="628.5" width="65" height="65"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pvu-Di-rZU">
@@ -110,7 +110,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VL-6p-lxK" userLabel="saveView">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VL-6p-lxK" userLabel="saveView">
                                 <rect key="frame" x="339" y="628.5" width="65" height="65"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LhO-8X-h2h">
@@ -191,8 +191,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                        <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="BV1-FR-VrT" kind="relationship" relationship="viewControllers" id="91L-h3-O1J"/>
@@ -554,6 +553,6 @@
         <image name="world" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OdW-UF-g5T"/>
+        <segue reference="u8d-Ji-rrD"/>
     </inferredMetricsTieBreakers>
 </document>
