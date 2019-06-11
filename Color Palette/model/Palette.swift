@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Palette: NSObject, NSCoding{
+class Palette: NSObject, NSCoding, Serializable{
     
     var name: String!
     var colors: [HSV]!

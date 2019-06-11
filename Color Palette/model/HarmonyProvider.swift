@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class HarmonyProvider{
     
@@ -24,8 +25,11 @@ class HarmonyProvider{
     }
     
     var palettes: [Palette]! {
+        willSet(to){
+            self.persistPalette()
+        }
         didSet{
-            NSKeyedArchiver.archiveRootObject(palettes!, toFile: self.palettesFilePath)
+            self.persistPalette()
         }
     }
     var colors: [HSV]!{
@@ -44,9 +48,20 @@ class HarmonyProvider{
             return h
         }), createdAt: Date())
         self.palettes.append(palette)
-        self.palettes = self.palettes.sorted(by: { (p1, p2) -> Bool in
-            return p1.createdAt < p2.createdAt
-        })
+//        self.palettes = self.palettes.sorted(by: { (p1, p2) -> Bool in
+//            return p1.createdAt < p2.createdAt
+//        })
+        self.persistPalette()
+    }
+    
+    func updatePalette(palette: Palette, name: UITextField){
+        let index = self.getIndex(for: palette)!
+        if name.hasText{
+            self.palettes[index].name = name.text
+        } else {
+            self.palettes[index].name = "\(self.getIndex(for: palette)!)"
+        }
+        self.persistPalette()
     }
     
     func containsColor(_ color: HSV) -> Bool{
@@ -67,10 +82,21 @@ class HarmonyProvider{
         } else {
             self.colors.append(color)
         }
+        self.persistPalette()
     }
     
-    func getPallete(at index: IndexPath) -> Palette{
+    func persistPalette(){
+        NSKeyedArchiver.archiveRootObject(palettes!, toFile: self.palettesFilePath)
+    }
+    
+    // MARK: - Getters
+    
+    func getPalette(at index: IndexPath) -> Palette{
         return self.palettes[index.item]
+    }
+    
+    func getIndex(for palette: Palette) -> Int? {
+        return self.palettes.firstIndex(of: palette)
     }
     
     func getColor(at index: IndexPath) -> HSV {
@@ -86,10 +112,11 @@ class HarmonyProvider{
     }
     
     func getPalettes() -> [Palette]{
-        return self.palettes.sorted(by: { (p1, p2) -> Bool in
-            return p1.createdAt < p2.createdAt
-        })
-//        
+        return self.palettes
+//            .sorted(by: { (p1, p2) -> Bool in
+//            return p1.createdAt < p2.createdAt
+//        })
+//
 //        return [
 //            Palette(name: "teste", colors: [
 //                HSV(hue: 30, saturation: 1, value: 1),

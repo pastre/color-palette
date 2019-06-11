@@ -30,6 +30,8 @@
 		D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */; };
 		D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E55A8822A9DE3F008A2CEA /* Palette.swift */; };
 		D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5EFFA22A7367D00E0C956 /* Overlay.swift */; };
+		D7EF368422AFF1B7006AF846 /* Serialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EF368322AFF1B7006AF846 /* Serialize.swift */; };
+		D7EF368622AFF53D006AF846 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EF368522AFF53D006AF846 /* DebugViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,8 @@
 		D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteActivityItemProvider.swift; sourceTree = "<group>"; };
 		D7E55A8822A9DE3F008A2CEA /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		D7E5EFFA22A7367D00E0C956 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
+		D7EF368322AFF1B7006AF846 /* Serialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serialize.swift; sourceTree = "<group>"; };
+		D7EF368522AFF53D006AF846 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,7 @@
 				D70116BF22A8A29A00E5B6F7 /* HSV.swift */,
 				D702C03722A635F200CDD45B /* RGBA.swift */,
 				D7E55A8822A9DE3F008A2CEA /* Palette.swift */,
+				D7EF368322AFF1B7006AF846 /* Serialize.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 				D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */,
 				D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */,
 				D761A71F22AAB40300EF6896 /* BaseColorCollectionViewCell.swift */,
+				D7EF368522AFF53D006AF846 /* DebugViewController.swift */,
 				D799257422A55B94008596CF /* Main.storyboard */,
 				D799257722A55B94008596CF /* Assets.xcassets */,
 				D799256B22A55B93008596CF /* AppDelegate.swift */,
@@ -346,10 +352,12 @@
 				D799256C22A55B93008596CF /* AppDelegate.swift in Sources */,
 				D702C03822A635F200CDD45B /* RGBA.swift in Sources */,
 				D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */,
+				D7EF368622AFF53D006AF846 /* DebugViewController.swift in Sources */,
 				D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */,
 				D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */,
 				D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */,
 				D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */,
+				D7EF368422AFF1B7006AF846 /* Serialize.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

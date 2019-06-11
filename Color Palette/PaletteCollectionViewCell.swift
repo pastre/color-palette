@@ -8,10 +8,10 @@
 
 import UIKit
 
-class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate {
     
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var colorsCollectionView: UICollectionView!
+    @IBOutlet weak var nameLabel: UITextField!
     
     var palette: Palette!
     var delegate: ShareDelegate?
@@ -19,12 +19,13 @@ class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
     func setupCell(){
         self.colorsCollectionView.delegate = self
         self.colorsCollectionView.dataSource = self
+        self.nameLabel.delegate = self
         self.nameLabel.text = self.palette.name
     }
     
     
     @IBAction func onShare(_ sender: Any) {
-        self.delegate?.onSharePressed(sender: self.palette)
+        self.delegate?.onSharePressed(sender: self.palette!)
     }
     
     // MARK: - Collection view delegate
@@ -45,5 +46,10 @@ class PaletteCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
         cell.backgroundColor = color.getUIColor()
         cell.color = color
         return cell
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        HarmonyProvider.instance.updatePalette(palette: self.palette, name: textField)
+        return true
     }
 }

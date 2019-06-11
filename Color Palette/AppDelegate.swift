@@ -42,5 +42,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        guard let query = url.query else { return  false }
+        let parameteres = query.split(separator: "=")
+        let base64 = Data(base64Encoded: String(parameteres.last!))
+//        let json = Stirng
+        let newPalette = Palette.deserialize(from: base64)!
+        HarmonyProvider.instance.palettes.append(newPalette)
+        HarmonyProvider.instance.persistPalette()
+        return true
+    }
+    
 }
 

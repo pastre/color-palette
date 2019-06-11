@@ -15,24 +15,6 @@ enum DisplayOptions{
 
 class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate {
     
-    func onSharePressed(sender: Any) {
-        if self.currentDisplay == .palettes{
-            let palette = sender as! Palette
-            let item = PaletteActivityItemProvider(placeholderItem: "asd")
-            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
-            
-            item.palette = palette
-            self.present(vc, animated: true, completion: nil)
-        }else{
-            let color = sender as! HSV
-            let item = ColorActivityItemProvider(placeholderItem: "asd")
-            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
-            
-            item.color = color
-            self.present(vc, animated: true, completion: nil)
-        }
-    }
-    
     @IBOutlet weak var collectionView: UICollectionView!
     
     let source = HarmonyProvider.instance
@@ -73,7 +55,8 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentDisplay == .palettes{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
-            let palette = self.source.getPallete(at: indexPath)
+//            let palette = self.source.getPalette(at: indexPath)
+            let palette = self.source.palettes[indexPath.item]
             print(addressOf(palette))
             cell.palette = palette
             cell.delegate = self
@@ -130,4 +113,25 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             dest.displaysBlur = true
         }
     }
+    
+    // MARK: - Share delegate
+    
+    func onSharePressed(sender: Any) {
+        if self.currentDisplay == .palettes{
+            let palette = sender as! Palette
+            let item = PaletteActivityItemProvider(placeholderItem: "asd")
+            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+            
+            item.palette = palette
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let color = sender as! HSV
+            let item = ColorActivityItemProvider(placeholderItem: "asd")
+            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+            
+            item.color = color
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+
 }

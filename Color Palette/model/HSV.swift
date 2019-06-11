@@ -13,7 +13,13 @@ class BallView: UIView {
     var hsv: HSV!
 }
 
-class HSV: NSObject, NSCoding{
+
+
+class HSV: NSObject, NSCoding, Serializable{
+    required init(fromJSON: Data?) {
+        
+    }
+    
 
     static let HUE_CEILING: CGFloat = 360
     static let HUE_FLOOR: CGFloat = 0

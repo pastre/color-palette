@@ -245,7 +245,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
     
     @IBAction func onSave(_ sender: Any) {
-        self.savePallete()
+        self.savePalette()
     }
     
     @IBAction func onNavigate(_ sender: Any) {
@@ -281,12 +281,12 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
-            self.savePallete()
+            self.savePalette()
             print("shake")
         }
     }
     
-    func savePallete(){
+    func savePalette(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
         self.source.addPalette(colors: self.presentingData)
