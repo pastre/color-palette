@@ -29,8 +29,6 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
 
-        let a = SketchConverter(palette: self.source.palettes.first!)
-        print(a.getJson()!)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -132,20 +130,28 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     // MARK: - Share delegate
     
     func onSharePressed(sender: Any) {
+        var vc: UIActivityViewController!
+        
         if self.currentDisplay == .palettes{
             let palette = sender as! Palette
             let item = PaletteActivityItemProvider(placeholderItem: "asd")
-            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+            vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
             
             item.palette = palette
-            self.present(vc, animated: true, completion: nil)
         }else{
             let color = sender as! HSV
             let item = ColorActivityItemProvider(placeholderItem: "asd")
-            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+            vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
             
             item.color = color
-            self.present(vc, animated: true, completion: nil)
+        }
+        
+        
+        self.present(vc, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            if let popOver = vc.popoverPresentationController {
+                popOver.sourceView = self.view
+            }
         }
     }
 

@@ -71,7 +71,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //            view.orien
             // Configure the renderer to draw to the view
             renderer = Renderer(session: session, metalDevice: view.device!, renderDestination: view)
-            renderer.drawRectResized(size: view.bounds.size)
+            renderer.drawRectResized(size: self.view.bounds.size)
         }
                 self.setupSegmented()
         self.setupSquare()

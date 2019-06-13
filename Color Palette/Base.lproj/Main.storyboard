@@ -458,7 +458,7 @@
                                 <rect key="frame" x="41.5" y="408" width="331" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#FF00DA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="IkP-8L-TM9">
-                                        <rect key="frame" x="89.5" y="10" width="123.5" height="70"/>
+                                        <rect key="frame" x="89.5" y="10" width="152" height="70"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                         <color key="textColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
@@ -471,7 +471,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyA-W4-hoG">
-                                        <rect key="frame" x="223" y="10" width="98" height="70"/>
+                                        <rect key="frame" x="251.5" y="10" width="69.5" height="70"/>
                                         <state key="normal" image="heartOutline"/>
                                         <connections>
                                             <action selector="onFavorite:" destination="PEE-ik-3Lf" eventType="touchUpInside" id="Wu2-iv-mks"/>
@@ -489,6 +489,7 @@
                                     <constraint firstItem="DvE-uG-1qu" firstAttribute="top" secondItem="Y8G-gu-IKB" secondAttribute="top" constant="10" id="P3E-ZH-sDz"/>
                                     <constraint firstItem="DvE-uG-1qu" firstAttribute="leading" secondItem="Y8G-gu-IKB" secondAttribute="leading" constant="10" id="QMH-eg-vdP"/>
                                     <constraint firstItem="IkP-8L-TM9" firstAttribute="top" secondItem="Y8G-gu-IKB" secondAttribute="top" constant="10" id="bMM-SJ-Lmv"/>
+                                    <constraint firstItem="IkP-8L-TM9" firstAttribute="centerX" secondItem="Y8G-gu-IKB" secondAttribute="centerX" id="g0c-vJ-TSW"/>
                                     <constraint firstItem="DvE-uG-1qu" firstAttribute="bottom" secondItem="IkP-8L-TM9" secondAttribute="bottom" id="n7J-xf-GCd"/>
                                     <constraint firstItem="eyA-W4-hoG" firstAttribute="leading" secondItem="IkP-8L-TM9" secondAttribute="trailing" constant="10" id="rL5-ww-dto"/>
                                 </constraints>
