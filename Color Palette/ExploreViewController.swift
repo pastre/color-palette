@@ -75,10 +75,12 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         }
                 self.setupSegmented()
         self.setupSquare()
-        
         self.becomeFirstResponder()
         
     }
+    
+
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -140,6 +142,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
     }
 
+    
+    
     // MARK: - Color logic
     func updateTouch(touch: UITouch){
         let pos = touch.location(in: self.view)

@@ -14,8 +14,10 @@ enum DisplayOptions{
 }
 
 class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate {
+
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var modeSegmentedView: UISegmentedControl!
     
     let source = HarmonyProvider.instance
     var currentDisplay: DisplayOptions!
@@ -29,8 +31,28 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
 
         let a = SketchConverter(palette: self.source.palettes.first!)
         print(a.getJson()!)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillDisappear(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
+    @objc func onKeyboardWillAppear(_ sender: Any){
+//        let notification = sender as! Notification
+//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+//            print("notification: Keyboard will show")
+//            if self.collectionView.transform == .identity{
+//                self.modeSegmentedView.alpha = 0
+//                self.collectionView.transform = self.collectionView.transform.translatedBy(x: 0, y: -keyboardSize.height)
+////                self.collectionView.frame.origin.y -= keyboardSize.height
+//            }
+//        }
+    }
+    
+    @objc func onKeyboardWillDisappear(_ sender: Any){
+//        self.modeSegmentedView.alpha = 1
+//        self.collectionView.transform = .identity
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.collectionView.reloadData()
     }
@@ -55,7 +77,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentDisplay == .palettes{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
-//            let palette = self.source.getPalette(at: indexPath)
+            
             let palette = self.source.palettes[indexPath.item]
             print(addressOf(palette))
             cell.palette = palette
@@ -70,13 +92,6 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         cell.delegate = self
         return cell
     }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if self.currentDisplay != .palettes { return }
-//
-//
-//
-//    }
     
     // MARK: - Callbacks
 
