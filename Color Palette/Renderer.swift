@@ -103,6 +103,7 @@ class Renderer {
     func drawRectResized(size: CGSize) {
         viewportSize = size
         viewportSizeDidChange = true
+//        UIDevice.current.
     }
     
     func update() {
