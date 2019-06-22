@@ -152,6 +152,9 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     @objc func onViewPanned(_ sender: Any){
         let gesture = sender as! UIPanGestureRecognizer
         let pos = gesture.location(in: self.view)
+        if self.uiState != .normal{
+            self.updateUIState(to: .normal, duration: 0.5)
+        }
         self.updateColorPosition(to: pos)
     }
     
@@ -381,9 +384,9 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     lazy var DEFAULT_BOTTOM_CONSTANT: CGFloat = -(self.colorCollectionViewContainer.frame.height + 20)
     lazy var EXPANDED_BOTTOM_CONSTRAINT: CGFloat =   -10
     
-    func updateUIState(to state: UIState){
+    func updateUIState(to state: UIState, duration: TimeInterval = 1){
         
-        transitionAnimator = UIViewPropertyAnimator(duration: 1, dampingRatio: 1, animations: {
+        transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
             case .expanded:
                 self.bottomConstraint.constant = self.EXPANDED_BOTTOM_CONSTRAINT
