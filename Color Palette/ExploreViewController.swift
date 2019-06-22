@@ -54,12 +54,18 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var paletteSegmentedControl: UISegmentedControl!
     @IBOutlet weak var colorCollectionViewContainer: UIView!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var addPaletteButton: UIButton!
+    @IBOutlet weak var dragView: UIView!
+    
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var palettesSegmentedTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var palettesSegmentedBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dragViewTopConstraint: NSLayoutConstraint!
     
     let source = HarmonyProvider.instance
     
     var uiState: UIState!
+    var isCompact: Bool!
     
     var session: ARSession!
     var renderer: Renderer!
@@ -81,7 +87,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         super.viewDidLoad()
         self.savedView.alpha = 0
         self.uiState =  .expanded
-        // Set the view's delegate
+        self.isCompact = false
+        
         self.currentHarmony = .mono
         self.currentColor = HSV(hue: 126, saturation: 0.8, value: 0.9)
         
@@ -146,16 +153,6 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         let colorPan = UIPanGestureRecognizer(target: self, action: #selector(self.onViewPanned(_:)))
         self.cameraView.addGestureRecognizer(colorPan)
         colorPan.require(toFail: overlayPan)
-    }
-    
-    
-    @objc func onViewPanned(_ sender: Any){
-        let gesture = sender as! UIPanGestureRecognizer
-        let pos = gesture.location(in: self.view)
-        if self.uiState != .normal{
-            self.updateUIState(to: .normal, duration: 0.5)
-        }
-        self.updateColorPosition(to: pos)
     }
     
     func setupSquare(){
@@ -305,6 +302,43 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
    
     // MARK: - Callbacks
+    
+    @objc func onViewPanned(_ sender: Any){
+        let gesture = sender as! UIPanGestureRecognizer
+        let pos = gesture.location(in: self.view)
+        if gesture.state == .began{
+            self.transitionAnimator.stopAnimation(true)
+            self.goCompact()
+        }else if gesture.state == .ended{
+            self.leaveCompact()
+        }
+        //        if self.uiState != .normal{
+        //            self.updateUIState(to: .normal, duration: 0.5)
+        //        }
+        self.updateColorPosition(to: pos)
+    }
+    
+    @objc func onOverlayPan(_ sender: Any) {
+        if self.isCompact { return }
+        let recognizer = sender as! UIPanGestureRecognizer
+        switch recognizer.state {
+        case .began:
+            self.updateUIState(to: self.uiState.opposite)
+            animationProgress = transitionAnimator.fractionComplete
+            transitionAnimator.pauseAnimation()
+        case .changed:
+            let translation = recognizer.translation(in: self.view)
+            var fraction = -translation.y / DEFAULT_BOTTOM_CONSTANT
+            //            print("Fraction is", fraction,  translation)
+            if self.uiState == .normal { fraction *= -1 }
+            transitionAnimator.fractionComplete = fraction + animationProgress
+        case .ended:
+            transitionAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+        default:
+            ()
+        }
+    }
+    
    
     @objc func onTap(_ sender: Any?){
         let tap = sender as! UITapGestureRecognizer
@@ -383,6 +417,40 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     lazy var DEFAULT_BOTTOM_CONSTANT: CGFloat = -(self.colorCollectionViewContainer.frame.height + 20)
     lazy var EXPANDED_BOTTOM_CONSTRAINT: CGFloat =   -10
+    lazy var COMPACT_BOTTOM_CONSTANT: CGFloat = self.DEFAULT_BOTTOM_CONSTANT - (self.paletteSegmentedControl.frame.height +  self.addPaletteButton.frame.height + 60)
+    
+    func goCompact(){
+        UIView.animate(withDuration: 0.5, animations: {
+            
+            self.dragView.alpha = 0
+            self.addPaletteButton.transform = self.addPaletteButton.transform.scaledBy(x: 1, y: 0)
+            self.paletteSegmentedControl.transform = self.paletteSegmentedControl.transform.scaledBy(x: 1, y: 0)
+            
+            self.bottomConstraint.constant = self.COMPACT_BOTTOM_CONSTANT
+            self.palettesSegmentedBottomConstraint.constant = -20
+            self.dragViewTopConstraint.constant = 0
+            self.palettesSegmentedTopConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }) { (_) in
+            self.isCompact = true
+        }
+    }
+    
+    func leaveCompact(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.bottomConstraint.constant = self.DEFAULT_BOTTOM_CONSTANT
+            self.palettesSegmentedBottomConstraint.constant = 0
+            self.dragViewTopConstraint.constant = 10
+            self.palettesSegmentedTopConstraint.constant = 10
+            self.dragView.alpha = 1
+            self.addPaletteButton.transform = .identity
+            self.paletteSegmentedControl.transform = .identity
+            
+            self.view.layoutIfNeeded()
+        }) { (_) in
+            self.isCompact = false
+        }
+    }
     
     func updateUIState(to state: UIState, duration: TimeInterval = 1){
         
@@ -415,26 +483,6 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             }
         }
         transitionAnimator.startAnimation()
-    }
-    
-    @objc func onOverlayPan(_ sender: Any) {
-        let recognizer = sender as! UIPanGestureRecognizer
-        switch recognizer.state {
-        case .began:
-            self.updateUIState(to: self.uiState.opposite)
-            animationProgress = transitionAnimator.fractionComplete
-            transitionAnimator.pauseAnimation()
-        case .changed:
-            let translation = recognizer.translation(in: self.view)
-            var fraction = -translation.y / DEFAULT_BOTTOM_CONSTANT
-//            print("Fraction is", fraction,  translation)
-            if self.uiState == .normal { fraction *= -1 }
-            transitionAnimator.fractionComplete = fraction + animationProgress
-        case .ended:
-            transitionAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-        default:
-            ()
-        }
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {

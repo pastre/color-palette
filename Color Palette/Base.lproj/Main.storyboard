@@ -169,7 +169,7 @@
                                                     <rect key="frame" x="18" y="72" width="378" height="93"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K9g-dG-0aE">
-                                                            <rect key="frame" x="344" y="55" width="24" height="22"/>
+                                                            <rect key="frame" x="352" y="55" width="16" height="22"/>
                                                             <state key="normal" image="share"/>
                                                             <connections>
                                                                 <action selector="onShare:" destination="vuU-ls-zjV" eventType="touchUpInside" id="8dV-iC-GBp"/>
@@ -182,7 +182,7 @@
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dhy-8S-ChF">
-                                                            <rect key="frame" x="10" y="59" width="324" height="14"/>
+                                                            <rect key="frame" x="10" y="59" width="332" height="14"/>
                                                         </stackView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75339790239726023" colorSpace="custom" customColorSpace="sRGB"/>
@@ -630,8 +630,12 @@
                         <outlet property="cameraView" destination="kv6-Iq-V6r" id="ZhQ-0c-ati"/>
                         <outlet property="colorCollectionViewContainer" destination="Xqk-le-6pW" id="LXQ-gK-mGW"/>
                         <outlet property="colorsStackView" destination="7Rn-cx-TId" id="XiU-Zh-Cgx"/>
+                        <outlet property="dragView" destination="doC-9n-q5m" id="VyJ-qm-t2O"/>
+                        <outlet property="dragViewTopConstraint" destination="rjQ-b9-f7n" id="Pz5-dx-MXX"/>
                         <outlet property="overlayView" destination="Ab0-Jr-Y2O" id="C6s-xE-wTb"/>
                         <outlet property="paletteSegmentedControl" destination="jhu-u6-gKg" id="2GN-uQ-2Qs"/>
+                        <outlet property="palettesSegmentedBottomConstraint" destination="Lcq-g9-Sc5" id="BAe-eX-jIY"/>
+                        <outlet property="palettesSegmentedTopConstraint" destination="Fa3-A3-rrw" id="3pX-UO-Mkj"/>
                         <outlet property="savedView" destination="YBR-xh-kB3" id="ixl-t3-hRv"/>
                         <segue destination="PEE-ik-3Lf" kind="presentation" identifier="detailSegue" id="dQf-XL-mEu"/>
                     </connections>
