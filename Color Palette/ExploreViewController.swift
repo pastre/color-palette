@@ -81,6 +81,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     var colorsCollectionView: ColorsViewController!
     
+//    override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
+//        return .bottom
+//    }
+    
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge{
+        return .bottom
+    }
+    
     
     // MARK: - Setup
     override func viewDidLoad() {
@@ -136,6 +144,9 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.colorPickerCircle.backgroundColor = randomColor.getUIColor()
         self.updateColor(to: randomColor)
         self.updateUIState(to: .normal)
+        
+        self.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
