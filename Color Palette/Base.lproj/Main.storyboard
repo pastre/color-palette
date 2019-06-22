@@ -376,9 +376,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U25-W8-reG">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="aPv-o8-GkO">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="852"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="light"/>
@@ -437,7 +437,7 @@
                             <constraint firstAttribute="bottom" secondItem="U25-W8-reG" secondAttribute="bottom" id="8Qm-Kb-C99"/>
                             <constraint firstItem="Y8G-gu-IKB" firstAttribute="centerY" secondItem="N3L-vS-yTq" secondAttribute="centerY" id="DYc-SE-KpH"/>
                             <constraint firstItem="U25-W8-reG" firstAttribute="leading" secondItem="N3L-vS-yTq" secondAttribute="leading" id="TAp-4E-ydo"/>
-                            <constraint firstItem="U25-W8-reG" firstAttribute="top" secondItem="N3L-vS-yTq" secondAttribute="top" id="UVb-Jj-SKu"/>
+                            <constraint firstItem="U25-W8-reG" firstAttribute="top" secondItem="xXU-dO-BC1" secondAttribute="top" id="UVb-Jj-SKu"/>
                             <constraint firstItem="Y8G-gu-IKB" firstAttribute="centerX" secondItem="N3L-vS-yTq" secondAttribute="centerX" id="esr-Tk-rme"/>
                             <constraint firstItem="N3L-vS-yTq" firstAttribute="trailing" secondItem="U25-W8-reG" secondAttribute="trailing" id="ygd-DA-bTt"/>
                         </constraints>
