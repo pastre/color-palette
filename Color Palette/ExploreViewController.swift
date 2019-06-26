@@ -158,10 +158,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.colorPickerCircle.center = self.view.center
         self.colorPickerCircle.backgroundColor = randomColor.getUIColor()
         self.updateColor(to: randomColor)
-        self.updateUIState(to: .normal)
         
         self.setNeedsUpdateOfHomeIndicatorAutoHidden()
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        self.updateUIState(to: .normal)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

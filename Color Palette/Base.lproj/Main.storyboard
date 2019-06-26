@@ -30,11 +30,11 @@
             <objects>
                 <viewController id="nJB-zk-CnN" customClass="ColorsViewController" customModule="Color_Palette" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ffZ-QX-ObQ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="466"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZuZ-rG-dkn">
-                                <rect key="frame" x="0.0" y="122" width="414" height="310"/>
+                                <rect key="frame" x="0.0" y="122" width="414" height="368"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PAD-aA-aNY">
                                     <size key="itemSize" width="414" height="183"/>
@@ -384,7 +384,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ab0-Jr-Y2O" customClass="Overlay" customModule="Color_Palette" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="189" width="414" height="717"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="414" height="806.5"/>
                                         <subviews>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jhu-u6-gKg">
                                                 <rect key="frame" x="20" y="23" width="374" height="46"/>
@@ -435,7 +435,7 @@
                                                 </connections>
                                             </button>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xqk-le-6pW">
-                                                <rect key="frame" x="0.0" y="221.5" width="414" height="466"/>
+                                                <rect key="frame" x="0.0" y="221.5" width="414" height="524"/>
                                                 <connections>
                                                     <segue destination="nJB-zk-CnN" kind="embed" identifier="colorsCollectionView" id="GVN-BF-bP5"/>
                                                 </connections>
@@ -469,7 +469,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mWP-gS-xHA">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mWP-gS-xHA">
                                         <rect key="frame" x="91" y="0.0" width="232" height="134.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4U-1V-Gnp">
@@ -500,7 +500,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="Ab0-Jr-Y2O" firstAttribute="height" secondItem="kv6-Iq-V6r" secondAttribute="height" multiplier="0.8" id="1mx-kO-CFU"/>
+                                    <constraint firstItem="Ab0-Jr-Y2O" firstAttribute="height" secondItem="kv6-Iq-V6r" secondAttribute="height" multiplier="0.9" id="1mx-kO-CFU"/>
                                     <constraint firstItem="iwJ-Cb-HQ3" firstAttribute="height" secondItem="kv6-Iq-V6r" secondAttribute="height" multiplier="0.1" id="7cg-d9-FMC"/>
                                     <constraint firstAttribute="trailing" secondItem="Ab0-Jr-Y2O" secondAttribute="trailing" id="9cQ-de-b5d"/>
                                     <constraint firstItem="mWP-gS-xHA" firstAttribute="width" secondItem="kv6-Iq-V6r" secondAttribute="width" multiplier="0.56" id="J6h-V2-Y9o"/>
