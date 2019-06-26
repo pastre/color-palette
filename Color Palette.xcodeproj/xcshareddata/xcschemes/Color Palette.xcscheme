@@ -17,6 +17,20 @@
                BlueprintIdentifier = "D799256722A55B93008596CF"
                BuildableName = "Color Palette.app"
                BlueprintName = "Color Palette"
+               ReferencedContainer = "container:HarmonifyIOS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D799256722A55B93008596CF"
+               BuildableName = "Color Palette.app"
+               BlueprintName = "Color Palette"
                ReferencedContainer = "container:Color Palette.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -35,7 +49,7 @@
             BlueprintIdentifier = "D799256722A55B93008596CF"
             BuildableName = "Color Palette.app"
             BlueprintName = "Color Palette"
-            ReferencedContainer = "container:Color Palette.xcodeproj">
+            ReferencedContainer = "container:HarmonifyIOS.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -70,16 +84,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D799256722A55B93008596CF"
             BuildableName = "Color Palette.app"
             BlueprintName = "Color Palette"
-            ReferencedContainer = "container:Color Palette.xcodeproj">
+            ReferencedContainer = "container:HarmonifyIOS.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

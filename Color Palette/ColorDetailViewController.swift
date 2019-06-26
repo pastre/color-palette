@@ -25,6 +25,7 @@ class ColorDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.colorView.layer.cornerRadius = self.colorView.frame.width  /  2
+        #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
     }
     

@@ -23,33 +23,31 @@ enum Harmony{
     case triad
 }
 
-enum UIState{
+enum UIOverlayState{
 //    case compact
     case normal
     case expanded
-}
-
-extension UIState {
-    var opposite: UIState {
+    
+    var opposite: UIOverlayState {
         switch self {
         case .normal: return .expanded
         case .expanded: return .normal
         }
     }
 }
-class InstantPanGestureRecognizer: UIPanGestureRecognizer {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-        if (self.state == UIGestureRecognizer.State.began) { return }
-        super.touchesBegan(touches, with: event)
-        self.state = UIGestureRecognizer.State.began
-    }
+
+enum UIOptionsState{
+    case open
+    case closed
 }
 
 class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate {
 
+    let source = HarmonyProvider.instance
     
-    @IBOutlet weak var savedView: UIView!
+    //MARK: - Outlet references
     @IBOutlet weak var colorsStackView: UIStackView!
+    @IBOutlet weak var optionsView: UIView!
     @IBOutlet weak var overlayView: UIView!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var paletteSegmentedControl: UISegmentedControl!
@@ -57,29 +55,39 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     @IBOutlet weak var addPaletteButton: UIButton!
     @IBOutlet weak var dragView: UIView!
     
+    // MARK: - Constraint outlet
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var palettesSegmentedTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var palettesSegmentedBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var dragViewTopConstraint: NSLayoutConstraint!
     
-    let source = HarmonyProvider.instance
-    
-    var uiState: UIState!
+    // MARK: - UI control variables
+    var uiState: UIOverlayState!
+    var optionsState: UIOptionsState!
     var isCompact: Bool!
     
+    // MARK: - Frame capturing related variables
     var session: ARSession!
     var renderer: Renderer!
     var currentDrawable:  CAMetalDrawable!
     
+    // MARK: - View references
     var colorPickerCircle: UIView! = UIView(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
     var colorPickerImageView = UIImageView(image: UIImage(named: "colorPicker"))
+    var colorsCollectionView: ColorsViewController!
     
+    // MARK: - Palette and color state variables
     var presentingPalette: [HSV]! = [HSV]()
-    
     var currentColor: HSV!
     var currentHarmony: Harmony!
     
-    var colorsCollectionView: ColorsViewController!
+    // MARK: - Constraint animated related
+    var transitionAnimator: UIViewPropertyAnimator!
+    var animationProgress: CGFloat = 0
+    lazy var DEFAULT_BOTTOM_CONSTANT: CGFloat = -(self.colorCollectionViewContainer.frame.height + 20)
+    lazy var EXPANDED_BOTTOM_CONSTRAINT: CGFloat =   -10
+    lazy var COMPACT_BOTTOM_CONSTANT: CGFloat = self.DEFAULT_BOTTOM_CONSTANT - (self.paletteSegmentedControl.frame.height +  self.addPaletteButton.frame.height + 60)
+    
     
 //    override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
 //        return .bottom
@@ -93,9 +101,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.savedView.alpha = 0
+//        self.savedView.alpha = 0
         self.uiState =  .expanded
         self.isCompact = false
+        self.optionsState = .open
         
         self.currentHarmony = .mono
         self.currentColor = HSV(hue: 126, saturation: 0.8, value: 0.9)
@@ -125,9 +134,15 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.setupGestures()
         self.becomeFirstResponder()
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateiCloud), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: NSUbiquitousKeyValueStore.default)
+        
     }
     
-
+    @objc func updateiCloud(){
+        print("Chegou update do icloud")
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -407,14 +422,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         UIView.animate(withDuration: 0.5, animations: {
             self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.5, y: 1.5)
             self.colorsStackView.alpha = 0
-            self.savedView.alpha = 1
+//            self.savedView.alpha = 1
         }) { (_) in
             generator.impactOccurred()
             self.colorsStackView.alpha = 1
             self.colorsStackView.transform = .identity
             
             UIView.animate(withDuration: 1, animations: {
-                self.savedView.alpha = 0
+//                self.savedView.alpha = 0
             })
         }
         
@@ -422,14 +437,26 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
     }
 
+    //MARK: - Options control
+    func displayOptions(){
+        
+    }
+    
+    func hideOptions(){
+        
+    }
+    
+    func updateOptionsState(to state: UIOptionsState){
+        switch state {
+        case .open:
+            self.displayOptions()
+        case .closed:
+            self.hideOptions()
+        }
+    }
+    
     // MARK: - Overlay control
-    var transitionAnimator: UIViewPropertyAnimator!
-    var animationProgress: CGFloat = 0
-    
-    lazy var DEFAULT_BOTTOM_CONSTANT: CGFloat = -(self.colorCollectionViewContainer.frame.height + 20)
-    lazy var EXPANDED_BOTTOM_CONSTRAINT: CGFloat =   -10
-    lazy var COMPACT_BOTTOM_CONSTANT: CGFloat = self.DEFAULT_BOTTOM_CONSTANT - (self.paletteSegmentedControl.frame.height +  self.addPaletteButton.frame.height + 60)
-    
+
     func goCompact(){
         UIView.animate(withDuration: 0.5, animations: {
             
@@ -463,7 +490,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         }
     }
     
-    func updateUIState(to state: UIState, duration: TimeInterval = 1){
+    func updateUIState(to state: UIOverlayState, duration: TimeInterval = 1){
         
         transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {

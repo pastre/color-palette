@@ -86,7 +86,20 @@ class HarmonyProvider{
     }
     
     func persistPalette(){
+        
         NSKeyedArchiver.archiveRootObject(palettes!, toFile: self.palettesFilePath)
+        
+        do {
+            let p = try JSONEncoder().encode(palettes)
+            let b64 = p.base64EncodedData()
+            NSUbiquitousKeyValueStore.default.set(b64, forKey: "palettes")
+            if NSUbiquitousKeyValueStore.default.synchronize() {
+                print("SYNCD NA NUVEM!!!!")
+            }
+            print("Mudei  na fucking nuvem", b64)
+        } catch let error {
+            print("Deu ruim pra encodar", error.localizedDescription)
+        }
     }
     
     // MARK: - Getters
