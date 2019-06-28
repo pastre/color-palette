@@ -36,7 +36,7 @@ class RGB{
         let p = v * (1 - s)
         let q = v * (1 - (f * s))
         let t = v * (1 - (s * (1 - f)))
-        print("Debugging", v * 255, f * 255, p * 255, q * 255, t * 255, Int(Hi))
+//        print("Debugging", v * 255, f * 255, p * 255, q * 255, t * 255, Int(Hi))
         switch Hi.rounded() {
         case 0:
             self.red = v
