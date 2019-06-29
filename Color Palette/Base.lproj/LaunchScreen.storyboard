@@ -18,17 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="oi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YcZ-li-2pV">
-                                <rect key="frame" x="200.5" y="437.5" width="13.5" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="M2i-f7-v7W">
+                                <rect key="frame" x="41.5" y="287.5" width="331" height="331"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="M2i-f7-v7W" secondAttribute="height" id="3uC-OQ-A4G"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.1176481619477272" green="0.11764507740736008" blue="0.11764716356992722" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="YcZ-li-2pV" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TeH-Df-DC2"/>
-                            <constraint firstItem="YcZ-li-2pV" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="rpY-Zb-5Nj"/>
+                            <constraint firstItem="M2i-f7-v7W" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.8" id="SpZ-q9-bKT"/>
+                            <constraint firstItem="M2i-f7-v7W" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ejR-Yi-zoO"/>
+                            <constraint firstItem="M2i-f7-v7W" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="hul-Yr-qq7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -38,4 +39,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launchIcon" width="512" height="512"/>
+    </resources>
 </document>
