@@ -64,6 +64,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         if self.currentDisplay == .palettes{
             return self.source.getPaletteCount()
         }
+        let color = #colorLiteral(red: 1, green: 0.6555405855, blue: 0.6453160644, alpha: 1)
         return self.source.getColorCount()
     }
     

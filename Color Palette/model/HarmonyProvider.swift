@@ -48,9 +48,9 @@ class HarmonyProvider{
             return h
         }), createdAt: Date())
         self.palettes.append(palette)
-//        self.palettes = self.palettes.sorted(by: { (p1, p2) -> Bool in
-//            return p1.createdAt < p2.createdAt
-//        })
+        self.palettes = self.palettes.sorted(by: { (p1, p2) -> Bool in
+            return p1.createdAt > p2.createdAt
+        })
         self.persistPalette()
     }
     
@@ -59,7 +59,7 @@ class HarmonyProvider{
         if name.hasText{
             self.palettes[index].name = name.text
         } else {
-            self.palettes[index].name = "\(self.getIndex(for: palette)!)"
+            self.palettes[index].name = "#\(index + 1)"
         }
         self.persistPalette()
     }

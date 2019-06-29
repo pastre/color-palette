@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ColorFavoriteDelegate {
+    func onFavoriteChanged()
+}
+
 class ColorDetailViewController: UIViewController {
 
     
@@ -19,6 +23,8 @@ class ColorDetailViewController: UIViewController {
     
     var color: HSV!
     var displaysBlur: Bool! = false
+    
+    var delegate: ColorFavoriteDelegate?
     
     @IBOutlet weak var blurView: UIVisualEffectView!
     
@@ -49,6 +55,7 @@ class ColorDetailViewController: UIViewController {
         }
         
         self.source.updateColors(with: self.color)
+        self.delegate?.onFavoriteChanged()
     }
     
     @IBAction func onTap(_ sender: Any) {

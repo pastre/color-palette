@@ -41,7 +41,7 @@ enum UIOptionsState{
     case closed
 }
 
-class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate {
+class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate, ColorFavoriteDelegate {
 
     let source = HarmonyProvider.instance
     
@@ -56,6 +56,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     @IBOutlet weak var dragView: UIView!
     
     // MARK: - Constraint outlet
+    @IBOutlet weak var overlayBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var palettesSegmentedTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var palettesSegmentedBottomConstraint: NSLayoutConstraint!
@@ -137,6 +138,27 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateiCloud), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: NSUbiquitousKeyValueStore.default)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        print("keyboard will show!")
+        
+        // To obtain the size of the keyboard:
+        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.size
+        self.overlayBottomConstraint.constant = keyboardSize.height
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc func keyboardWillHide(_ notification: NSNotification){
+        self.overlayBottomConstraint.constant = -10
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     @objc func updateiCloud(){
@@ -331,6 +353,12 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         return nil
     }
    
+    // MARK: - Color changed delegate
+    func onFavoriteChanged() {
+        self.colorsCollectionView.collectionView.reloadData()
+    }
+    
+    
     // MARK: - Callbacks
     
     @objc func onViewPanned(_ sender: Any){
@@ -507,6 +535,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         })
         
         transitionAnimator.addCompletion { position in
+            print("Position is", position.rawValue)
             switch position {
             case .start:
                 self.uiState = state.opposite
@@ -525,6 +554,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             }
         }
         transitionAnimator.startAnimation()
+        self.view.endEditing(true)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -536,6 +566,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         if segue.identifier == "detailSegue"{
             let dest = segue.destination as! ColorDetailViewController
             dest.color = (sender as! HSV)
+            dest.delegate = self
             if self.uiState == .expanded{
                 dest.displaysBlur = true
             }

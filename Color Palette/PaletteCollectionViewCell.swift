@@ -20,6 +20,14 @@ class PaletteCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
         self.nameLabel.delegate = self
         self.nameLabel.text = self.palette.name
         self.setupStack()
+        
+        self.nameLabel.addTarget(self, action: #selector(self.edited) , for:UIControl.Event.editingChanged)
+
+    }
+    
+    @objc func edited() {
+        print("Edited \(self.nameLabel.text)")
+        HarmonyProvider.instance.updatePalette(palette: self.palette, name: self.nameLabel)
     }
     
     func setupStack(){
@@ -37,7 +45,6 @@ class PaletteCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
         self.delegate?.onSharePressed(sender: self.palette!)
     }
 
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         HarmonyProvider.instance.updatePalette(palette: self.palette, name: textField)
         textField.resignFirstResponder()

@@ -531,6 +531,7 @@
                         <outlet property="dragView" destination="doC-9n-q5m" id="VyJ-qm-t2O"/>
                         <outlet property="dragViewTopConstraint" destination="rjQ-b9-f7n" id="Pz5-dx-MXX"/>
                         <outlet property="optionsView" destination="mWP-gS-xHA" id="iGF-kv-KGz"/>
+                        <outlet property="overlayBottomConstraint" destination="p16-rA-Fw4" id="CBf-DG-deW"/>
                         <outlet property="overlayView" destination="Ab0-Jr-Y2O" id="C6s-xE-wTb"/>
                         <outlet property="paletteSegmentedControl" destination="jhu-u6-gKg" id="2GN-uQ-2Qs"/>
                         <outlet property="palettesSegmentedBottomConstraint" destination="Lcq-g9-Sc5" id="BAe-eX-jIY"/>
