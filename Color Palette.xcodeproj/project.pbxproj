@@ -26,6 +26,7 @@
 		D799257B22A55B94008596CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D799257922A55B94008596CF /* LaunchScreen.storyboard */; };
 		D799258722A55B94008596CF /* Color_PaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799258622A55B94008596CF /* Color_PaletteTests.swift */; };
 		D799259222A55B94008596CF /* Color_PaletteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799259122A55B94008596CF /* Color_PaletteUITests.swift */; };
+		D7AAAEB022CC50140017A280 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AAAEAF22CC50140017A280 /* Tutorial.swift */; };
 		D7ACB2C022ABEA460070F086 /* Sketch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ACB2BF22ABEA460070F086 /* Sketch.swift */; };
 		D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */; };
 		D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E55A8822A9DE3F008A2CEA /* Palette.swift */; };
@@ -80,6 +81,7 @@
 		D799258D22A55B94008596CF /* Color PaletteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Color PaletteUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799259122A55B94008596CF /* Color_PaletteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_PaletteUITests.swift; sourceTree = "<group>"; };
 		D799259322A55B94008596CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7AAAEAF22CC50140017A280 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		D7ACB2BF22ABEA460070F086 /* Sketch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketch.swift; sourceTree = "<group>"; };
 		D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteActivityItemProvider.swift; sourceTree = "<group>"; };
 		D7E55A8822A9DE3F008A2CEA /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				D70116BD22A8A25300E5B6F7 /* PaletteGenerator.swift */,
 				D768909F22A848530035A8FD /* HarmonyProvider.swift */,
+				D7AAAEAF22CC50140017A280 /* Tutorial.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */,
 				D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */,
 				D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */,
+				D7AAAEB022CC50140017A280 /* Tutorial.swift in Sources */,
 				D7EF368422AFF1B7006AF846 /* Serialize.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

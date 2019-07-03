@@ -43,7 +43,9 @@ enum UIOptionsState{
 
 class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate, ColorFavoriteDelegate {
 
+    //MARK: - Singletons
     let source = HarmonyProvider.instance
+    let tutorialController = TutorialController.instance
     
     //MARK: - Outlet references
     @IBOutlet weak var colorsStackView: UIStackView!
@@ -82,17 +84,15 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     var currentColor: HSV!
     var currentHarmony: Harmony!
     
+    var animator: UIViewPropertyAnimator!
+    
     // MARK: - Constraint animated related
     var transitionAnimator: UIViewPropertyAnimator!
     var animationProgress: CGFloat = 0
     lazy var DEFAULT_BOTTOM_CONSTANT: CGFloat = -(self.colorCollectionViewContainer.frame.height + 20)
     lazy var EXPANDED_BOTTOM_CONSTRAINT: CGFloat =   -10
     lazy var COMPACT_BOTTOM_CONSTANT: CGFloat = self.DEFAULT_BOTTOM_CONSTANT - (self.paletteSegmentedControl.frame.height +  self.addPaletteButton.frame.height + 60)
-    
-    
-//    override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
-//        return .bottom
-//    }
+    lazy var MAX_ANIMATION_BOTTOM_CONSTANT: CGFloat = self.DEFAULT_BOTTOM_CONSTANT + 30
     
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge{
         return .bottom
@@ -102,7 +102,6 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.savedView.alpha = 0
         self.uiState =  .expanded
         self.isCompact = false
         self.optionsState = .open
@@ -112,7 +111,6 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         session = ARSession()
         session.delegate = self
-//        session.configuration
         
         // Set the view to use the default device
         if let view = self.cameraView as? MTKView {
@@ -135,36 +133,13 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.setupGestures()
         self.becomeFirstResponder()
         
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateiCloud), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: NSUbiquitousKeyValueStore.default)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(_ notification: NSNotification) {
-        print("keyboard will show!")
-        
-        // To obtain the size of the keyboard:
-        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.size
-        self.overlayBottomConstraint.constant = keyboardSize.height
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-        }
-        
-    }
-    
-    @objc func keyboardWillHide(_ notification: NSNotification){
-        self.overlayBottomConstraint.constant = -10
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    @objc func updateiCloud(){
-        print("Chegou update do icloud")
-    }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -194,6 +169,26 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         super.viewWillDisappear(animated)
         // Pause the view's session
         session.pause()
+    }
+    
+    func setupOverlayTutorial(){
+        self.tutorialController.tutorial.isAnimating = true
+//        let a =  UIViewPropertyAnimator(
+//        self.animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut){
+//            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -40)
+//        }
+//        
+//        self.animator = UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: [.autoreverse, .repeat, .transitionCurlUp, .curveEaseInOut, .allowUserInteraction], animations: {
+//            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -40)
+//        }, completion: { (_) in
+//            self.overlayView.transform = .identity
+//        })
+//        self.animator.startAnimation()
+        UIView.animate(withDuration: 0.5, delay: 0.5, options: [.autoreverse, .repeat, .transitionCurlUp, .curveEaseInOut, .allowUserInteraction], animations: {
+            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -40)
+        }) { (_) in
+            self.overlayView.transform = .identity
+        }
     }
     
     func setupGestures(){
@@ -377,6 +372,12 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
     
     @objc func onOverlayPan(_ sender: Any) {
+        if (self.tutorialController.tutorial.isAnimating ?? false) || !self.tutorialController.hasOpenedOverlay(){
+//            self.animator.stopAnimation(false)
+            self.overlayView.layer.removeAnimation(forKey: "transform")
+            self.tutorialController.onOverlayOpened()
+            self.overlayView.layoutIfNeeded()
+        }
         if self.isCompact { return }
         let recognizer = sender as! UIPanGestureRecognizer
         switch recognizer.state {
@@ -409,6 +410,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     @IBAction func onSave(_ sender: Any) {
         self.savePalette()
+        
+        if !self.tutorialController.hasOpenedOverlay(){
+            self.setupOverlayTutorial()
+        }
     }
     
     
@@ -439,6 +444,30 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         }
         self.updatePresentingPalette()
     }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        print("keyboard will show!")
+        
+        // To obtain the size of the keyboard:
+        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.size
+        self.overlayBottomConstraint.constant = keyboardSize.height
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc func keyboardWillHide(_ notification: NSNotification){
+        self.overlayBottomConstraint.constant = -10
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func updateiCloud(){
+        print("Chegou update do icloud")
+    }
+    
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
