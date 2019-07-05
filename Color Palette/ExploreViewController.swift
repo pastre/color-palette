@@ -56,6 +56,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     @IBOutlet weak var colorCollectionViewContainer: UIView!
     @IBOutlet weak var addPaletteButton: UIButton!
     @IBOutlet weak var dragView: UIView!
+    @IBOutlet weak var saveLabel: UILabel!
     
     // MARK: - Constraint outlet
     @IBOutlet weak var overlayBottomConstraint: NSLayoutConstraint!
@@ -144,7 +145,6 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let randomColor = HSV(hue: CGFloat.random(in: 0...360), saturation: CGFloat.random(in: 0.1...1), value: CGFloat.random(in: 0.1...1))
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
         
@@ -153,22 +153,23 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         session.run(configuration)
         
         self.colorPickerCircle.center = self.view.center
-        self.colorPickerCircle.backgroundColor = randomColor.getUIColor()
-        self.updateColor(to: randomColor)
         
         self.setNeedsUpdateOfHomeIndicatorAutoHidden()
         self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        super.viewDidAppear(animated)
+        let randomColor = HSV(hue: CGFloat.random(in: 0...360), saturation: CGFloat.random(in: 0.1...1), value: CGFloat.random(in: 0.1...1))
         self.updateUIState(to: .normal)
+        self.colorPickerCircle.backgroundColor = randomColor.getUIColor()
+        self.updateColor(to: randomColor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Pause the view's session
-        session.pause()
+        session.pause() 
     }
     
     func setupOverlayTutorial(){
@@ -184,10 +185,15 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //            self.overlayView.transform = .identity
 //        })
 //        self.animator.startAnimation()
-        UIView.animate(withDuration: 0.5, delay: 0.5, options: [.autoreverse, .repeat, .transitionCurlUp, .curveEaseInOut, .allowUserInteraction], animations: {
-            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -40)
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.transitionCurlUp, .curveEaseOut, .allowUserInteraction], animations: {
+            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -140)
         }) { (_) in
-            self.overlayView.transform = .identity
+            UIView.animate(withDuration: 0.3, delay: 0.3, options: [.transitionCurlDown, .curveEaseIn, .allowUserInteraction], animations: {
+                
+                self.overlayView.transform = .identity
+            }, completion: { _ in
+                
+            })
         }
     }
     
@@ -301,9 +307,9 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //                ballView = color.asCircularView(radius: 55)
 //            }
             if i  == 2{
-                ballView = color.asCircularView(radius: 65)
+                ballView = color.asCircularView(radius: (0.072 * self.cameraView.frame.height) + 5)
             }else{
-                ballView = color.asCircularView(radius: 60)
+                ballView = color.asCircularView(radius: 0.072 * self.cameraView.frame.height)
             }
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
             let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
@@ -339,10 +345,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             let green: CGFloat = CGFloat(pixel[1]) / 255.0
             let blue: CGFloat  = CGFloat(pixel[0]) / 255.0
             let _: CGFloat = CGFloat(pixel[3]) / 255.0
-            print("RED", pixel[2])
-            print("GREEN", pixel[1])
-            print("BLUE", pixel[0])
-            print("RGB",red, green, blue)
+//            print("RED", pixel[2])
+//            print("GREEN", pixel[1])
+//            print("BLUE", pixel[0])
+//            print("RGB",red, green, blue)
             return RGB(red: red, green: green, blue: blue)
         }
         return nil
@@ -372,7 +378,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
     
     @objc func onOverlayPan(_ sender: Any) {
-        if (self.tutorialController.tutorial.isAnimating ?? false) || !self.tutorialController.hasOpenedOverlay(){
+        if !self.tutorialController.hasOpenedOverlay(){
 //            self.animator.stopAnimation(false)
             self.overlayView.layer.removeAnimation(forKey: "transform")
             self.tutorialController.onOverlayOpened()
@@ -480,15 +486,26 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
         self.source.addPalette(colors: self.presentingPalette)
-        UIView.animate(withDuration: 0.5, animations: {
-            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.5, y: 1.5)
-            self.colorsStackView.alpha = 0
-//            self.savedView.alpha = 1
-        }) { (_) in
-            generator.impactOccurred()
-            self.colorsStackView.alpha = 1
-            self.colorsStackView.transform = .identity
+        self.saveLabel.isHidden = false
+        UIView.animate(withDuration: 0.2, animations: {
+            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 0.6, y: 0.6)
+            self.colorsStackView.transform = self.colorsStackView.transform.translatedBy(x: 0, y: -20)
+            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.4, y: 1.4)
+            self.colorsStackView.alpha = 0.8
             
+        }) { (_) in
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
+                self.colorsStackView.transform  = self.colorsStackView.transform.translatedBy(x: 0, y: 300)
+//                self.colorsStackView.transform  = self.colorsStackView.transform.scaledBy(x: 0.1, y: 1)
+                self.colorsStackView.alpha = 0.2
+            }, completion: { (_) in
+                self.colorsStackView.alpha = 0
+                generator.impactOccurred()
+                self.colorsStackView.alpha = 1
+                self.colorsStackView.transform = .identity
+                self.saveLabel.isHidden = true
+            })
             UIView.animate(withDuration: 1, animations: {
 //                self.savedView.alpha = 0
             })

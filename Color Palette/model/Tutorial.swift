@@ -54,6 +54,6 @@ class TutorialController{
     }
     
     func persistTutorial(){
-        NSKeyedArchiver.archiveRootObject(self.tutorial, toFile: self.tutorialFilePath)
+//        NSKeyedArchiver.archiveRootObject(self.tutorial, toFile: self.tutorialFilePath)
     }
 }

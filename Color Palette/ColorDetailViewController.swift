@@ -30,18 +30,28 @@ class ColorDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.colorView.layer.cornerRadius = self.colorView.frame.width  /  2
-        #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.colorView.backgroundColor = color.getUIColor()
         if self.source.containsColor(self.color){
             self.likedButton.setImage(UIImage(named: "heart"), for: .normal)
         }
         self.colorCodeLabel.text  = "#\(self.color.getDescriptiveHex())"
         self.blurView.isHidden = !self.displaysBlur
+        print("Frame width is", self.colorView.layer.frame.width)
+        self.colorView.layer.cornerRadius = self.colorView.layer.frame.width  /  2
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.colorView.layer.cornerRadius = self.colorView.layer.frame.width  /  2
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("Frame width is", self.colorView.layer.frame.width)
     }
     
     @IBAction func onFavorite(_ sender: Any) {
@@ -61,6 +71,10 @@ class ColorDetailViewController: UIViewController {
     @IBAction func onTap(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+//    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//    }
     
     /*
     // MARK: - Navigation
