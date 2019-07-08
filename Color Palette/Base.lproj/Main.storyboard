@@ -391,7 +391,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gmE-xt-hlW">
-                                                <rect key="frame" x="20" y="162.5" width="374" height="39"/>
+                                                <rect key="frame" x="20" y="162.5" width="374" height="22"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="tintColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal" image="addPalette"/>
@@ -400,7 +400,7 @@
                                                 </connections>
                                             </button>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xqk-le-6pW">
-                                                <rect key="frame" x="0.0" y="221.5" width="414" height="524"/>
+                                                <rect key="frame" x="0.0" y="204.5" width="414" height="524"/>
                                                 <connections>
                                                     <segue destination="nJB-zk-CnN" kind="embed" identifier="colorsCollectionView" id="GVN-BF-bP5"/>
                                                 </connections>
@@ -442,11 +442,11 @@
                                         <rect key="frame" x="91" y="0.0" width="232" height="134.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4U-1V-Gnp">
-                                                <rect key="frame" x="126" y="75.5" width="86" height="39"/>
+                                                <rect key="frame" x="126" y="92.5" width="86" height="22"/>
                                                 <state key="normal" image="addPalette"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ymg-iu-BP1">
-                                                <rect key="frame" x="20" y="75.5" width="86" height="39"/>
+                                                <rect key="frame" x="20" y="92.5" width="86" height="22"/>
                                                 <state key="normal" image="addPalette"/>
                                             </button>
                                         </subviews>

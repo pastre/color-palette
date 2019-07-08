@@ -311,9 +311,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             }else{
                 ballView = color.asCircularView(radius: 0.072 * self.cameraView.frame.height)
             }
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
-            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
             
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
+//            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
+            let doubleTap = UILongPressGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
 //            ballView.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
 //            ballView.layer.borderWidth = 1
 //            
@@ -321,7 +322,9 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             tap.numberOfTapsRequired = 1
             
             doubleTap.delegate = self
-            doubleTap.numberOfTapsRequired = 2
+//            doubleTap.numberOfTapsRequired = 1
+            doubleTap.allowableMovement = 60
+            doubleTap.minimumPressDuration = TimeInterval(0.5)
             
             ballView.addGestureRecognizer(tap)
             ballView.addGestureRecognizer(doubleTap)
@@ -424,10 +427,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     
     @objc func onDoubleTap(_ sender: Any?){
-        
-        let tap = sender as! UITapGestureRecognizer
+        let tap = sender as! UILongPressGestureRecognizer
+        print("SENDER STATE IS", tap.state.rawValue)
         let view = tap.view as! BallView
         let color = view.hsv!
+        
+        if tap.state == .began{
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        }
         
         self.updateColor(to: color)
         
@@ -508,7 +515,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             })
             UIView.animate(withDuration: 1, animations: {
 //                self.savedView.alpha = 0
-            })
+            })  
         }
         
         self.colorsCollectionView.collectionView.reloadData()
