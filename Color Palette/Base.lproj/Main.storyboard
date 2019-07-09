@@ -259,11 +259,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y8G-gu-IKB">
                                 <rect key="frame" x="41.5" y="408" width="331" height="90"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#FF00DA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="IkP-8L-TM9">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#FF00DA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="IkP-8L-TM9">
                                         <rect key="frame" x="82.5" y="10" width="166" height="70"/>
+                                        <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                         <color key="textColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="9kh-Qh-vJZ" appends="YES" id="wZI-Wk-D4j"/>
+                                        </connections>
                                     </label>
                                     <view clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="DvE-uG-1qu">
                                         <rect key="frame" x="10" y="13.5" width="62.5" height="63"/>
@@ -321,6 +325,7 @@
                     <connections>
                         <outlet property="blurView" destination="U25-W8-reG" id="Kz7-qj-acI"/>
                         <outlet property="colorCodeLabel" destination="IkP-8L-TM9" id="ZgS-Vn-nJw"/>
+                        <outlet property="colorCodeLongPressGestureRecognizer" destination="9kh-Qh-vJZ" id="Z14-y2-ovM"/>
                         <outlet property="colorView" destination="DvE-uG-1qu" id="GJm-Fr-P57"/>
                         <outlet property="contentView" destination="Y8G-gu-IKB" id="VyK-b8-TIa"/>
                         <outlet property="likedButton" destination="eyA-W4-hoG" id="Phw-wd-8Im"/>
@@ -339,6 +344,11 @@
                         <action selector="onTap:" destination="PEE-ik-3Lf" id="UPn-Uv-vug"/>
                     </connections>
                 </panGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="9kh-Qh-vJZ">
+                    <connections>
+                        <action selector="onCodeLongPressed:" destination="PEE-ik-3Lf" id="Ufk-pT-OEM"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="125" y="1345"/>
         </scene>

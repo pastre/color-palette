@@ -325,6 +325,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //            doubleTap.numberOfTapsRequired = 1
             doubleTap.allowableMovement = 60
             doubleTap.minimumPressDuration = TimeInterval(0.5)
+            doubleTap.delaysTouchesBegan = false
+            doubleTap.delaysTouchesEnded = true
+            doubleTap.isEnabled = true
+            doubleTap.cancelsTouchesInView = true
             
             ballView.addGestureRecognizer(tap)
             ballView.addGestureRecognizer(doubleTap)

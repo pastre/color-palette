@@ -30,6 +30,7 @@ class ColorDetailViewController: UIViewController {
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
+    @IBOutlet var colorCodeLongPressGestureRecognizer: UILongPressGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +76,31 @@ class ColorDetailViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-//    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    @IBAction func onCodeLongPressed(_ sender: Any) {
+        if self.colorCodeLongPressGestureRecognizer.state == .began{
+            self.copyColorToClipboard()
+        }
+    }
+    
+    func copyColorToClipboard(){
+        UIPasteboard.general.string = self.color.getDescriptiveHex()
+        UIView.animate(withDuration: 1, animations: {
+            self.colorCodeLabel.alpha = 0.4
+            self.colorCodeLabel.transform = self.colorCodeLabel.transform.scaledBy(x: 0.5, y: 0.5)
+            self.colorCodeLabel.text = "Copied!"
+            self.colorCodeLabel.transform = .identity
+            self.colorCodeLabel.alpha = 1
+        }) { (_) in
+            
+            self.colorCodeLabel.text  = "#\(self.color.getDescriptiveHex())"
+            return
+//            UIView.animate(withDuration: 0.5, delay: 4, options: [], animations: {
+//                self.colorCodeLabel.alpha = 0.4
+//                self.colorCodeLabel.alpha = 1
+//            }, completion: nil)
+        }
+    }
+    //    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //
 //    }
     
