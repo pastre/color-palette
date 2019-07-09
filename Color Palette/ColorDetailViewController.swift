@@ -18,6 +18,7 @@ class ColorDetailViewController: UIViewController {
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var colorCodeLabel: UILabel!
     @IBOutlet weak var likedButton: UIButton!
+    @IBOutlet weak var contentView: UIView!
     
     let source = HarmonyProvider.instance
     
@@ -27,10 +28,12 @@ class ColorDetailViewController: UIViewController {
     var delegate: ColorFavoriteDelegate?
     
     @IBOutlet weak var blurView: UIVisualEffectView!
+    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
+    @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tapGestureRecognizer.shouldRequireFailure(of: self.panGestureRecognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +43,7 @@ class ColorDetailViewController: UIViewController {
             self.likedButton.setImage(UIImage(named: "heart"), for: .normal)
         }
         self.colorCodeLabel.text  = "#\(self.color.getDescriptiveHex())"
-        self.blurView.isHidden = !self.displaysBlur
+        self.blurView.isHidden = false
         print("Frame width is", self.colorView.layer.frame.width)
         self.colorView.layer.cornerRadius = self.colorView.layer.frame.width  /  2
     }
