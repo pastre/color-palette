@@ -14,26 +14,10 @@ enum DisplayOptions{
 }
 
 class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate {
-    
-    func onSharePressed(sender: Any) {
-        if self.currentDisplay == .palettes{
-            let palette = sender as! Palette
-            let item = PaletteActivityItemProvider(placeholderItem: "asd")
-            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
-            
-            item.palette = palette
-            self.present(vc, animated: true, completion: nil)
-        }else{
-            let color = sender as! HSV
-            let item = ColorActivityItemProvider(placeholderItem: "asd")
-            let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
-            
-            item.color = color
-            self.present(vc, animated: true, completion: nil)
-        }
-    }
+
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var modeSegmentedView: UISegmentedControl!
     
     let source = HarmonyProvider.instance
     var currentDisplay: DisplayOptions!
@@ -45,10 +29,28 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
 
-        let a = SketchConverter(palette: self.source.palettes.first!)
-        print(a.getJson()!)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillDisappear(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
+    @objc func onKeyboardWillAppear(_ sender: Any){
+//        let notification = sender as! Notification
+//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+//            print("notification: Keyboard will show")
+//            if self.collectionView.transform == .identity{
+//                self.modeSegmentedView.alpha = 0
+//                self.collectionView.transform = self.collectionView.transform.translatedBy(x: 0, y: -keyboardSize.height)
+////                self.collectionView.frame.origin.y -= keyboardSize.height
+//            }
+//        }
+    }
+    
+    @objc func onKeyboardWillDisappear(_ sender: Any){
+//        self.modeSegmentedView.alpha = 1
+//        self.collectionView.transform = .identity
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.collectionView.reloadData()
     }
@@ -62,6 +64,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         if self.currentDisplay == .palettes{
             return self.source.getPaletteCount()
         }
+        let color = #colorLiteral(red: 1, green: 0.6555405855, blue: 0.6453160644, alpha: 1)
         return self.source.getColorCount()
     }
     
@@ -73,7 +76,8 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentDisplay == .palettes{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
-            let palette = self.source.getPallete(at: indexPath)
+            
+            let palette = self.source.palettes[indexPath.item]
             print(addressOf(palette))
             cell.palette = palette
             cell.delegate = self
@@ -87,13 +91,6 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         cell.delegate = self
         return cell
     }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if self.currentDisplay != .palettes { return }
-//
-//
-//
-//    }
     
     // MARK: - Callbacks
 
@@ -130,4 +127,33 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             dest.displaysBlur = true
         }
     }
+    
+    // MARK: - Share delegate
+    
+    func onSharePressed(sender: Any) {
+        var vc: UIActivityViewController!
+        
+        if self.currentDisplay == .palettes{
+            let palette = sender as! Palette
+            let item = PaletteActivityItemProvider(placeholderItem: "asd")
+            vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+            
+            item.palette = palette
+        }else{
+            let color = sender as! HSV
+            let item = ColorActivityItemProvider(placeholderItem: "asd")
+            vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+            
+            item.color = color
+        }
+        
+        
+        self.present(vc, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            if let popOver = vc.popoverPresentationController {
+                popOver.sourceView = self.view
+            }
+        }
+    }
+
 }

@@ -23,40 +23,95 @@ enum Harmony{
     case triad
 }
 
-class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate {
-
+enum UIOverlayState{
+//    case compact
+    case normal
+    case expanded
     
-    @IBOutlet weak var savedView: UIView!
+    var opposite: UIOverlayState {
+        switch self {
+        case .normal: return .expanded
+        case .expanded: return .normal
+        }
+    }
+}
+
+enum UIOptionsState{
+    case open
+    case closed
+}
+
+class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate, ColorFavoriteDelegate {
+
+    //MARK: - Singletons
+    let source = HarmonyProvider.instance
+    let tutorialController = TutorialController.instance
+    
+    //MARK: - Outlet references
     @IBOutlet weak var colorsStackView: UIStackView!
+    @IBOutlet weak var optionsView: UIView!
     @IBOutlet weak var overlayView: UIView!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var paletteSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var colorCollectionViewContainer: UIView!
+    @IBOutlet weak var addPaletteButton: UIButton!
+    @IBOutlet weak var dragView: UIView!
+    @IBOutlet weak var saveLabel: UILabel!
     
+    // MARK: - Constraint outlet
+    @IBOutlet weak var overlayBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var palettesSegmentedTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var palettesSegmentedBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dragViewTopConstraint: NSLayoutConstraint!
+    
+    // MARK: - UI control variables
+    var uiState: UIOverlayState!
+    var optionsState: UIOptionsState!
+    var isCompact: Bool!
+    
+    // MARK: - Frame capturing related variables
     var session: ARSession!
     var renderer: Renderer!
     var currentDrawable:  CAMetalDrawable!
-    var square: UIView! = UIView(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
     
-    var presentingData: [HSV]! = [HSV]()
+    // MARK: - View references
+    var colorPickerCircle: UIView! = UIView(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
+    var colorPickerImageView = UIImageView(image: UIImage(named: "colorPicker"))
+    var colorsCollectionView: ColorsViewController!
     
+    // MARK: - Palette and color state variables
+    var presentingPalette: [HSV]! = [HSV]()
     var currentColor: HSV!
     var currentHarmony: Harmony!
     
-    var colorPickerImageView = UIImageView(image: UIImage(named: "colorPicker"))
+    var animator: UIViewPropertyAnimator!
     
-    let source = HarmonyProvider.instance
+    // MARK: - Constraint animated related
+    var transitionAnimator: UIViewPropertyAnimator!
+    var animationProgress: CGFloat = 0
+    lazy var DEFAULT_BOTTOM_CONSTANT: CGFloat = -(self.colorCollectionViewContainer.frame.height + 20)
+    lazy var EXPANDED_BOTTOM_CONSTRAINT: CGFloat =   -10
+    lazy var COMPACT_BOTTOM_CONSTANT: CGFloat = self.DEFAULT_BOTTOM_CONSTANT - (self.paletteSegmentedControl.frame.height +  self.addPaletteButton.frame.height + 60)
+    lazy var MAX_ANIMATION_BOTTOM_CONSTANT: CGFloat = self.DEFAULT_BOTTOM_CONSTANT + 30
+    
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge{
+        return .bottom
+    }
+    
     
     // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.savedView.alpha = 0
-        // Set the view's delegate
+        self.uiState =  .expanded
+        self.isCompact = false
+        self.optionsState = .open
+        
         self.currentHarmony = .mono
         self.currentColor = HSV(hue: 126, saturation: 0.8, value: 0.9)
         
         session = ARSession()
         session.delegate = self
-//        session.configuration
         
         // Set the view to use the default device
         if let view = self.cameraView as? MTKView {
@@ -71,20 +126,25 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //            view.orien
             // Configure the renderer to draw to the view
             renderer = Renderer(session: session, metalDevice: view.device!, renderDestination: view)
-            renderer.drawRectResized(size: view.bounds.size)
+            renderer.drawRectResized(size: self.view.bounds.size)
         }
-                self.setupSegmented()
-        self.setupSquare()
         
+        self.setupSegmented()
+        self.setupSquare()
+        self.setupGestures()
         self.becomeFirstResponder()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateiCloud), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: NSUbiquitousKeyValueStore.default)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let randomColor = HSV(hue: CGFloat.random(in: 0...360), saturation: CGFloat.random(in: 0.1...1), value: CGFloat.random(in: 0.1...1))
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
         
@@ -92,39 +152,83 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         // Run the view's session
         session.run(configuration)
         
-        self.square.center = self.view.center
-        self.square.backgroundColor = randomColor.getUIColor()
+        self.colorPickerCircle.center = self.view.center
+        
+        self.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let randomColor = HSV(hue: CGFloat.random(in: 0...360), saturation: CGFloat.random(in: 0.1...1), value: CGFloat.random(in: 0.1...1))
+        self.updateUIState(to: .normal)
+        self.colorPickerCircle.backgroundColor = randomColor.getUIColor()
         self.updateColor(to: randomColor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Pause the view's session
-        session.pause()
+        session.pause() 
     }
-   
-//    override var canBecomeFirstResponder: Bool{
-//        return true
-//    }
+    
+    func setupOverlayTutorial(){
+        self.tutorialController.tutorial.isAnimating = true
+//        let a =  UIViewPropertyAnimator(
+//        self.animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut){
+//            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -40)
+//        }
+//        
+//        self.animator = UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: [.autoreverse, .repeat, .transitionCurlUp, .curveEaseInOut, .allowUserInteraction], animations: {
+//            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -40)
+//        }, completion: { (_) in
+//            self.overlayView.transform = .identity
+//        })
+//        self.animator.startAnimation()
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.transitionCurlUp, .curveEaseOut, .allowUserInteraction], animations: {
+            self.overlayView.transform = self.overlayView.transform.translatedBy(x: 0, y: -140)
+        }) { (_) in
+            UIView.animate(withDuration: 0.3, delay: 0.3, options: [.transitionCurlDown, .curveEaseIn, .allowUserInteraction], animations: {
+                
+                self.overlayView.transform = .identity
+            }, completion: { _ in
+                
+            })
+        }
+    }
+    
+    func setupGestures(){
+        
+        let overlayPan = UIPanGestureRecognizer(target: self, action: #selector(self.onOverlayPan(_:)))
+        overlayPan.delegate =  self
+        self.overlayView.addGestureRecognizer(overlayPan)
+        
+        let colorPan = UIPanGestureRecognizer(target: self, action: #selector(self.onViewPanned(_:)))
+        self.cameraView.addGestureRecognizer(colorPan)
+        colorPan.require(toFail: overlayPan)
+    }
     
     func setupSquare(){
         
-        square.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
-        square.layer.cornerRadius = square.bounds.width / 2
-        square.layer.borderWidth = 0
+        colorPickerCircle.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
+        colorPickerCircle.layer.cornerRadius = colorPickerCircle.bounds.width / 2
+        colorPickerCircle.layer.borderWidth = 0
 //        square.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.3612787724, alpha: 1)
         //        self.view.addSubview(square)
-        self.view.insertSubview(self.square, belowSubview: self.overlayView)
+        self.cameraView.addSubview(self.colorPickerCircle)
 
         
         colorPickerImageView.translatesAutoresizingMaskIntoConstraints = false
         colorPickerImageView.contentMode = .scaleAspectFit
-        self.square.addSubview(colorPickerImageView)
+        self.colorPickerCircle.addSubview(colorPickerImageView)
         
-        colorPickerImageView.centerXAnchor.constraint(equalTo: self.square.centerXAnchor).isActive = true
-        colorPickerImageView.centerYAnchor.constraint(equalTo: self.square.centerYAnchor).isActive = true
-        colorPickerImageView.widthAnchor.constraint(equalTo: self.square.widthAnchor, multiplier: 0.4).isActive = true
-        colorPickerImageView.heightAnchor.constraint(equalTo: self.square.heightAnchor, multiplier: 0.4).isActive = true
+        colorPickerImageView.centerXAnchor.constraint(equalTo: self.colorPickerCircle.centerXAnchor).isActive = true
+        colorPickerImageView.centerYAnchor.constraint(equalTo: self.colorPickerCircle.centerYAnchor).isActive = true
+        colorPickerImageView.widthAnchor.constraint(equalTo: self.colorPickerCircle.widthAnchor, multiplier: 0.4).isActive = true
+        colorPickerImageView.heightAnchor.constraint(equalTo: self.colorPickerCircle.heightAnchor, multiplier: 0.4).isActive = true
+        
+        self.view.bringSubviewToFront(self.overlayView)
+        self.cameraView.bringSubviewToFront(self.overlayView)
     }
     
     func setupSegmented(){
@@ -140,16 +244,23 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
     }
 
+    
+    
     // MARK: - Color logic
-    func updateTouch(touch: UITouch){
-        let pos = touch.location(in: self.view)
-        if !self.cameraView.bounds.contains(pos) { return }
-        guard let rgb = self.getColor(x: pos.x, y: pos.y) else { return }
+    func updateColorPosition(to point: CGPoint){
+        if !self.cameraView.bounds.contains(point) { return }
+        guard let rgb = self.getColor(x: point.x, y: point.y) else { return }
         let hsv = HSV(from: rgb)
         
-        self.square.center = pos
-        self.square.backgroundColor = hsv.getUIColor()
+        self.colorPickerCircle.center = point
+        self.colorPickerCircle.backgroundColor = hsv.getUIColor()
         self.updateColor(to: hsv)
+        
+    }
+    
+    func updateTouch(touch: UITouch){
+        let pos = touch.location(in: self.view)
+        self.updateColorPosition(to: pos)
 //        self.presentingData = palletes.getComplementaryPalette()
 //        self.presentingData = palletes.getAnalogous()
 //        print("Complementary", complementary.h, complementary.s, complementary.v)
@@ -163,7 +274,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         let comp = PaletteGenerator(baseHSV: hsv).getTriad()[0]
        
         self.colorPickerImageView.image = UIImage(named: "colorPicker")!.maskWithColor(color: comp.getUIColor())
-        self.square.layer.borderColor = comp.getUIColor().cgColor
+        self.colorPickerCircle.layer.borderColor = comp.getUIColor().cgColor
         self.updatePresentingPalette()
     }
     
@@ -173,13 +284,13 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         switch self.currentHarmony! {
         case .mono:
-            self.presentingData = palettes.getMonochromatic()
+            self.presentingPalette = palettes.getMonochromatic()
         case .analog:
-            self.presentingData = palettes.getAnalogous()
+            self.presentingPalette = palettes.getAnalogous()
         case .comp:
-            self.presentingData = palettes.getComplementaryPalette()
+            self.presentingPalette = palettes.getComplementaryPalette()
         case .triad:
-            self.presentingData = palettes.getTriad()
+            self.presentingPalette = palettes.getTriad()
             
         }
         
@@ -188,11 +299,22 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //            self.colorsStackView.removeArrangedSubview(self.colorsStackView.arrangedSubviews.first!)
         }
         
-        for color in self.presentingData{
-            let ballView = color.asCircularView()
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
-            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
+        for (i, color) in self.presentingPalette.enumerated(){
+            var ballView : UIView!
+//            if i - 1  == (self.presentingPalette.count % 2  == 0  ? self.presentingPalette.count : self.presentingPalette.count + 1) / 2{
+//                ballView = color.asCircularView(radius: 60)
+//            }else{
+//                ballView = color.asCircularView(radius: 55)
+//            }
+            if i  == 2{
+                ballView = color.asCircularView(radius: (0.072 * self.cameraView.frame.height) + 5)
+            }else{
+                ballView = color.asCircularView(radius: 0.072 * self.cameraView.frame.height)
+            }
             
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
+//            let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
+            let doubleTap = UILongPressGestureRecognizer(target: self, action: #selector(self.onDoubleTap(_:)))
 //            ballView.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
 //            ballView.layer.borderWidth = 1
 //            
@@ -200,7 +322,13 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             tap.numberOfTapsRequired = 1
             
             doubleTap.delegate = self
-            doubleTap.numberOfTapsRequired = 2
+//            doubleTap.numberOfTapsRequired = 1
+            doubleTap.allowableMovement = 60
+            doubleTap.minimumPressDuration = TimeInterval(0.5)
+            doubleTap.delaysTouchesBegan = false
+            doubleTap.delaysTouchesEnded = true
+            doubleTap.isEnabled = true
+            doubleTap.cancelsTouchesInView = true
             
             ballView.addGestureRecognizer(tap)
             ballView.addGestureRecognizer(doubleTap)
@@ -224,16 +352,65 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             let green: CGFloat = CGFloat(pixel[1]) / 255.0
             let blue: CGFloat  = CGFloat(pixel[0]) / 255.0
             let _: CGFloat = CGFloat(pixel[3]) / 255.0
-            print("RED", pixel[2])
-            print("GREEN", pixel[1])
-            print("BLUE", pixel[0])
-            print("RGB",red, green, blue)
+//            print("RED", pixel[2])
+//            print("GREEN", pixel[1])
+//            print("BLUE", pixel[0])
+//            print("RGB",red, green, blue)
             return RGB(red: red, green: green, blue: blue)
         }
         return nil
     }
    
+    // MARK: - Color changed delegate
+    func onFavoriteChanged() {
+        self.colorsCollectionView.collectionView.reloadData()
+    }
+    
+    
     // MARK: - Callbacks
+    
+    @objc func onViewPanned(_ sender: Any){
+        let gesture = sender as! UIPanGestureRecognizer
+        let pos = gesture.location(in: self.view)
+        if gesture.state == .began{
+            self.transitionAnimator.stopAnimation(true)
+            self.goCompact()
+        }else if gesture.state == .ended{
+            self.leaveCompact()
+        }
+        //        if self.uiState != .normal{
+        //            self.updateUIState(to: .normal, duration: 0.5)
+        //        }
+        self.updateColorPosition(to: pos)
+    }
+    
+    @objc func onOverlayPan(_ sender: Any) {
+        if !self.tutorialController.hasOpenedOverlay(){
+//            self.animator.stopAnimation(false)
+            self.overlayView.layer.removeAnimation(forKey: "transform")
+            self.tutorialController.onOverlayOpened()
+            self.overlayView.layoutIfNeeded()
+        }
+        if self.isCompact { return }
+        let recognizer = sender as! UIPanGestureRecognizer
+        switch recognizer.state {
+        case .began:
+            self.updateUIState(to: self.uiState.opposite)
+            animationProgress = transitionAnimator.fractionComplete
+            transitionAnimator.pauseAnimation()
+        case .changed:
+            let translation = recognizer.translation(in: self.view)
+            var fraction = -translation.y / DEFAULT_BOTTOM_CONSTANT
+            //            print("Fraction is", fraction,  translation)
+            if self.uiState == .normal { fraction *= -1 }
+            transitionAnimator.fractionComplete = fraction + animationProgress
+        case .ended:
+            transitionAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+        default:
+            ()
+        }
+    }
+    
    
     @objc func onTap(_ sender: Any?){
         let tap = sender as! UITapGestureRecognizer
@@ -245,17 +422,23 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     }
     
     @IBAction func onSave(_ sender: Any) {
-        self.savePallete()
+        self.savePalette()
+        
+        if !self.tutorialController.hasOpenedOverlay(){
+            self.setupOverlayTutorial()
+        }
     }
     
-    @IBAction func onNavigate(_ sender: Any) {
-        
-    }
+    
     @objc func onDoubleTap(_ sender: Any?){
-        
-        let tap = sender as! UITapGestureRecognizer
+        let tap = sender as! UILongPressGestureRecognizer
+        print("SENDER STATE IS", tap.state.rawValue)
         let view = tap.view as! BallView
         let color = view.hsv!
+        
+        if tap.state == .began{
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        }
         
         self.updateColor(to: color)
         
@@ -279,40 +462,185 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.updatePresentingPalette()
     }
     
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        print("keyboard will show!")
+        
+        // To obtain the size of the keyboard:
+        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.size
+        self.overlayBottomConstraint.constant = keyboardSize.height
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc func keyboardWillHide(_ notification: NSNotification){
+        self.overlayBottomConstraint.constant = -10
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func updateiCloud(){
+        print("Chegou update do icloud")
+    }
+    
+    
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
-            self.savePallete()
+            self.savePalette()
             print("shake")
         }
     }
     
-    func savePallete(){
+    func savePalette(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
-        self.source.addPalette(colors: self.presentingData)
-        UIView.animate(withDuration: 0.5, animations: {
-            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.5, y: 1.5)
-            self.colorsStackView.alpha = 0
-            self.savedView.alpha = 1
-        }) { (_) in
-            generator.impactOccurred()
-            self.colorsStackView.alpha = 1
-            self.colorsStackView.transform = .identity
+        self.source.addPalette(colors: self.presentingPalette)
+        self.saveLabel.isHidden = false
+        UIView.animate(withDuration: 0.2, animations: {
+            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 0.6, y: 0.6)
+            self.colorsStackView.transform = self.colorsStackView.transform.translatedBy(x: 0, y: -20)
+            self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 1.4, y: 1.4)
+            self.colorsStackView.alpha = 0.8
             
-            UIView.animate(withDuration: 1, animations: {
-                self.savedView.alpha = 0
+        }) { (_) in
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
+                self.colorsStackView.transform  = self.colorsStackView.transform.translatedBy(x: 0, y: 300)
+//                self.colorsStackView.transform  = self.colorsStackView.transform.scaledBy(x: 0.1, y: 1)
+                self.colorsStackView.alpha = 0.2
+            }, completion: { (_) in
+                self.colorsStackView.alpha = 0
+                generator.impactOccurred()
+                self.colorsStackView.alpha = 1
+                self.colorsStackView.transform = .identity
+                self.saveLabel.isHidden = true
             })
+            UIView.animate(withDuration: 1, animations: {
+//                self.savedView.alpha = 0
+            })  
         }
         
-        
+        self.colorsCollectionView.collectionView.reloadData()
         
     }
+
+    //MARK: - Options control
+    func displayOptions(){
+        
+    }
+    
+    func hideOptions(){
+        
+    }
+    
+    func updateOptionsState(to state: UIOptionsState){
+        switch state {
+        case .open:
+            self.displayOptions()
+        case .closed:
+            self.hideOptions()
+        }
+    }
+    
+    // MARK: - Overlay control
+
+    func goCompact(){
+        UIView.animate(withDuration: 0.5, animations: {
+            
+            self.dragView.alpha = 0
+            self.addPaletteButton.transform = self.addPaletteButton.transform.scaledBy(x: 1, y: 0)
+            self.paletteSegmentedControl.transform = self.paletteSegmentedControl.transform.scaledBy(x: 1, y: 0)
+            
+            self.bottomConstraint.constant = self.COMPACT_BOTTOM_CONSTANT
+            self.palettesSegmentedBottomConstraint.constant = -20
+            self.dragViewTopConstraint.constant = 0
+            self.palettesSegmentedTopConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }) { (_) in
+            self.isCompact = true
+        }
+    }
+    
+    func leaveCompact(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.bottomConstraint.constant = self.DEFAULT_BOTTOM_CONSTANT
+            self.palettesSegmentedBottomConstraint.constant = 0
+            self.dragViewTopConstraint.constant = 10
+            self.palettesSegmentedTopConstraint.constant = 10
+            self.dragView.alpha = 1
+            self.addPaletteButton.transform = .identity
+            self.paletteSegmentedControl.transform = .identity
+            
+            self.view.layoutIfNeeded()
+        }) { (_) in
+            self.isCompact = false
+        }
+    }
+    
+    func updateUIState(to state: UIOverlayState, duration: TimeInterval = 1){
+        
+        transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
+            switch state {
+            case .expanded:
+                self.bottomConstraint.constant = self.EXPANDED_BOTTOM_CONSTRAINT
+            case .normal:
+                self.bottomConstraint.constant = self.DEFAULT_BOTTOM_CONSTANT
+            }
+            self.view.layoutIfNeeded()
+        })
+        
+        transitionAnimator.addCompletion { position in
+            print("Position is", position.rawValue)
+            switch position {
+            case .start:
+                self.uiState = state.opposite
+            case .end:
+                self.uiState = state
+            case .current:
+                ()
+            }
+            switch self.uiState {
+            case .expanded?:
+                self.bottomConstraint.constant = self.EXPANDED_BOTTOM_CONSTRAINT
+            case .normal?:
+                self.bottomConstraint.constant = self.DEFAULT_BOTTOM_CONSTANT
+            case .none:
+                break
+            }
+        }
+        transitionAnimator.startAnimation()
+        self.view.endEditing(true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailSegue"{
+            let dest = segue.destination as! ColorDetailViewController
+            dest.color = (sender as! HSV)
+            dest.delegate = self
+            if self.uiState == .expanded{
+                dest.displaysBlur = true
+            }
+        } else if segue.identifier == "colorsCollectionView"{
+            self.colorsCollectionView = segue.destination as! ColorsViewController
+        }
+    }
+}
+
+
+extension ExploreViewController{
     
     // MARK: - MTKViewDelegate
     
     // Called whenever view changes orientation or layout is changed
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-//        renderer.drawRectResized(size: size)
+        //        renderer.drawRectResized(size: size)
     }
     
     // Called whenever the view needs to render
@@ -323,7 +651,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.currentDrawable = view.currentDrawable
         
     }
-
+    
     
     // MARK: - ARSessionDelegate
     
@@ -341,58 +669,5 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
-    
-
-    
-    // MARK: - Touch overrides
-
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches, with: event)
-//        for t in touches{
-//            self.updateColor(touch: t)
-//        }
-//    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
-        super.touchesMoved(touches, with: event)
-        for t in touches{
-            self.updateTouch(touch: t)
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detailSegue"{
-            let dest = segue.destination as! ColorDetailViewController
-            dest.color = (sender as! HSV)
-        }
-    }
-}
-
-
-extension UIImage {
-    
-    func maskWithColor(color: UIColor) -> UIImage? {
-        let maskImage = cgImage!
-        
-        let width = size.width
-        let height = size.height
-        let bounds = CGRect(x: 0, y: 0, width: width, height: height)
-        
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
-        let context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)!
-        
-        context.clip(to: bounds, mask: maskImage)
-        context.setFillColor(color.cgColor)
-        context.fill(bounds)
-        
-        if let cgImage = context.makeImage() {
-            let coloredImage = UIImage(cgImage: cgImage)
-            return coloredImage
-        } else {
-            return nil
-        }
-    }
-    
     
 }
