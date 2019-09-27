@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import StoreKit
 
 enum DisplayOptions{
     case palettes
     case colors
 }
 
-class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate {
+class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -28,11 +29,22 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         super.viewDidLoad()
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+        
+        SKPaymentQueue.default().add(self)
+        self.setupProductRequest()
 
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillDisappear(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.collectionView.allowsMultipleSelection = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        SKPaymentQueue.default().remove(self)
+        print("[COLORS TABLE] Just dissapeared")
     }
     
     @objc func onKeyboardWillAppear(_ sender: Any){
@@ -52,6 +64,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
 //        self.collectionView.transform = .identity
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.collectionView.reloadData()
     }
     
@@ -68,20 +81,22 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         return self.source.getColorCount()
     }
     
-    func addressOf<T: AnyObject>(_ o: T) -> String {
-        let addr = unsafeBitCast(o, to: Int.self)
-        return String(format: "%p", addr)
-    }
+//    func addressOf<T: AnyObject>(_ o: T) -> String {
+//        let addr = unsafeBitCast(o, to: Int.self)
+//        return String(format: "%p", addr)
+//    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentDisplay == .palettes{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
             
             let palette = self.source.palettes[indexPath.item]
-            print(addressOf(palette))
+            
             cell.palette = palette
             cell.delegate = self
             cell.setupCell()
+
+            
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath) as! ColorCollectionViewCell
@@ -156,4 +171,30 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
     }
 
+    
+    // MARK: - StoreKit helpers
+    
+    func setupProductRequest(){
+        print("Called setup fo product requests")
+        let request = SKProductsRequest(productIdentifiers: Set(["fullversion"]))
+        request.delegate = self
+        request.start()
+        print("requested products from the store")
+    }
+    
+    // MARK: - StoreKit delegates
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        print("I have transactions!", transactions)
+    }
+    
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        let prod = response.products
+        print("Recebi produtos" , response.products.count)
+        for p in prod{
+            print(p.localizedDescription, p.localizedTitle, p.price)
+          
+            
+        }
+    }
 }

@@ -238,10 +238,9 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         self.paletteSegmentedControl.backgroundColor = clearColor
         self.paletteSegmentedControl.tintColor = clearColor
+        
         self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: defaultColor], for: .normal)
-        
-        
-        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
+//        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
     }
 
     
@@ -589,6 +588,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
                 self.bottomConstraint.constant = self.DEFAULT_BOTTOM_CONSTANT
             }
             self.view.layoutIfNeeded()
+            
+//            #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         })
         
         transitionAnimator.addCompletion { position in

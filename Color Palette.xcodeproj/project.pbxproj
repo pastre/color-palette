@@ -30,6 +30,8 @@
 		D7AAAEB022CC50140017A280 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AAAEAF22CC50140017A280 /* Tutorial.swift */; };
 		D7ACB2C022ABEA460070F086 /* Sketch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ACB2BF22ABEA460070F086 /* Sketch.swift */; };
 		D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */; };
+		D7D3B26A23371DE9005A5A60 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7D3B26923371DE9005A5A60 /* StoreKit.framework */; };
+		D7D3B26D23371E3F005A5A60 /* StoreObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D3B26C23371E3F005A5A60 /* StoreObserver.swift */; };
 		D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E55A8822A9DE3F008A2CEA /* Palette.swift */; };
 		D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5EFFA22A7367D00E0C956 /* Overlay.swift */; };
 		D7EF368422AFF1B7006AF846 /* Serialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EF368322AFF1B7006AF846 /* Serialize.swift */; };
@@ -86,6 +88,8 @@
 		D7AAAEAF22CC50140017A280 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		D7ACB2BF22ABEA460070F086 /* Sketch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketch.swift; sourceTree = "<group>"; };
 		D7ACB2C122AC9AE70070F086 /* PaletteActivityItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteActivityItemProvider.swift; sourceTree = "<group>"; };
+		D7D3B26923371DE9005A5A60 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		D7D3B26C23371E3F005A5A60 /* StoreObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreObserver.swift; sourceTree = "<group>"; };
 		D7E55A8822A9DE3F008A2CEA /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		D7E5EFFA22A7367D00E0C956 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 		D7EF368322AFF1B7006AF846 /* Serialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serialize.swift; sourceTree = "<group>"; };
@@ -97,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7D3B26A23371DE9005A5A60 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +139,7 @@
 				D799258522A55B94008596CF /* Color PaletteTests */,
 				D799259022A55B94008596CF /* Color PaletteUITests */,
 				D799256922A55B93008596CF /* Products */,
+				D7D3B26823371DE9005A5A60 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,6 +156,7 @@
 		D799256A22A55B93008596CF /* Color Palette */ = {
 			isa = PBXGroup;
 			children = (
+				D7D3B26B23371E18005A5A60 /* store */,
 				D7D5F04E22C154C1001DF294 /* colorcore */,
 				D7ACB2BE22ABEA2D0070F086 /* integration */,
 				D7E5EFF922A7365E00E0C956 /* designables */,
@@ -162,8 +169,8 @@
 				D761A71F22AAB40300EF6896 /* BaseColorCollectionViewCell.swift */,
 				D7EF368522AFF53D006AF846 /* DebugViewController.swift */,
 				D799257422A55B94008596CF /* Main.storyboard */,
-				D799257722A55B94008596CF /* Assets.xcassets */,
 				D799256B22A55B93008596CF /* AppDelegate.swift */,
+				D799257722A55B94008596CF /* Assets.xcassets */,
 				D799256D22A55B93008596CF /* Shaders.metal */,
 				D799256F22A55B93008596CF /* ShaderTypes.h */,
 				D799257022A55B93008596CF /* Renderer.swift */,
@@ -202,6 +209,22 @@
 				D72E9B4D22ACC5730080A045 /* ColorActivityItemProvider.swift */,
 			);
 			path = integration;
+			sourceTree = "<group>";
+		};
+		D7D3B26823371DE9005A5A60 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D7D3B26923371DE9005A5A60 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D7D3B26B23371E18005A5A60 /* store */ = {
+			isa = PBXGroup;
+			children = (
+				D7D3B26C23371E3F005A5A60 /* StoreObserver.swift */,
+			);
+			path = store;
 			sourceTree = "<group>";
 		};
 		D7D5F04E22C154C1001DF294 /* colorcore */ = {
@@ -292,6 +315,9 @@
 					D799256722A55B93008596CF = {
 						CreatedOnToolsVersion = 10.2.1;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
@@ -365,6 +391,7 @@
 				D799257122A55B93008596CF /* Renderer.swift in Sources */,
 				D799257322A55B94008596CF /* ExploreViewController.swift in Sources */,
 				D70116C322A971FB00E5B6F7 /* ColorDetailViewController.swift in Sources */,
+				D7D3B26D23371E3F005A5A60 /* StoreObserver.swift in Sources */,
 				D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */,
 				D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */,
 				D70116BE22A8A25300E5B6F7 /* PaletteGenerator.swift in Sources */,
@@ -486,7 +513,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -541,7 +568,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -559,7 +586,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = "Color Palette/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -580,7 +607,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = "Color Palette/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
