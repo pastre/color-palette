@@ -233,14 +233,18 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     func setupSegmented(){
         let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        let clearImage = UIImage.render(size: CGSize(width: 2, height: 29), {UIColor.clear.setFill()})
         var selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
         var defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         self.paletteSegmentedControl.backgroundColor = clearColor
         self.paletteSegmentedControl.tintColor = clearColor
         
+        self.paletteSegmentedControl.setDividerImage(clearImage, forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        self.paletteSegmentedControl.setBackgroundImage(clearImage, for: .normal, barMetrics: .default)
+        
         self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: defaultColor], for: .normal)
-//        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
+        self.paletteSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
     }
 
     
@@ -593,7 +597,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         })
         
         transitionAnimator.addCompletion { position in
-            print("Position is", position.rawValue)
+            
             switch position {
             case .start:
                 self.uiState = state.opposite
@@ -671,4 +675,24 @@ extension ExploreViewController{
         
     }
     
+}
+
+
+extension UIImage {
+    static func render(size: CGSize, _ draw: () -> Void) -> UIImage? {
+        UIGraphicsBeginImageContext(size)
+        defer { UIGraphicsEndImageContext() }
+        
+        draw()
+        
+        return UIGraphicsGetImageFromCurrentImageContext()?
+            .withRenderingMode(.alwaysTemplate)
+    }
+    
+    static func make(size: CGSize, color: UIColor = .white) -> UIImage? {
+        return render(size: size) {
+            color.setFill()
+            UIRectFill(CGRect(origin: .zero, size: size))
+        }
+    }
 }
