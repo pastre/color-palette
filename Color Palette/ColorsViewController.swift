@@ -20,25 +20,34 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var modeSegmentedView: UISegmentedControl!
     
+    
     let source = HarmonyProvider.instance
+    
     var currentDisplay: DisplayOptions!
+    var isDeleting: Bool!
     
     // MARK: - Setup
     override func viewDidLoad() {
         self.currentDisplay = .palettes
+        self.isDeleting = false
+        
         super.viewDidLoad()
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         
         SKPaymentQueue.default().add(self)
         self.setupProductRequest()
-
-
-        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillDisappear(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         self.collectionView.allowsMultipleSelection = true
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.collectionView.reloadData()
+    
+        
+    }
+
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -46,28 +55,6 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         SKPaymentQueue.default().remove(self)
         print("[COLORS TABLE] Just dissapeared")
     }
-    
-    @objc func onKeyboardWillAppear(_ sender: Any){
-//        let notification = sender as! Notification
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            print("notification: Keyboard will show")
-//            if self.collectionView.transform == .identity{
-//                self.modeSegmentedView.alpha = 0
-//                self.collectionView.transform = self.collectionView.transform.translatedBy(x: 0, y: -keyboardSize.height)
-////                self.collectionView.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-    }
-    
-    @objc func onKeyboardWillDisappear(_ sender: Any){
-//        self.modeSegmentedView.alpha = 1
-//        self.collectionView.transform = .identity
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.collectionView.reloadData()
-    }
-    
     // MARK: - Collection delegates
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -128,6 +115,15 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     func updatePresentingCollection(){
         self.collectionView.reloadData()
+    }
+    
+    
+    func onRefresh(){
+        print("Refresh!")
+    }
+    
+    func onDelete(){
+        print("Delete!")
     }
     
     // MARK: - Navigation
@@ -197,4 +193,16 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             
         }
     }
+    
+    @IBAction func onTap(_ sender: UIButton){
+        switch sender.tag{
+        case 1:
+            self.onRefresh()
+        case 2:
+            self.onDelete()
+        default: break
+        }
+    }
+    
+    
 }

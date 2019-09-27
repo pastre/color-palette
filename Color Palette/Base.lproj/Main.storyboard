@@ -203,12 +203,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKa-Ap-TGq">
                                 <rect key="frame" x="0.0" y="59" width="414" height="48"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="delete" translatesAutoresizingMaskIntoConstraints="NO" id="CfD-8M-svH">
-                                        <rect key="frame" x="310" y="19.5" width="23.5" height="23.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="CfD-8M-svH" secondAttribute="height" multiplier="1:1" id="U3I-k8-HpT"/>
-                                        </constraints>
-                                    </imageView>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="g6c-gU-fSn">
                                         <rect key="frame" x="124" y="14.5" width="166" height="34.5"/>
                                         <segments>
@@ -220,25 +214,39 @@
                                             <action selector="onDisplayChange:" destination="nJB-zk-CnN" eventType="valueChanged" id="f74-sj-9Rm"/>
                                         </connections>
                                     </segmentedControl>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="refresh" translatesAutoresizingMaskIntoConstraints="NO" id="zGj-G7-miK">
-                                        <rect key="frame" x="79" y="18.5" width="25" height="25.5"/>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEG-PV-PHa">
+                                        <rect key="frame" x="310" y="18" width="26.5" height="26.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="zGj-G7-miK" secondAttribute="height" id="Tbf-LJ-ggQ"/>
+                                            <constraint firstAttribute="width" secondItem="CEG-PV-PHa" secondAttribute="height" id="vcy-Z5-gcm"/>
                                         </constraints>
-                                    </imageView>
+                                        <state key="normal" title="Delete" image="delete"/>
+                                        <connections>
+                                            <action selector="onTap:" destination="nJB-zk-CnN" eventType="touchUpInside" id="FJ2-gi-zaS"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QaU-RX-Bkr">
+                                        <rect key="frame" x="77.5" y="18" width="26.5" height="26.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="QaU-RX-Bkr" secondAttribute="height" id="Wws-TR-snK"/>
+                                        </constraints>
+                                        <state key="normal" title="Reload" image="refresh"/>
+                                        <connections>
+                                            <action selector="onTap:" destination="nJB-zk-CnN" eventType="touchUpInside" id="hVv-RU-dtC"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="zGj-G7-miK" firstAttribute="centerY" secondItem="g6c-gU-fSn" secondAttribute="centerY" id="Jxr-En-2KE"/>
+                                    <constraint firstItem="g6c-gU-fSn" firstAttribute="leading" secondItem="QaU-RX-Bkr" secondAttribute="trailing" constant="20" id="MWo-tm-x6E"/>
                                     <constraint firstItem="g6c-gU-fSn" firstAttribute="width" secondItem="rKa-Ap-TGq" secondAttribute="width" multiplier="0.4" id="O4I-aX-HWx"/>
-                                    <constraint firstItem="CfD-8M-svH" firstAttribute="centerY" secondItem="g6c-gU-fSn" secondAttribute="centerY" id="Rg8-pX-FNO"/>
-                                    <constraint firstItem="CfD-8M-svH" firstAttribute="leading" secondItem="g6c-gU-fSn" secondAttribute="trailing" constant="20" id="SmS-Rc-866"/>
-                                    <constraint firstItem="zGj-G7-miK" firstAttribute="height" secondItem="g6c-gU-fSn" secondAttribute="height" multiplier="0.75" id="TcI-zM-aG7"/>
+                                    <constraint firstItem="QaU-RX-Bkr" firstAttribute="centerY" secondItem="g6c-gU-fSn" secondAttribute="centerY" id="OQq-4b-dw3"/>
+                                    <constraint firstItem="CEG-PV-PHa" firstAttribute="height" secondItem="g6c-gU-fSn" secondAttribute="height" multiplier="0.8" id="VUT-YR-jkn"/>
+                                    <constraint firstItem="CEG-PV-PHa" firstAttribute="centerY" secondItem="g6c-gU-fSn" secondAttribute="centerY" id="XFI-j7-4Kf"/>
+                                    <constraint firstItem="CEG-PV-PHa" firstAttribute="leading" secondItem="g6c-gU-fSn" secondAttribute="trailing" constant="20" id="Y9n-CS-5cy"/>
+                                    <constraint firstItem="QaU-RX-Bkr" firstAttribute="height" secondItem="g6c-gU-fSn" secondAttribute="height" multiplier="0.8" id="cBi-zA-cTi"/>
                                     <constraint firstItem="g6c-gU-fSn" firstAttribute="height" secondItem="rKa-Ap-TGq" secondAttribute="height" multiplier="0.7" id="jcv-dj-TOe"/>
-                                    <constraint firstItem="CfD-8M-svH" firstAttribute="height" secondItem="g6c-gU-fSn" secondAttribute="height" multiplier="0.7" id="kfl-ow-ia4"/>
                                     <constraint firstAttribute="bottom" secondItem="g6c-gU-fSn" secondAttribute="bottom" id="nyH-LS-bDM"/>
                                     <constraint firstItem="g6c-gU-fSn" firstAttribute="centerX" secondItem="rKa-Ap-TGq" secondAttribute="centerX" id="wzP-GC-DWu"/>
-                                    <constraint firstItem="g6c-gU-fSn" firstAttribute="leading" secondItem="zGj-G7-miK" secondAttribute="trailing" constant="20" id="xQc-kV-bfw"/>
                                 </constraints>
                             </view>
                         </subviews>
