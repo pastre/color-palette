@@ -20,6 +20,16 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var modeSegmentedView: UISegmentedControl!
     
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    let doneButton: UIButton = {
+        var button = UIButton()
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "done"), for: .normal)
+    
+        return button
+    }()
     
     let source = HarmonyProvider.instance
     
@@ -44,8 +54,6 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.collectionView.reloadData()
-    
-        
     }
 
     
@@ -54,6 +62,19 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         SKPaymentQueue.default().remove(self)
         print("[COLORS TABLE] Just dissapeared")
+    }
+    
+    func setupDoneButton(){
+        self.doneButton.addTarget(self, action: #selector(self.onDone), for: .touchDown)
+        self.view.addSubview(self.doneButton)
+        self.doneButton.widthAnchor.constraint(equalTo: self.deleteButton.widthAnchor).isActive = true
+        self.doneButton.heightAnchor
+            .constraint(equalTo: self.deleteButton.heightAnchor).isActive = true
+        self.doneButton.centerYAnchor.constraint(equalTo: self.deleteButton.centerYAnchor).isActive = true
+        self.doneButton.leadingAnchor
+            .constraint(equalTo: self.deleteButton.trailingAnchor, constant: 10).isActive = true
+        
+        
     }
     // MARK: - Collection delegates
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -64,7 +85,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         if self.currentDisplay == .palettes{
             return self.source.getPaletteCount()
         }
-        let color = #colorLiteral(red: 1, green: 0.6555405855, blue: 0.6453160644, alpha: 1)
+        
         return self.source.getColorCount()
     }
     
@@ -124,6 +145,47 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     func onDelete(){
         print("Delete!")
+        self.isDeleting = !self.isDeleting
+        
+        if self.isDeleting {
+            self.showDeleteOptions()
+        } else {
+            self.hideDeleteOptions()
+        }
+        self.collectionView.reloadData()
+        
+    }
+    
+    func showDeleteOptions() {
+        let duration: TimeInterval = 0.2
+        let scale:  CGFloat = 0.05
+        UIView.animate(withDuration: duration, animations: {
+            self.deleteButton.transform = self.deleteButton.transform.scaledBy(x: scale, y: scale)
+        }) { (_) in
+            
+            self.deleteButton.setImage(UIImage(named: "close"), for: .normal)
+            self.setupDoneButton()
+            self.doneButton.transform = self.doneButton.transform.scaledBy(x: scale, y: scale)
+            
+            UIView.animate(withDuration: duration) {
+                self.deleteButton.transform = .identity
+                self.doneButton.transform = .identity
+            }
+        }
+    }
+    
+    func hideDeleteOptions() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.deleteButton.alpha = 0
+            self.doneButton.transform = self.doneButton
+                .transform.translatedBy(x: -10 - self.deleteButton.frame.width, y: 0)
+            self.doneButton.alpha = 0
+        }) { (_) in
+            self.doneButton.removeFromSuperview()
+            self.deleteButton.setImage(UIImage(named: "delete"), for: .normal)
+            self.deleteButton.alpha = 1
+            self.doneButton.alpha = 1
+        }
     }
     
     // MARK: - Navigation
@@ -192,6 +254,10 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
           
             
         }
+    }
+    
+    @objc func onDone(){
+        
     }
     
     @IBAction func onTap(_ sender: UIButton){

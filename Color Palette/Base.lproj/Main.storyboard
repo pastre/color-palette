@@ -224,7 +224,7 @@
                                             <action selector="onTap:" destination="nJB-zk-CnN" eventType="touchUpInside" id="FJ2-gi-zaS"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QaU-RX-Bkr">
+                                    <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QaU-RX-Bkr">
                                         <rect key="frame" x="77.5" y="18" width="26.5" height="26.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="QaU-RX-Bkr" secondAttribute="height" id="Wws-TR-snK"/>
@@ -266,6 +266,7 @@
                     <tabBarItem key="tabBarItem" title="Palettes" image="palette" id="8SD-Di-199"/>
                     <connections>
                         <outlet property="collectionView" destination="ZuZ-rG-dkn" id="8gu-3b-glG"/>
+                        <outlet property="deleteButton" destination="CEG-PV-PHa" id="S6X-AB-cXO"/>
                         <outlet property="modeSegmentedView" destination="g6c-gU-fSn" id="ysw-S3-vCQ"/>
                     </connections>
                 </viewController>
