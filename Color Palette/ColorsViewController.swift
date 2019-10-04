@@ -14,12 +14,11 @@ enum DisplayOptions{
     case colors
 }
 
-class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate {
+class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, PaletteCellDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var modeSegmentedView: UISegmentedControl!
-    
     @IBOutlet weak var deleteButton: UIButton!
     
     let doneButton: UIButton = {
@@ -100,18 +99,22 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             
             let palette = self.source.palettes[indexPath.item]
             
+            cell.isDeleting = self.isDeleting
             cell.palette = palette
             cell.delegate = self
+            
             cell.setupCell()
 
-            
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath) as! ColorCollectionViewCell
         let color = self.source.getColor(at: indexPath)
+
+        cell.isDeleting = self.isDeleting
         cell.color = color
-        cell.setupCell()
         cell.delegate = self
+        
+        cell.setupCell()
         return cell
     }
     
@@ -151,6 +154,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             self.showDeleteOptions()
         } else {
             self.hideDeleteOptions()
+            self.source.restoreDeletions()
         }
         self.collectionView.reloadData()
         
@@ -194,7 +198,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "colorDetails"{
-            let src = sender as! BaseColorCollectionViewCell
+            let src = sender as! ColorCollectionViewCell
             let dest = segue.destination as! ColorDetailViewController
             dest.color = src.color
             dest.displaysBlur = true
@@ -203,7 +207,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     // MARK: - Share delegate
     
-    func onSharePressed(sender: Any) {
+    func onShare(sender: Any) {
         var vc: UIActivityViewController!
         
         if self.currentDisplay == .palettes{
@@ -227,6 +231,21 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
                 popOver.sourceView = self.view
             }
         }
+    }
+    
+    func onDelete(sender: Any) {
+        print("DELETA AE", sender)
+        if let paletteCell = sender as? PaletteCollectionViewCell{
+            let delIndex = self.collectionView.indexPath(for: paletteCell)!
+            self.source.deletePalette(palette: paletteCell.palette)
+            self.collectionView.deleteItems(at: [delIndex])
+        } else if let colorCell = sender as? ColorCollectionViewCell{
+            
+            let delIndex = self.collectionView.indexPath(for: colorCell)!
+            self.source.deleteColor(colorCell.color)
+            self.collectionView.deleteItems(at: [delIndex])
+        }
+        
     }
 
     
@@ -257,7 +276,11 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     @objc func onDone(){
-        
+        self.source.persistDeletion()
+        self.isDeleting = false
+
+        self.hideDeleteOptions()
+        self.collectionView.reloadData()
     }
     
     @IBAction func onTap(_ sender: UIButton){
