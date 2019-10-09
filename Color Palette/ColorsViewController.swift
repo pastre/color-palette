@@ -21,11 +21,11 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet weak var modeSegmentedView: UISegmentedControl!
     @IBOutlet weak var deleteButton: UIButton!
     
-    let doneButton: UIButton = {
+    let cancelButton: UIButton = {
         var button = UIButton()
         
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "done"), for: .normal)
+        button.setImage(UIImage(named: "close"), for: .normal)
     
         return button
     }()
@@ -63,15 +63,17 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         print("[COLORS TABLE] Just dissapeared")
     }
     
-    func setupDoneButton(){
-        self.doneButton.addTarget(self, action: #selector(self.onDone), for: .touchDown)
-        self.view.addSubview(self.doneButton)
-        self.doneButton.widthAnchor.constraint(equalTo: self.deleteButton.widthAnchor).isActive = true
-        self.doneButton.heightAnchor
+    func setupCancelButton(){
+        self.cancelButton.addTarget(self, action: #selector(self.onCancel), for: .touchDown)
+        self.view.addSubview(self.cancelButton)
+        
+        self.cancelButton.widthAnchor.constraint(equalTo: self.deleteButton.widthAnchor).isActive = true
+        self.cancelButton.heightAnchor
             .constraint(equalTo: self.deleteButton.heightAnchor).isActive = true
-        self.doneButton.centerYAnchor.constraint(equalTo: self.deleteButton.centerYAnchor).isActive = true
-        self.doneButton.leadingAnchor
-            .constraint(equalTo: self.deleteButton.trailingAnchor, constant: 10).isActive = true
+        
+        self.cancelButton.centerYAnchor.constraint(equalTo: self.deleteButton.centerYAnchor).isActive = true
+        self.cancelButton.trailingAnchor
+            .constraint(equalTo: self.deleteButton.leadingAnchor, constant: -10).isActive = true
         
         
     }
@@ -153,8 +155,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         if self.isDeleting {
             self.showDeleteOptions()
         } else {
-            self.hideDeleteOptions()
-            self.source.restoreDeletions()
+            self.onDone()
         }
         self.collectionView.reloadData()
         
@@ -167,13 +168,14 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             self.deleteButton.transform = self.deleteButton.transform.scaledBy(x: scale, y: scale)
         }) { (_) in
             
-            self.deleteButton.setImage(UIImage(named: "close"), for: .normal)
-            self.setupDoneButton()
-            self.doneButton.transform = self.doneButton.transform.scaledBy(x: scale, y: scale)
+            self.deleteButton.setImage(UIImage(named: "done"), for: .normal)
+            self.setupCancelButton()
+            
+            self.cancelButton.transform = self.cancelButton.transform.scaledBy(x: scale, y: scale)
             
             UIView.animate(withDuration: duration) {
                 self.deleteButton.transform = .identity
-                self.doneButton.transform = .identity
+                self.cancelButton.transform = .identity
             }
         }
     }
@@ -181,14 +183,14 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func hideDeleteOptions() {
         UIView.animate(withDuration: 0.2, animations: {
             self.deleteButton.alpha = 0
-            self.doneButton.transform = self.doneButton
+            self.cancelButton.transform = self.cancelButton
                 .transform.translatedBy(x: -10 - self.deleteButton.frame.width, y: 0)
-            self.doneButton.alpha = 0
+            self.cancelButton.alpha = 0
         }) { (_) in
-            self.doneButton.removeFromSuperview()
+            self.cancelButton.removeFromSuperview()
             self.deleteButton.setImage(UIImage(named: "delete"), for: .normal)
             self.deleteButton.alpha = 1
-            self.doneButton.alpha = 1
+            self.cancelButton.alpha = 1
         }
     }
     
@@ -205,7 +207,7 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
     }
     
-    // MARK: - Share delegate
+    // MARK: - Cell delegate
     
     func onShare(sender: Any) {
         var vc: UIActivityViewController!
@@ -275,11 +277,22 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
     }
     
+    // MARK: - Callbacks
+    
     @objc func onDone(){
         self.source.persistDeletion()
         self.isDeleting = false
 
         self.hideDeleteOptions()
+        self.collectionView.reloadData()
+    }
+    
+    @objc func onCancel(){
+
+        self.hideDeleteOptions()
+        self.source.restoreDeletions()
+        
+        self.isDeleting = false
         self.collectionView.reloadData()
     }
     

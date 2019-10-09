@@ -217,11 +217,11 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEG-PV-PHa">
-                                        <rect key="frame" x="310" y="18" width="26.5" height="26.5"/>
+                                        <rect key="frame" x="359" y="18" width="27" height="26.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="CEG-PV-PHa" secondAttribute="height" id="vcy-Z5-gcm"/>
                                         </constraints>
-                                        <state key="normal" title="Delete" image="delete"/>
+                                        <state key="normal" image="delete"/>
                                         <connections>
                                             <action selector="onTap:" destination="nJB-zk-CnN" eventType="touchUpInside" id="FJ2-gi-zaS"/>
                                         </connections>
@@ -244,11 +244,11 @@
                                     <constraint firstItem="QaU-RX-Bkr" firstAttribute="centerY" secondItem="g6c-gU-fSn" secondAttribute="centerY" id="OQq-4b-dw3"/>
                                     <constraint firstItem="CEG-PV-PHa" firstAttribute="height" secondItem="g6c-gU-fSn" secondAttribute="height" multiplier="0.8" id="VUT-YR-jkn"/>
                                     <constraint firstItem="CEG-PV-PHa" firstAttribute="centerY" secondItem="g6c-gU-fSn" secondAttribute="centerY" id="XFI-j7-4Kf"/>
-                                    <constraint firstItem="CEG-PV-PHa" firstAttribute="leading" secondItem="g6c-gU-fSn" secondAttribute="trailing" constant="20" id="Y9n-CS-5cy"/>
                                     <constraint firstItem="QaU-RX-Bkr" firstAttribute="height" secondItem="g6c-gU-fSn" secondAttribute="height" multiplier="0.8" id="cBi-zA-cTi"/>
                                     <constraint firstItem="g6c-gU-fSn" firstAttribute="height" secondItem="rKa-Ap-TGq" secondAttribute="height" multiplier="0.7" id="jcv-dj-TOe"/>
                                     <constraint firstAttribute="bottom" secondItem="g6c-gU-fSn" secondAttribute="bottom" id="nyH-LS-bDM"/>
                                     <constraint firstItem="g6c-gU-fSn" firstAttribute="centerX" secondItem="rKa-Ap-TGq" secondAttribute="centerX" id="wzP-GC-DWu"/>
+                                    <constraint firstItem="CEG-PV-PHa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="g6c-gU-fSn" secondAttribute="trailing" constant="20" id="yeC-f3-nWY"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -256,6 +256,7 @@
                         <constraints>
                             <constraint firstItem="rKa-Ap-TGq" firstAttribute="height" secondItem="YTC-dn-ftI" secondAttribute="height" multiplier="0.1" id="8P8-Ew-qw0"/>
                             <constraint firstItem="rKa-Ap-TGq" firstAttribute="top" secondItem="YTC-dn-ftI" secondAttribute="top" constant="15" id="Fx4-lF-Y9N"/>
+                            <constraint firstItem="CEG-PV-PHa" firstAttribute="trailing" secondItem="ZuZ-rG-dkn" secondAttribute="trailing" constant="-28" id="JQj-Bb-VqZ"/>
                             <constraint firstItem="YTC-dn-ftI" firstAttribute="trailing" secondItem="ZuZ-rG-dkn" secondAttribute="trailing" id="Mbp-Tl-EaK"/>
                             <constraint firstItem="ZuZ-rG-dkn" firstAttribute="leading" secondItem="YTC-dn-ftI" secondAttribute="leading" id="QV5-Q7-fFo"/>
                             <constraint firstItem="YTC-dn-ftI" firstAttribute="bottom" secondItem="ZuZ-rG-dkn" secondAttribute="bottom" id="Rep-YM-xXh"/>
@@ -453,7 +454,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gmE-xt-hlW">
-                                                <rect key="frame" x="20" y="162.5" width="374" height="39"/>
+                                                <rect key="frame" x="20" y="162.5" width="374" height="78"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="tintColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal" image="addPalette"/>
@@ -462,7 +463,7 @@
                                                 </connections>
                                             </button>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xqk-le-6pW">
-                                                <rect key="frame" x="0.0" y="221.5" width="414" height="524"/>
+                                                <rect key="frame" x="0.0" y="260.5" width="414" height="524"/>
                                                 <connections>
                                                     <segue destination="nJB-zk-CnN" kind="embed" identifier="colorsCollectionView" id="GVN-BF-bP5"/>
                                                 </connections>
@@ -504,11 +505,11 @@
                                         <rect key="frame" x="91" y="0.0" width="232" height="134.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4U-1V-Gnp">
-                                                <rect key="frame" x="126" y="75.5" width="86" height="39"/>
+                                                <rect key="frame" x="126" y="36.5" width="86" height="78"/>
                                                 <state key="normal" image="addPalette"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ymg-iu-BP1">
-                                                <rect key="frame" x="20" y="75.5" width="86" height="39"/>
+                                                <rect key="frame" x="20" y="36.5" width="86" height="78"/>
                                                 <state key="normal" image="addPalette"/>
                                             </button>
                                         </subviews>
