@@ -13,6 +13,7 @@ class HarmonyProvider{
     
     static let instance = HarmonyProvider()
     
+    var deletedItems: [[Int: Any]]!
     var palettesFilePath: String {
         let manager = FileManager.default
         let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -39,6 +40,8 @@ class HarmonyProvider{
     }
     
     private init(){
+        
+        self.deletedItems = [[ Int:  Palette]]()
         self.palettes = NSKeyedUnarchiver.unarchiveObject(withFile: self.palettesFilePath) as? [Palette] ?? [Palette]()
         self.colors = NSKeyedUnarchiver.unarchiveObject(withFile: self.colorsFilePath) as? [HSV] ?? [HSV]()
     }
@@ -52,6 +55,31 @@ class HarmonyProvider{
             return p1.createdAt > p2.createdAt
         })
         self.persistPalette()
+    }
+    
+    func deletePalette(palette: Palette){
+        let paletteIndex = self.palettes.firstIndex(of: palette)!
+        self.deletedItems.append([paletteIndex : palette])
+        self.palettes.remove(at: paletteIndex)
+    }
+    
+    func persistDeletion(){
+        self.deletedItems.removeAll()
+        print("Persisted deletion!")
+    }
+    
+    func restoreDeletions(){
+        for item in self.deletedItems.reversed(){
+            for index in item.keys{
+                if let color = item[index] as? HSV{
+                    self.colors.insert(color, at: index)
+                } else if let palette = item[index] as? Palette {
+                    self.palettes.insert(palette, at: index)
+                }
+            }
+        }
+        
+        self.deletedItems.removeAll()
     }
     
     func updatePalette(palette: Palette, name: UITextField){
@@ -114,6 +142,13 @@ class HarmonyProvider{
     
     func getColor(at index: IndexPath) -> HSV {
         return self.colors[index.item]
+    }
+    
+    func deleteColor(_ color: HSV){
+        let index = self.colors.firstIndex(of: color)!
+        
+        self.deletedItems.append([index: color])
+        self.colors.remove(at: index)
     }
     
     func getPaletteCount() -> Int{

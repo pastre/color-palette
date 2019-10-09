@@ -8,8 +8,9 @@
 
 import UIKit
 
-protocol ShareDelegate{
-    func onSharePressed(sender: Any)
+protocol PaletteCellDelegate{
+    func onShare(sender: Any)
+    func onDelete(sender: Any)
 }
 
 class ColorCollectionViewCell: BaseColorCollectionViewCell {
@@ -19,10 +20,11 @@ class ColorCollectionViewCell: BaseColorCollectionViewCell {
     @IBOutlet weak var redLabel: UILabel!
     @IBOutlet weak var greenLabel: UILabel!
     @IBOutlet weak var blueLabel: UILabel!
-
-    var delegate: ShareDelegate?
     
-    func setupCell(){
+    var color: HSV!
+    
+    override func setupCell(){
+        super.setupCell()
         self.hexCodeLabel.adjustsFontSizeToFitWidth = true
         self.redLabel.adjustsFontSizeToFitWidth = true
         self.greenLabel.adjustsFontSizeToFitWidth = true
@@ -40,10 +42,10 @@ class ColorCollectionViewCell: BaseColorCollectionViewCell {
         self.blueLabel.text = "B: \(String(format: "%.2f", rgb.blue))"
     }
     
-    
-    @IBAction func onShare(_ sender: Any) {
-        self.delegate?.onSharePressed(sender: self.color)
+    override func onShare() {
+        self.delegate?.onShare(sender: self.color)
     }
+    
     
 }
  

@@ -8,21 +8,22 @@
 
 import UIKit
 
-class PaletteCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
+class PaletteCollectionViewCell: BaseColorCollectionViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var colorsStackView: UIStackView!
     @IBOutlet weak var nameLabel: UITextField!
     
     var palette: Palette!
-    var delegate: ShareDelegate?
     
-    func setupCell(){
+    override func setupCell(){
+        super.setupCell()
         self.nameLabel.delegate = self
         self.nameLabel.text = self.palette.name
         self.setupStack()
         
         self.nameLabel.addTarget(self, action: #selector(self.edited) , for:UIControl.Event.editingChanged)
-
+        
+        
     }
     
     @objc func edited() {
@@ -41,14 +42,15 @@ class PaletteCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
         }
     }
     
-    @IBAction func onShare(_ sender: Any) {
-        self.delegate?.onSharePressed(sender: self.palette!)
-    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         HarmonyProvider.instance.updatePalette(palette: self.palette, name: textField)
         textField.resignFirstResponder()
 //        textField.endEditing(true)
         return true
+    }
+    
+    override func onShare() {
+        self.delegate?.onShare(sender: self.palette)
     }
 }
