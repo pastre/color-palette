@@ -62,7 +62,7 @@ class PaletteActivityItemProvider: UIActivityItemProvider{
         Check out this palette I created using Harmonify:
         \(self.getPaletteDescription())
         Harmonify is avaiable in App Store
-        Download now https://itunes.apple.com/us/app/apple-store/id1467642991
+        Download now https://apps.apple.com/us/app/easy-color-picker/id1467642991?l=pt&ls=1
         """
     }
     
