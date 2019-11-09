@@ -53,8 +53,28 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.collectionView.reloadData()
+        
+//        self.setupSegmented()
     }
 
+    
+    func setupSegmented(){
+        let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        let clearImage = UIImage.render(size: CGSize(width: 2, height: 29), {UIColor.clear.setFill()})
+        var selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
+        var defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        self.modeSegmentedView.backgroundColor = clearColor
+        self.modeSegmentedView.tintColor = clearColor
+        
+        self.modeSegmentedView.setDividerImage(clearImage, forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        self.modeSegmentedView.setBackgroundImage(clearImage, for: .normal, barMetrics: .default)
+        
+        self.modeSegmentedView.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: defaultColor], for: .normal)
+        self.modeSegmentedView.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
+    }
+
+    
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -167,7 +187,6 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         UIView.animate(withDuration: duration, animations: {
             self.deleteButton.transform = self.deleteButton.transform.scaledBy(x: scale, y: scale)
         }) { (_) in
-            
             self.deleteButton.setImage(UIImage(named: "done"), for: .normal)
             self.setupCancelButton()
             
