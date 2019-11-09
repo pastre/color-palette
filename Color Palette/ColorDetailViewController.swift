@@ -65,11 +65,8 @@ class ColorDetailViewController: UIViewController {
         super.viewDidDisappear(animated)
         
     }
-    
 
-
-    
-    // MARK: -
+    // MARK: -  Helper methods
     
     func copyColorToClipboard(){
         UIPasteboard.general.string = self.color.getDescriptiveHex()
