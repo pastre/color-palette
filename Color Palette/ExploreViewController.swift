@@ -70,6 +70,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     var optionsState: UIOptionsState!
     var isCompact: Bool!
     
+    // MARK: - Zoom views
+    var zoomedImageView: UIImageView?
+    var zoomView: UIView?
+    
     // MARK: - Frame capturing related variables
     var session: ARSession!
     var renderer: Renderer!
@@ -369,6 +373,58 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         self.colorsCollectionView.collectionView.reloadData()
     }
     
+    // MARK: - Zoom methods
+    
+    func setupZoomView() {
+        let zoomView = UIView()
+        let zoomedImageView = UIImageView()
+        
+        zoomedImageView.translatesAutoresizingMaskIntoConstraints = false
+        zoomedImageView.contentMode = .scaleToFill
+        zoomedImageView.clipsToBounds = true
+        zoomedImageView.layer.cornerRadius = zoomedImageView.frame.height
+        zoomedImageView.backgroundColor = .red
+        
+        zoomView.backgroundColor = .blue
+        zoomView.translatesAutoresizingMaskIntoConstraints = false
+        zoomView.clipsToBounds = true
+        zoomView.layer.cornerRadius = 32
+        
+        zoomView.addSubview(zoomedImageView)
+        
+        zoomedImageView.centerYAnchor.constraint(equalTo: zoomView.centerYAnchor).isActive = true
+        zoomedImageView.centerXAnchor.constraint(equalTo: zoomView.centerXAnchor).isActive = true
+        zoomedImageView.widthAnchor.constraint(equalTo: zoomView.widthAnchor, multiplier: 0.8).isActive = true
+        zoomedImageView.heightAnchor.constraint(equalTo: zoomedImageView.widthAnchor).isActive = true
+        
+        self.cameraView.addSubview(zoomView)
+        
+        zoomView.widthAnchor.constraint(equalTo: self.cameraView.widthAnchor, multiplier: 0.3).isActive = true
+        zoomView.heightAnchor.constraint(equalTo: zoomView.widthAnchor).isActive = true
+        zoomView.centerXAnchor.constraint(equalTo: self.cameraView.centerXAnchor).isActive = true
+        zoomView.centerYAnchor.constraint(equalTo: self.cameraView.centerYAnchor).isActive = true
+        
+        self.zoomedImageView = zoomedImageView
+        self.zoomView = zoomView
+    }
+    
+    func updateZoomView(to centerPoint: CGPoint) {
+        guard let zoomView = self.zoomView else { return }
+//        guard let zoomedImageView = self.zoomedImageView else { return }
+        zoomView.layoutIfNeeded()
+        var point = centerPoint
+        point.y -= zoomView.frame.width + 10
+        zoomView.center = point
+    }
+    
+    func destroyZoomView() {
+        guard let zoomView = self.zoomView else { return }
+        
+        zoomView.removeFromSuperview()
+        
+        self.zoomView = nil
+        self.zoomedImageView = nil
+    }
     
     // MARK: - Callbacks
     
@@ -378,13 +434,17 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         if gesture.state == .began{
             self.transitionAnimator.stopAnimation(true)
             self.goCompact()
+            self.setupZoomView()
+            
         }else if gesture.state == .ended{
             self.leaveCompact()
+            self.destroyZoomView()
         }
         //        if self.uiState != .normal{
         //            self.updateUIState(to: .normal, duration: 0.5)
         //        }
         self.updateColorPosition(to: pos)
+        self.updateZoomView(to: pos)
     }
     
     @objc func onOverlayPan(_ sender: Any) {
