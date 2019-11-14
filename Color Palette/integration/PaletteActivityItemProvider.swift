@@ -40,8 +40,7 @@ class PaletteActivityItemProvider: UIActivityItemProvider{
             #\(hex):
             Red: \(rgb.red),
             Green: \(rgb.green),
-            Blue: \(rgb.blue),
-            
+            Blue: \(rgb.blue)
             """
             ret += toAppend
         }
@@ -59,10 +58,10 @@ class PaletteActivityItemProvider: UIActivityItemProvider{
         }
         
         return """
-        Check out this palette I created using Harmonify:
+        Check out this palette I created using Easy Color Picker
+        Download now https://apps.apple.com/us/app/easy-color-picker/id1467642991?l=pt&ls=1
         \(self.getPaletteDescription())
-        Harmonify is avaiable in App Store
-        Download now https://itunes.apple.com/us/app/apple-store/id1467642991
+        
         """
     }
     

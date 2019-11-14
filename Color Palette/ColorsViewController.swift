@@ -7,54 +7,96 @@
 //
 
 import UIKit
+import StoreKit
 
 enum DisplayOptions{
     case palettes
     case colors
 }
 
-class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ShareDelegate {
+class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, PaletteCellDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var modeSegmentedView: UISegmentedControl!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    let cancelButton: UIButton = {
+        var button = UIButton()
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "close"), for: .normal)
+    
+        return button
+    }()
     
     let source = HarmonyProvider.instance
+    
     var currentDisplay: DisplayOptions!
+    var isDeleting: Bool!
     
     // MARK: - Setup
     override func viewDidLoad() {
         self.currentDisplay = .palettes
+        self.isDeleting = false
+        
         super.viewDidLoad()
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        SKPaymentQueue.default().add(self)
+        self.setupProductRequest()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardWillDisappear(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.collectionView.allowsMultipleSelection = true
     }
     
-    @objc func onKeyboardWillAppear(_ sender: Any){
-//        let notification = sender as! Notification
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            print("notification: Keyboard will show")
-//            if self.collectionView.transform == .identity{
-//                self.modeSegmentedView.alpha = 0
-//                self.collectionView.transform = self.collectionView.transform.translatedBy(x: 0, y: -keyboardSize.height)
-////                self.collectionView.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-    }
-    
-    @objc func onKeyboardWillDisappear(_ sender: Any){
-//        self.modeSegmentedView.alpha = 1
-//        self.collectionView.transform = .identity
-    }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.collectionView.reloadData()
+        
+//        self.setupSegmented()
+    }
+
+    
+    func setupSegmented(){
+        let clearColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        let clearImage = UIImage.render(size: CGSize(width: 2, height: 29), {UIColor.clear.setFill()})
+        var selectedColor = #colorLiteral(red: 0.08908683807, green: 0.40617612, blue: 0.8853955865, alpha: 1)
+        var defaultColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        self.modeSegmentedView.backgroundColor = clearColor
+        self.modeSegmentedView.tintColor = clearColor
+        
+        self.modeSegmentedView.setDividerImage(clearImage, forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        self.modeSegmentedView.setBackgroundImage(clearImage, for: .normal, barMetrics: .default)
+        
+        self.modeSegmentedView.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: defaultColor], for: .normal)
+        self.modeSegmentedView.setTitleTextAttributes([NSAttributedString.Key.backgroundColor : clearColor, NSAttributedString.Key.foregroundColor: selectedColor], for: .selected)
+    }
+
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        SKPaymentQueue.default().remove(self)
+        print("[COLORS TABLE] Just dissapeared")
     }
     
+    func setupCancelButton(){
+        self.cancelButton.addTarget(self, action: #selector(self.onCancel), for: .touchDown)
+        self.view.addSubview(self.cancelButton)
+        
+        self.cancelButton.widthAnchor.constraint(equalTo: self.deleteButton.widthAnchor).isActive = true
+        self.cancelButton.heightAnchor
+            .constraint(equalTo: self.deleteButton.heightAnchor).isActive = true
+        
+        self.cancelButton.centerYAnchor.constraint(equalTo: self.deleteButton.centerYAnchor).isActive = true
+        self.cancelButton.trailingAnchor
+            .constraint(equalTo: self.deleteButton.leadingAnchor, constant: -10).isActive = true
+        
+        
+    }
     // MARK: - Collection delegates
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -64,31 +106,37 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         if self.currentDisplay == .palettes{
             return self.source.getPaletteCount()
         }
-        let color = #colorLiteral(red: 1, green: 0.6555405855, blue: 0.6453160644, alpha: 1)
+        
         return self.source.getColorCount()
     }
     
-    func addressOf<T: AnyObject>(_ o: T) -> String {
-        let addr = unsafeBitCast(o, to: Int.self)
-        return String(format: "%p", addr)
-    }
+//    func addressOf<T: AnyObject>(_ o: T) -> String {
+//        let addr = unsafeBitCast(o, to: Int.self)
+//        return String(format: "%p", addr)
+//    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentDisplay == .palettes{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "paletteCell", for: indexPath) as! PaletteCollectionViewCell
             
             let palette = self.source.palettes[indexPath.item]
-            print(addressOf(palette))
+            
+            cell.isDeleting = self.isDeleting
             cell.palette = palette
             cell.delegate = self
+            
             cell.setupCell()
+
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath) as! ColorCollectionViewCell
         let color = self.source.getColor(at: indexPath)
+
+        cell.isDeleting = self.isDeleting
         cell.color = color
-        cell.setupCell()
         cell.delegate = self
+        
+        cell.setupCell()
         return cell
     }
     
@@ -115,22 +163,72 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
         self.collectionView.reloadData()
     }
     
+    
+    func onRefresh(){
+        print("Refresh!")
+    }
+    
+    func onDelete(){
+        print("Delete!")
+        self.isDeleting = !self.isDeleting
+        
+        if self.isDeleting {
+            self.showDeleteOptions()
+        } else {
+            self.onDone()
+        }
+        self.collectionView.reloadData()
+        
+    }
+    
+    func showDeleteOptions() {
+        let duration: TimeInterval = 0.2
+        let scale:  CGFloat = 0.05
+        UIView.animate(withDuration: duration, animations: {
+            self.deleteButton.transform = self.deleteButton.transform.scaledBy(x: scale, y: scale)
+        }) { (_) in
+            self.deleteButton.setImage(UIImage(named: "done"), for: .normal)
+            self.setupCancelButton()
+            
+            self.cancelButton.transform = self.cancelButton.transform.scaledBy(x: scale, y: scale)
+            
+            UIView.animate(withDuration: duration) {
+                self.deleteButton.transform = .identity
+                self.cancelButton.transform = .identity
+            }
+        }
+    }
+    
+    func hideDeleteOptions() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.deleteButton.alpha = 0
+            self.cancelButton.transform = self.cancelButton
+                .transform.translatedBy(x: -10 - self.deleteButton.frame.width, y: 0)
+            self.cancelButton.alpha = 0
+        }) { (_) in
+            self.cancelButton.removeFromSuperview()
+            self.deleteButton.setImage(UIImage(named: "delete"), for: .normal)
+            self.deleteButton.alpha = 1
+            self.cancelButton.alpha = 1
+        }
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "colorDetails"{
-            let src = sender as! BaseColorCollectionViewCell
+            let src = sender as! ColorCollectionViewCell
             let dest = segue.destination as! ColorDetailViewController
             dest.color = src.color
             dest.displaysBlur = true
         }
     }
     
-    // MARK: - Share delegate
+    // MARK: - Cell delegate
     
-    func onSharePressed(sender: Any) {
+    func onShare(sender: Any) {
         var vc: UIActivityViewController!
         
         if self.currentDisplay == .palettes{
@@ -155,5 +253,77 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             }
         }
     }
+    
+    func onDelete(sender: Any) {
+        print("DELETA AE", sender)
+        if let paletteCell = sender as? PaletteCollectionViewCell{
+            let delIndex = self.collectionView.indexPath(for: paletteCell)!
+            self.source.deletePalette(palette: paletteCell.palette)
+            self.collectionView.deleteItems(at: [delIndex])
+        } else if let colorCell = sender as? ColorCollectionViewCell{
+            
+            let delIndex = self.collectionView.indexPath(for: colorCell)!
+            self.source.deleteColor(colorCell.color)
+            self.collectionView.deleteItems(at: [delIndex])
+        }
+        
+    }
 
+    
+    // MARK: - StoreKit helpers
+    
+    func setupProductRequest(){
+        print("Called setup fo product requests")
+        let request = SKProductsRequest(productIdentifiers: Set(["fullversion"]))
+        request.delegate = self
+        request.start()
+        print("requested products from the store")
+    }
+    
+    // MARK: - StoreKit delegates
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        print("I have transactions!", transactions)
+    }
+    
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        let prod = response.products
+        print("Recebi produtos" , response.products.count)
+        for p in prod{
+            print(p.localizedDescription, p.localizedTitle, p.price)
+          
+            
+        }
+    }
+    
+    // MARK: - Callbacks
+    
+    @objc func onDone(){
+        self.source.persistDeletion()
+        self.isDeleting = false
+
+        self.hideDeleteOptions()
+        self.collectionView.reloadData()
+    }
+    
+    @objc func onCancel(){
+
+        self.hideDeleteOptions()
+        self.source.restoreDeletions()
+        
+        self.isDeleting = false
+        self.collectionView.reloadData()
+    }
+    
+    @IBAction func onTap(_ sender: UIButton){
+        switch sender.tag{
+        case 1:
+            self.onRefresh()
+        case 2:
+            self.onDelete()
+        default: break
+        }
+    }
+    
+    
 }

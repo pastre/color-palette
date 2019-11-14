@@ -14,12 +14,17 @@ protocol ColorFavoriteDelegate {
 
 class ColorDetailViewController: UIViewController {
 
-    
+    // MARK: - Outlets
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var colorCodeLabel: UILabel!
     @IBOutlet weak var likedButton: UIButton!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var blurView: UIVisualEffectView!
+    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
+    @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
+    @IBOutlet var colorCodeLongPressGestureRecognizer: UILongPressGestureRecognizer!
     
+    // MARK: - Class variables
     let source = HarmonyProvider.instance
     
     var color: HSV!
@@ -27,10 +32,7 @@ class ColorDetailViewController: UIViewController {
     
     var delegate: ColorFavoriteDelegate?
     
-    @IBOutlet weak var blurView: UIVisualEffectView!
-    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
-    @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
-    @IBOutlet var colorCodeLongPressGestureRecognizer: UILongPressGestureRecognizer!
+    // MARK: - UIViewController overrides
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,16 +49,42 @@ class ColorDetailViewController: UIViewController {
         self.blurView.isHidden = false
         print("Frame width is", self.colorView.layer.frame.width)
         self.colorView.layer.cornerRadius = self.colorView.layer.frame.width  /  2
+        
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         self.colorView.layer.cornerRadius = self.colorView.layer.frame.width  /  2
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("Frame width is", self.colorView.layer.frame.width)
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+    }
+
+    // MARK: -  Helper methods
+    
+    func copyColorToClipboard(){
+        UIPasteboard.general.string = self.color.getDescriptiveHex()
+        UIView.animate(withDuration: 1, animations: {
+            self.colorCodeLabel.alpha = 0.4
+            self.colorCodeLabel.transform = self.colorCodeLabel.transform.scaledBy(x: 0.5, y: 0.5)
+            self.colorCodeLabel.text = "Copied!"
+            self.colorCodeLabel.transform = .identity
+            self.colorCodeLabel.alpha = 1
+        }) { (_) in
+            
+            self.colorCodeLabel.text  = "#\(self.color.getDescriptiveHex())"
+            
+        }
+    }
+
+    
+    // MARK: - Callback functions
     
     @IBAction func onFavorite(_ sender: Any) {
         
@@ -81,26 +109,7 @@ class ColorDetailViewController: UIViewController {
             self.copyColorToClipboard()
         }
     }
-    
-    func copyColorToClipboard(){
-        UIPasteboard.general.string = self.color.getDescriptiveHex()
-        UIView.animate(withDuration: 1, animations: {
-            self.colorCodeLabel.alpha = 0.4
-            self.colorCodeLabel.transform = self.colorCodeLabel.transform.scaledBy(x: 0.5, y: 0.5)
-            self.colorCodeLabel.text = "Copied!"
-            self.colorCodeLabel.transform = .identity
-            self.colorCodeLabel.alpha = 1
-        }) { (_) in
-            
-            self.colorCodeLabel.text  = "#\(self.color.getDescriptiveHex())"
-            return
-//            UIView.animate(withDuration: 0.5, delay: 4, options: [], animations: {
-//                self.colorCodeLabel.alpha = 0.4
-//                self.colorCodeLabel.alpha = 1
-//            }, completion: nil)
-        }
-    }
-    //    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //
 //    }
     
