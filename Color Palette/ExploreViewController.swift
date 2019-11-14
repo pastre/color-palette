@@ -74,9 +74,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     var zoomedImageView: UIImageView?
     var zoomView: UIView?
     
+    
     // MARK: - Frame capturing related variables
     var session: ARSession!
-    var renderer: Renderer!
+    var cameraRenderer: Renderer!
     var currentDrawable:  CAMetalDrawable!
     
     // MARK: - View references
@@ -107,6 +108,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.uiState =  .expanded
         self.isCompact = false
         self.optionsState = .open
@@ -129,8 +131,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             }
 //            view.orien
             // Configure the renderer to draw to the view
-            renderer = Renderer(session: session, metalDevice: view.device!, renderDestination: view)
-            renderer.drawRectResized(size: self.view.bounds.size)
+            cameraRenderer = Renderer(session: session, metalDevice: view.device!, renderDestination: view)
+            cameraRenderer.drawRectResized(size: self.view.bounds.size)
         }
         
         self.setupSegmented()
@@ -352,17 +354,15 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             
             let textureScale = CGFloat(curDrawable.texture.width) / self.cameraView.bounds.width
             let bytesPerRow = curDrawable.texture.width * 4
-//            let y = self.cameraView.bounds.height - y
-//            let y = 
+            
             curDrawable.texture.getBytes(&pixel, bytesPerRow: bytesPerRow, from: MTLRegionMake2D(Int(x * textureScale), Int(y * textureScale), 1, 1), mipmapLevel: 0)
-            let red: CGFloat   = CGFloat(pixel[2]) / 255.0
+           let red: CGFloat   = CGFloat(pixel[2]) / 255.0
             let green: CGFloat = CGFloat(pixel[1]) / 255.0
             let blue: CGFloat  = CGFloat(pixel[0]) / 255.0
             let _: CGFloat = CGFloat(pixel[3]) / 255.0
-//            print("RED", pixel[2])
-//            print("GREEN", pixel[1])
-//            print("BLUE", pixel[0])
-//            print("RGB",red, green, blue)
+            
+            
+            curDrawable.texture
             return RGB(red: red, green: green, blue: blue)
         }
         return nil
@@ -382,10 +382,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         zoomedImageView.translatesAutoresizingMaskIntoConstraints = false
         zoomedImageView.contentMode = .scaleToFill
         zoomedImageView.clipsToBounds = true
-        zoomedImageView.layer.cornerRadius = zoomedImageView.frame.height
-        zoomedImageView.backgroundColor = .red
+        zoomedImageView.layer.cornerRadius = 32
+        zoomedImageView.backgroundColor = .clear
         
-        zoomView.backgroundColor = .blue
+        zoomedImageView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         zoomView.translatesAutoresizingMaskIntoConstraints = false
         zoomView.clipsToBounds = true
         zoomView.layer.cornerRadius = 32
@@ -394,7 +394,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         zoomedImageView.centerYAnchor.constraint(equalTo: zoomView.centerYAnchor).isActive = true
         zoomedImageView.centerXAnchor.constraint(equalTo: zoomView.centerXAnchor).isActive = true
-        zoomedImageView.widthAnchor.constraint(equalTo: zoomView.widthAnchor, multiplier: 0.8).isActive = true
+        zoomedImageView.widthAnchor.constraint(equalTo: zoomView.widthAnchor, multiplier: 0.9).isActive = true
         zoomedImageView.heightAnchor.constraint(equalTo: zoomedImageView.widthAnchor).isActive = true
         
         self.cameraView.addSubview(zoomView)
@@ -406,20 +406,71 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         self.zoomedImageView = zoomedImageView
         self.zoomView = zoomView
+        
+        zoomView.transform = zoomView.transform.scaledBy(x: 0.00001, y: 0.00001)
+        
+        UIView.animate(withDuration: 0.5) {
+            zoomView.transform = .identity
+            self.colorPickerCircle.transform = self.colorPickerCircle.transform.scaledBy(x: 0.00001, y: 0.00001)
+        }
+        
+        self.colorPickerCircle.removeFromSuperview()
     }
     
-    func updateZoomView(to centerPoint: CGPoint) {
+    func imageWithImage(image: UIImage, croppedTo rect: CGRect) -> UIImage {
+
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+
+        let drawRect = CGRect(x: -rect.origin.x, y: -rect.origin.y,
+                              width: image.size.width, height: image.size.height)
+
+        context?.clip(to: CGRect(x: 0, y: 0,
+                                 width: rect.size.width, height: rect.size.height))
+
+        image.draw(in: drawRect)
+
+        let subImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+        return subImage!
+    }
+
+    
+    func updateZoomView(to point: CGPoint) {
+//        var frame = CGRect(origin: point, size: CGSize(width: 10, height: 10))
+//        let flowView = UIView(frame: frame)
+//        flowView.backgroundColor = .red
+//        self.cameraView.addSubview(flowView)
+        let size: CGFloat = 25
         guard let zoomView = self.zoomView else { return }
-//        guard let zoomedImageView = self.zoomedImageView else { return }
-        zoomView.layoutIfNeeded()
-        var point = centerPoint
-        point.y -= zoomView.frame.width + 10
-        zoomView.center = point
+        guard let zoomedImageView = self.zoomedImageView else { return }
+        let texture = self.currentDrawable.texture
+        let image = UIImage(texture: texture)
+        
+        var viewPoint = point
+        let cropRect = CGRect(x: point.x - size / 2 , y: point.y - size / 2 , width: size, height: size)
+
+        zoomedImageView.image = self.imageWithImage(image: image.imageWith(newSize: self.cameraView.frame.size), croppedTo: cropRect)
+
+        viewPoint.y -= zoomView.frame.width + 10
+        zoomView.center = viewPoint
+        
+        
+        
     }
     
     func destroyZoomView() {
         guard let zoomView = self.zoomView else { return }
         
+        
+        UIView.animate(withDuration: 0.5) {
+            self.colorPickerCircle.transform = .identity
+            zoomView.transform = self.colorPickerCircle.transform.scaledBy(x: 0.00001, y: 0.00001)
+        }
+        
+//        self.cameraView.addSubview(self.colorPickerCircle)
+        self.setupSquare()
         zoomView.removeFromSuperview()
         
         self.zoomView = nil
@@ -430,7 +481,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     
     @objc func onViewPanned(_ sender: Any){
         let gesture = sender as! UIPanGestureRecognizer
-        let pos = gesture.location(in: self.view)
+        let pos = gesture.location(in: self.cameraView)
         if gesture.state == .began{
             self.transitionAnimator.stopAnimation(true)
             self.goCompact()
@@ -710,7 +761,7 @@ extension ExploreViewController{
     
     // Called whenever the view needs to render
     func draw(in view: MTKView) {
-        renderer.update()
+        cameraRenderer.update()
         view.framebufferOnly = false
         //        view.transform = view.transform.rotated(by: CGFloat.pi / 2)
         self.currentDrawable = view.currentDrawable
@@ -737,7 +788,6 @@ extension ExploreViewController{
     
 }
 
-
 extension UIImage {
     static func render(size: CGSize, _ draw: () -> Void) -> UIImage? {
         UIGraphicsBeginImageContext(size)
@@ -755,4 +805,50 @@ extension UIImage {
             UIRectFill(CGRect(origin: .zero, size: size))
         }
     }
+    
+
+    convenience init(texture: MTLTexture) {
+      let bitsPerComponent = 8
+      let bitsPerPixel = 32
+        let bytesPerRow: UInt = UInt(texture.width * 4)
+      let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo:CGBitmapInfo = [.byteOrder32Little, CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)]
+      
+        let cgim = CGImage(
+            width: texture.width,
+            height: texture.height,
+            bitsPerComponent: bitsPerComponent,
+            bitsPerPixel: bitsPerPixel,
+            bytesPerRow: Int(bytesPerRow),
+            space: rgbColorSpace,
+            bitmapInfo: bitmapInfo,
+            provider: UIImage.dataProviderRefFrom(texture: texture),
+            decode: nil,
+            shouldInterpolate: false,
+            intent: CGColorRenderingIntent.defaultIntent
+          )
+        self.init(cgImage: cgim!)
+    }
+    
+    static func dataProviderRefFrom(texture: MTLTexture) -> CGDataProvider {
+        let region = MTLRegionMake2D(0, 0, Int(texture.width), Int(texture.height))
+        
+        let pixelCount: Int = texture.width * texture.height
+        
+        var imageBytes = [UInt8](repeating: 0, count: pixelCount * 4)
+        texture.getBytes(&imageBytes, bytesPerRow: 4 * texture.width, from: region, mipmapLevel: 0)
+        
+        let providerRef = CGDataProvider(data: NSData(bytes: &imageBytes, length: pixelCount * 4 * MemoryLayout<UInt8>.size ))
+        return providerRef!
+    }
+    
+    func imageWith(newSize: CGSize) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        let image = renderer.image { _ in
+            self.draw(in: CGRect.init(origin: CGPoint.zero, size: newSize))
+        }
+
+        return image
+    }
+    
 }
