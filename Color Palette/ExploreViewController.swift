@@ -73,7 +73,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     // MARK: - Zoom views
     var zoomedImageView: UIImageView?
     var zoomView: UIView?
-    
+    var pointerView: UIView?
     
     // MARK: - Frame capturing related variables
     var session: ARSession!
@@ -378,24 +378,35 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     func setupZoomView() {
         let zoomView = UIView()
         let zoomedImageView = UIImageView()
+        let pointerView = UIView()
+        
+        pointerView.translatesAutoresizingMaskIntoConstraints = false
+        pointerView.backgroundColor = .black
         
         zoomedImageView.translatesAutoresizingMaskIntoConstraints = false
         zoomedImageView.contentMode = .scaleToFill
         zoomedImageView.clipsToBounds = true
         zoomedImageView.layer.cornerRadius = 32
         zoomedImageView.backgroundColor = .clear
-        
-        zoomedImageView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
+        zoomView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        zoomView.backgroundColor = .clear
         zoomView.translatesAutoresizingMaskIntoConstraints = false
         zoomView.clipsToBounds = true
         zoomView.layer.cornerRadius = 32
         
         zoomView.addSubview(zoomedImageView)
+        zoomView.addSubview(pointerView)
         
         zoomedImageView.centerYAnchor.constraint(equalTo: zoomView.centerYAnchor).isActive = true
         zoomedImageView.centerXAnchor.constraint(equalTo: zoomView.centerXAnchor).isActive = true
         zoomedImageView.widthAnchor.constraint(equalTo: zoomView.widthAnchor, multiplier: 0.9).isActive = true
         zoomedImageView.heightAnchor.constraint(equalTo: zoomedImageView.widthAnchor).isActive = true
+        
+        pointerView.centerYAnchor.constraint(equalTo: zoomView.centerYAnchor).isActive = true
+        pointerView.centerXAnchor.constraint(equalTo: zoomView.centerXAnchor).isActive = true
+        pointerView.widthAnchor.constraint(equalTo: zoomView.widthAnchor, multiplier: 0.1).isActive = true
+        pointerView.heightAnchor.constraint(equalTo: pointerView.widthAnchor).isActive = true
         
         self.cameraView.addSubview(zoomView)
         
@@ -406,6 +417,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         
         self.zoomedImageView = zoomedImageView
         self.zoomView = zoomView
+        self.pointerView = pointerView
         
         zoomView.transform = zoomView.transform.scaledBy(x: 0.00001, y: 0.00001)
         
@@ -413,7 +425,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             zoomView.transform = .identity
             self.colorPickerCircle.transform = self.colorPickerCircle.transform.scaledBy(x: 0.00001, y: 0.00001)
         }
-        
+        pointerView.layoutIfNeeded()
+        pointerView.clipsToBounds = true
+        pointerView.layer.cornerRadius = pointerView.frame.width / 2
+        pointerView.layer.masksToBounds = true
         self.colorPickerCircle.removeFromSuperview()
     }
     
@@ -442,9 +457,11 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 //        let flowView = UIView(frame: frame)
 //        flowView.backgroundColor = .red
 //        self.cameraView.addSubview(flowView)
-        let size: CGFloat = 25
         guard let zoomView = self.zoomView else { return }
         guard let zoomedImageView = self.zoomedImageView else { return }
+        guard let pointerView = self.pointerView else { return }
+        
+        let size: CGFloat = 60
         let texture = self.currentDrawable.texture
         let image = UIImage(texture: texture)
         
@@ -453,10 +470,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
 
         zoomedImageView.image = self.imageWithImage(image: image.imageWith(newSize: self.cameraView.frame.size), croppedTo: cropRect)
 
-        viewPoint.y -= zoomView.frame.width + 10
+        viewPoint.y -= zoomView.frame.height / 2
         zoomView.center = viewPoint
         
-        
+        pointerView.backgroundColor = PaletteGenerator(baseHSV: self.currentColor).getTriad()[2].getUIColor()
         
     }
     
