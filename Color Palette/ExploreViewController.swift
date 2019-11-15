@@ -356,15 +356,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             let bytesPerRow = curDrawable.texture.width * 4
             
             curDrawable.texture.getBytes(&pixel, bytesPerRow: bytesPerRow, from: MTLRegionMake2D(Int(x * textureScale), Int(y * textureScale), 1, 1), mipmapLevel: 0)
-           let red: CGFloat   = CGFloat(pixel[2]) / 255.0
+            let red: CGFloat   = CGFloat(pixel[2]) / 255.0
             let green: CGFloat = CGFloat(pixel[1]) / 255.0
             let blue: CGFloat  = CGFloat(pixel[0]) / 255.0
             let _: CGFloat = CGFloat(pixel[3]) / 255.0
             
-            
-            curDrawable.texture
             return RGB(red: red, green: green, blue: blue)
         }
+        
         return nil
     }
    
