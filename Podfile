@@ -6,7 +6,7 @@ target 'Color Palette' do
   use_frameworks!
 
   # Pods for Color Palette
-
+  pod 'Firebase/Analytics'
   target 'Color PaletteTests' do
     inherit! :search_paths
     # Pods for testing
