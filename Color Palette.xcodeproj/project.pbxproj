@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,7 @@
 		D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768909F22A848530035A8FD /* HarmonyProvider.swift */; };
 		D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A122A8493C0035A8FD /* ColorsViewController.swift */; };
 		D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */; };
+		D778A61E23D06F2800336B5D /* AnalyticsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D778A61D23D06F2800336B5D /* AnalyticsWrapper.swift */; };
 		D788ABBB2385905000715522 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D788ABBA2385905000715522 /* GoogleService-Info.plist */; };
 		D799256C22A55B93008596CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799256B22A55B93008596CF /* AppDelegate.swift */; };
 		D799256E22A55B93008596CF /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = D799256D22A55B93008596CF /* Shaders.metal */; };
@@ -80,6 +81,7 @@
 		D76890A122A8493C0035A8FD /* ColorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsViewController.swift; sourceTree = "<group>"; };
 		D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteCollectionViewCell.swift; sourceTree = "<group>"; };
 		D77781B922C134980059B8EC /* Color Palette.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Color Palette.entitlements"; sourceTree = "<group>"; };
+		D778A61D23D06F2800336B5D /* AnalyticsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsWrapper.swift; sourceTree = "<group>"; };
 		D788ABBA2385905000715522 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D799256822A55B93008596CF /* Color Palette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Palette.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799256B22A55B93008596CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,7 +151,6 @@
 				F43A569212652BB47B7CC83B /* Pods-Color PaletteTests.debug.xcconfig */,
 				68E35DA96675D41977A6D734 /* Pods-Color PaletteTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -195,6 +196,7 @@
 				D70116C122A8A2C700E5B6F7 /* model */,
 				D799257222A55B94008596CF /* ExploreViewController.swift */,
 				D76890A122A8493C0035A8FD /* ColorsViewController.swift */,
+				D778A61D23D06F2800336B5D /* AnalyticsWrapper.swift */,
 				D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */,
 				D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */,
 				D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */,
@@ -548,6 +550,7 @@
 				D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */,
 				D7EF368622AFF53D006AF846 /* DebugViewController.swift in Sources */,
 				D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */,
+				D778A61E23D06F2800336B5D /* AnalyticsWrapper.swift in Sources */,
 				D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */,
 				D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */,
 				D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */,

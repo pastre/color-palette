@@ -557,6 +557,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         if !self.tutorialController.hasOpenedOverlay(){
             self.setupOverlayTutorial()
         }
+        
     }
     
     
@@ -626,8 +627,13 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     func savePalette(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
+        
         self.source.addPalette(colors: self.presentingPalette)
         self.saveLabel.isHidden = false
+        
+        
+        AnalyticsWrapper.instance.onPaletteSaved(self.presentingPalette)
+        
         UIView.animate(withDuration: 0.2, animations: {
             self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 0.6, y: 0.6)
             self.colorsStackView.transform = self.colorsStackView.transform.translatedBy(x: 0, y: -20)
