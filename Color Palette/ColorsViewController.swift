@@ -237,12 +237,17 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
             
             item.palette = palette
-        }else{
+            
+            AnalyticsWrapper.instance.onPaletteSaved(palette.colors)
+            
+        } else {
             let color = sender as! HSV
             let item = ColorActivityItemProvider(placeholderItem: "asd")
             vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
             
             item.color = color
+            
+            AnalyticsWrapper.instance.onColorShared(color)
         }
         
         
@@ -260,11 +265,15 @@ class ColorsViewController: UIViewController, UICollectionViewDelegate, UICollec
             let delIndex = self.collectionView.indexPath(for: paletteCell)!
             self.source.deletePalette(palette: paletteCell.palette)
             self.collectionView.deleteItems(at: [delIndex])
+            
+            AnalyticsWrapper.instance.onPaletteDeleted()
         } else if let colorCell = sender as? ColorCollectionViewCell{
             
             let delIndex = self.collectionView.indexPath(for: colorCell)!
             self.source.deleteColor(colorCell.color)
             self.collectionView.deleteItems(at: [delIndex])
+            
+            AnalyticsWrapper.instance.onPaletteDeleted()
         }
         
     }
