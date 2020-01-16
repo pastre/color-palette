@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35DB868A67C832A70FA875EB /* Pods_Color_Palette_Color_PaletteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44D5153AA072E2741C20DC6C /* Pods_Color_Palette_Color_PaletteUITests.framework */; };
 		D70116BE22A8A25300E5B6F7 /* PaletteGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116BD22A8A25300E5B6F7 /* PaletteGenerator.swift */; };
 		D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116BF22A8A29A00E5B6F7 /* HSV.swift */; };
 		D70116C322A971FB00E5B6F7 /* ColorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */; };
@@ -18,6 +19,8 @@
 		D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768909F22A848530035A8FD /* HarmonyProvider.swift */; };
 		D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A122A8493C0035A8FD /* ColorsViewController.swift */; };
 		D76890A422A853760035A8FD /* PaletteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */; };
+		D778A61E23D06F2800336B5D /* AnalyticsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D778A61D23D06F2800336B5D /* AnalyticsWrapper.swift */; };
+		D788ABBB2385905000715522 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D788ABBA2385905000715522 /* GoogleService-Info.plist */; };
 		D799256C22A55B93008596CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799256B22A55B93008596CF /* AppDelegate.swift */; };
 		D799256E22A55B93008596CF /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = D799256D22A55B93008596CF /* Shaders.metal */; };
 		D799257122A55B93008596CF /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799257022A55B93008596CF /* Renderer.swift */; };
@@ -36,6 +39,8 @@
 		D7E5EFFB22A7367D00E0C956 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5EFFA22A7367D00E0C956 /* Overlay.swift */; };
 		D7EF368422AFF1B7006AF846 /* Serialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EF368322AFF1B7006AF846 /* Serialize.swift */; };
 		D7EF368622AFF53D006AF846 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EF368522AFF53D006AF846 /* DebugViewController.swift */; };
+		DC830B7880CD15F66BA5AF34 /* Pods_Color_Palette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36395BA25FF149AECCD39297 /* Pods_Color_Palette.framework */; };
+		F3E1DAC356B5731752563A4F /* Pods_Color_PaletteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF6B623100DA345CE0ABDB17 /* Pods_Color_PaletteTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +61,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		21E3147A590120DB98FB0EB4 /* Pods-Color Palette.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Palette.release.xcconfig"; path = "Target Support Files/Pods-Color Palette/Pods-Color Palette.release.xcconfig"; sourceTree = "<group>"; };
+		36395BA25FF149AECCD39297 /* Pods_Color_Palette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Color_Palette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BF11392F93CA46B9E4AD3EB /* Pods-Color Palette.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Palette.debug.xcconfig"; path = "Target Support Files/Pods-Color Palette/Pods-Color Palette.debug.xcconfig"; sourceTree = "<group>"; };
+		44D5153AA072E2741C20DC6C /* Pods_Color_Palette_Color_PaletteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Color_Palette_Color_PaletteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46DEAA395B90F373E5DF469E /* Pods-Color Palette-Color PaletteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Palette-Color PaletteUITests.release.xcconfig"; path = "Target Support Files/Pods-Color Palette-Color PaletteUITests/Pods-Color Palette-Color PaletteUITests.release.xcconfig"; sourceTree = "<group>"; };
+		68E35DA96675D41977A6D734 /* Pods-Color PaletteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color PaletteTests.release.xcconfig"; path = "Target Support Files/Pods-Color PaletteTests/Pods-Color PaletteTests.release.xcconfig"; sourceTree = "<group>"; };
+		7B1790A86465C7139B03AEE6 /* Pods-Color Palette-Color PaletteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Palette-Color PaletteUITests.debug.xcconfig"; path = "Target Support Files/Pods-Color Palette-Color PaletteUITests/Pods-Color Palette-Color PaletteUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AF6B623100DA345CE0ABDB17 /* Pods_Color_PaletteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Color_PaletteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D70116BD22A8A25300E5B6F7 /* PaletteGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteGenerator.swift; sourceTree = "<group>"; };
 		D70116BF22A8A29A00E5B6F7 /* HSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSV.swift; sourceTree = "<group>"; };
 		D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDetailViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +81,8 @@
 		D76890A122A8493C0035A8FD /* ColorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsViewController.swift; sourceTree = "<group>"; };
 		D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteCollectionViewCell.swift; sourceTree = "<group>"; };
 		D77781B922C134980059B8EC /* Color Palette.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Color Palette.entitlements"; sourceTree = "<group>"; };
+		D778A61D23D06F2800336B5D /* AnalyticsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsWrapper.swift; sourceTree = "<group>"; };
+		D788ABBA2385905000715522 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D799256822A55B93008596CF /* Color Palette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Palette.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799256B22A55B93008596CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D799256D22A55B93008596CF /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
@@ -94,6 +109,7 @@
 		D7E5EFFA22A7367D00E0C956 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 		D7EF368322AFF1B7006AF846 /* Serialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serialize.swift; sourceTree = "<group>"; };
 		D7EF368522AFF53D006AF846 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
+		F43A569212652BB47B7CC83B /* Pods-Color PaletteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color PaletteTests.debug.xcconfig"; path = "Target Support Files/Pods-Color PaletteTests/Pods-Color PaletteTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7D3B26A23371DE9005A5A60 /* StoreKit.framework in Frameworks */,
+				DC830B7880CD15F66BA5AF34 /* Pods_Color_Palette.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3E1DAC356B5731752563A4F /* Pods_Color_PaletteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,12 +134,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35DB868A67C832A70FA875EB /* Pods_Color_Palette_Color_PaletteUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E240E725144302087862043 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3BF11392F93CA46B9E4AD3EB /* Pods-Color Palette.debug.xcconfig */,
+				21E3147A590120DB98FB0EB4 /* Pods-Color Palette.release.xcconfig */,
+				7B1790A86465C7139B03AEE6 /* Pods-Color Palette-Color PaletteUITests.debug.xcconfig */,
+				46DEAA395B90F373E5DF469E /* Pods-Color Palette-Color PaletteUITests.release.xcconfig */,
+				F43A569212652BB47B7CC83B /* Pods-Color PaletteTests.debug.xcconfig */,
+				68E35DA96675D41977A6D734 /* Pods-Color PaletteTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		D70116C122A8A2C700E5B6F7 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +172,7 @@
 				D799259022A55B94008596CF /* Color PaletteUITests */,
 				D799256922A55B93008596CF /* Products */,
 				D7D3B26823371DE9005A5A60 /* Frameworks */,
+				0E240E725144302087862043 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,6 +196,7 @@
 				D70116C122A8A2C700E5B6F7 /* model */,
 				D799257222A55B94008596CF /* ExploreViewController.swift */,
 				D76890A122A8493C0035A8FD /* ColorsViewController.swift */,
+				D778A61D23D06F2800336B5D /* AnalyticsWrapper.swift */,
 				D70116C222A971FB00E5B6F7 /* ColorDetailViewController.swift */,
 				D76890A322A853760035A8FD /* PaletteCollectionViewCell.swift */,
 				D70116C422A9993800E5B6F7 /* ColorCollectionViewCell.swift */,
@@ -176,6 +210,7 @@
 				D799257022A55B93008596CF /* Renderer.swift */,
 				D799257922A55B94008596CF /* LaunchScreen.storyboard */,
 				D799257C22A55B94008596CF /* Info.plist */,
+				D788ABBA2385905000715522 /* GoogleService-Info.plist */,
 				D77781B922C134980059B8EC /* Color Palette.entitlements */,
 				D799257D22A55B94008596CF /* Color_Palette-Bridging-Header.h */,
 				D73A4A3D22CFBD8F004D5E3F /* BallLongPressGestureRecognizer.swift */,
@@ -215,6 +250,9 @@
 			isa = PBXGroup;
 			children = (
 				D7D3B26923371DE9005A5A60 /* StoreKit.framework */,
+				36395BA25FF149AECCD39297 /* Pods_Color_Palette.framework */,
+				44D5153AA072E2741C20DC6C /* Pods_Color_Palette_Color_PaletteUITests.framework */,
+				AF6B623100DA345CE0ABDB17 /* Pods_Color_PaletteTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -253,9 +291,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D799259622A55B94008596CF /* Build configuration list for PBXNativeTarget "Color Palette" */;
 			buildPhases = (
+				D9185B6F7B35FC6E1D212BE7 /* [CP] Check Pods Manifest.lock */,
 				D799256422A55B93008596CF /* Sources */,
 				D799256522A55B93008596CF /* Frameworks */,
 				D799256622A55B93008596CF /* Resources */,
+				6DC08F9D07E5D405C614F95C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -270,6 +310,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D799259922A55B94008596CF /* Build configuration list for PBXNativeTarget "Color PaletteTests" */;
 			buildPhases = (
+				E1C71EA5491098DDC9BD6FA3 /* [CP] Check Pods Manifest.lock */,
 				D799257E22A55B94008596CF /* Sources */,
 				D799257F22A55B94008596CF /* Frameworks */,
 				D799258022A55B94008596CF /* Resources */,
@@ -288,9 +329,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D799259C22A55B94008596CF /* Build configuration list for PBXNativeTarget "Color PaletteUITests" */;
 			buildPhases = (
+				8C7288F3D35CF324C2F57A9F /* [CP] Check Pods Manifest.lock */,
 				D799258922A55B94008596CF /* Sources */,
 				D799258A22A55B94008596CF /* Frameworks */,
 				D799258B22A55B94008596CF /* Resources */,
+				797B175045ECAEFA2A84CCAD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -359,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D799257B22A55B94008596CF /* LaunchScreen.storyboard in Resources */,
+				D788ABBB2385905000715522 /* GoogleService-Info.plist in Resources */,
 				D799257822A55B94008596CF /* Assets.xcassets in Resources */,
 				D799257622A55B94008596CF /* Main.storyboard in Resources */,
 			);
@@ -379,6 +423,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6DC08F9D07E5D405C614F95C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Color Palette/Pods-Color Palette-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Color Palette/Pods-Color Palette-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Color Palette/Pods-Color Palette-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		797B175045ECAEFA2A84CCAD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Color Palette-Color PaletteUITests/Pods-Color Palette-Color PaletteUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Color Palette-Color PaletteUITests/Pods-Color Palette-Color PaletteUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Color Palette-Color PaletteUITests/Pods-Color Palette-Color PaletteUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C7288F3D35CF324C2F57A9F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Color Palette-Color PaletteUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D9185B6F7B35FC6E1D212BE7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Color Palette-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E1C71EA5491098DDC9BD6FA3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Color PaletteTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D799256422A55B93008596CF /* Sources */ = {
@@ -403,6 +550,7 @@
 				D70116C022A8A29A00E5B6F7 /* HSV.swift in Sources */,
 				D7EF368622AFF53D006AF846 /* DebugViewController.swift in Sources */,
 				D7ACB2C222AC9AE70070F086 /* PaletteActivityItemProvider.swift in Sources */,
+				D778A61E23D06F2800336B5D /* AnalyticsWrapper.swift in Sources */,
 				D76890A222A8493C0035A8FD /* ColorsViewController.swift in Sources */,
 				D76890A022A848530035A8FD /* HarmonyProvider.swift in Sources */,
 				D7E55A8922A9DE3F008A2CEA /* Palette.swift in Sources */,
@@ -580,11 +728,12 @@
 		};
 		D799259722A55B94008596CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3BF11392F93CA46B9E4AD3EB /* Pods-Color Palette.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Color Palette/Color Palette.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = "Color Palette/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -592,7 +741,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pastre.harmonify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Color Palette/Color_Palette-Bridging-Header.h";
@@ -603,11 +752,12 @@
 		};
 		D799259822A55B94008596CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 21E3147A590120DB98FB0EB4 /* Pods-Color Palette.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Color Palette/Color Palette.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = "Color Palette/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -615,7 +765,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pastre.harmonify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Color Palette/Color_Palette-Bridging-Header.h";
@@ -626,6 +776,7 @@
 		};
 		D799259A22A55B94008596CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F43A569212652BB47B7CC83B /* Pods-Color PaletteTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -647,6 +798,7 @@
 		};
 		D799259B22A55B94008596CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 68E35DA96675D41977A6D734 /* Pods-Color PaletteTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -668,6 +820,7 @@
 		};
 		D799259D22A55B94008596CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B1790A86465C7139B03AEE6 /* Pods-Color Palette-Color PaletteUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -688,6 +841,7 @@
 		};
 		D799259E22A55B94008596CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46DEAA395B90F373E5DF469E /* Pods-Color Palette-Color PaletteUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

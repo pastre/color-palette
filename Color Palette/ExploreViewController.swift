@@ -356,15 +356,14 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
             let bytesPerRow = curDrawable.texture.width * 4
             
             curDrawable.texture.getBytes(&pixel, bytesPerRow: bytesPerRow, from: MTLRegionMake2D(Int(x * textureScale), Int(y * textureScale), 1, 1), mipmapLevel: 0)
-           let red: CGFloat   = CGFloat(pixel[2]) / 255.0
+            let red: CGFloat   = CGFloat(pixel[2]) / 255.0
             let green: CGFloat = CGFloat(pixel[1]) / 255.0
             let blue: CGFloat  = CGFloat(pixel[0]) / 255.0
             let _: CGFloat = CGFloat(pixel[3]) / 255.0
             
-            
-            curDrawable.texture
             return RGB(red: red, green: green, blue: blue)
         }
+        
         return nil
     }
    
@@ -558,6 +557,7 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         if !self.tutorialController.hasOpenedOverlay(){
             self.setupOverlayTutorial()
         }
+        
     }
     
     
@@ -627,8 +627,13 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     func savePalette(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
+        
         self.source.addPalette(colors: self.presentingPalette)
         self.saveLabel.isHidden = false
+        
+        
+        AnalyticsWrapper.instance.onPaletteSaved(self.presentingPalette)
+        
         UIView.animate(withDuration: 0.2, animations: {
             self.colorsStackView.transform = self.colorsStackView.transform.scaledBy(x: 0.6, y: 0.6)
             self.colorsStackView.transform = self.colorsStackView.transform.translatedBy(x: 0, y: -20)
