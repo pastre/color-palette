@@ -9,6 +9,7 @@
 import UIKit
 import StoreKit
 import Firebase
+import GoogleMobileAds
 
 
 @UIApplicationMain
@@ -22,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SKPaymentQueue.default().add(self.observer)
         
         FirebaseApp.configure()
+        
+        GADMobileAds.sharedInstance().start { (status) in
+            print("STATUS INIT", status)
+        }
         
         UserDefaults.standard.set(true, forKey: "isPro")
         

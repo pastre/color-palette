@@ -4,6 +4,8 @@
 <dict>
 	<key>CLIENT_ID</key>
 	<string>1060700927900-1m9p1uplafi2ei2jf42g3pasmnodn5a4.apps.googleusercontent.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-6710438178084678~2460324141</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.1060700927900-1m9p1uplafi2ei2jf42g3pasmnodn5a4</string>
 	<key>API_KEY</key>
@@ -19,15 +21,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>harmonify-8c565.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:1060700927900:ios:d168631282892d15ee7a59</string>
 	<key>DATABASE_URL</key>

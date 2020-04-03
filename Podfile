@@ -7,6 +7,8 @@ target 'Color Palette' do
 
   # Pods for Color Palette
   pod 'Firebase/Analytics'
+  pod 'Google-Mobile-Ads-SDK'
+  
   target 'Color PaletteTests' do
     inherit! :search_paths
     # Pods for testing

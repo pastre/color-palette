@@ -11,6 +11,7 @@ import Metal
 import MetalKit
 import ARKit
 import AudioToolbox
+import GoogleMobileAds
 
 extension MTKView : RenderDestinationProvider {
     
@@ -41,7 +42,7 @@ enum UIOptionsState{
     case closed
 }
 
-class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate, ColorFavoriteDelegate {
+class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate, ColorFavoriteDelegate, GADBannerViewDelegate {
 
     //MARK: - Singletons
     let source = HarmonyProvider.instance
@@ -65,9 +66,10 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     @IBOutlet weak var palettesSegmentedBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var dragViewTopConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var bannerView: GADBannerView!
     // MARK: - UI control variables
     var uiState: UIOverlayState!
-    var optionsState: UIOptionsState!
+    var optionsState: UIOptionsState! 
     var isCompact: Bool!
     
     // MARK: - Zoom views
@@ -108,6 +110,8 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.setupBanner()
         
         self.uiState =  .expanded
         self.isCompact = false
@@ -176,6 +180,24 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
         super.viewWillDisappear(animated)
         // Pause the view's session
         session.pause() 
+    }
+    
+    func setupBanner() {
+        self.bannerView.adUnitID = "ca-app-pub-6710438178084678/5071203285"
+        
+        #if DEBUG
+        self.bannerView.adUnitID =  "ca-app-pub-3940256099942544/2934735716"
+        #endif
+        
+        self.bannerView.delegate = self
+        self.bannerView.rootViewController = self
+        
+        
+        self.bannerView.load(GADRequest())
+        
+        print("Configured banner!")
+        
+        self.view.bringSubviewToFront(self.bannerView)
     }
     
     func setupOverlayTutorial(){
@@ -370,6 +392,12 @@ class ExploreViewController: UIViewController, MTKViewDelegate, ARSessionDelegat
     // MARK: - Color changed delegate
     func onFavoriteChanged() {
         self.colorsCollectionView.collectionView.reloadData()
+    }
+    
+    // MARK: - Ad methods
+    
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        self.bannerView.load(GADRequest())
     }
     
     // MARK: - Zoom methods
