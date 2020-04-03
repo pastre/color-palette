@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="otw-jw-wzA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="otw-jw-wzA">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -544,11 +544,21 @@
                                     <constraint firstItem="Ab0-Jr-Y2O" firstAttribute="leading" secondItem="kv6-Iq-V6r" secondAttribute="leading" id="xmV-f2-RjS"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eG9-7G-jCD" customClass="GADBannerView">
+                                <rect key="frame" x="47" y="44" width="320" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="1cO-h0-eoD"/>
+                                    <constraint firstAttribute="height" constant="50" id="2rj-CC-fBD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="NLw-DY-6gz" firstAttribute="trailing" secondItem="kv6-Iq-V6r" secondAttribute="trailing" id="1F2-9T-r6b"/>
                             <constraint firstAttribute="bottom" secondItem="kv6-Iq-V6r" secondAttribute="bottom" id="7sL-Nm-ntl"/>
                             <constraint firstItem="kv6-Iq-V6r" firstAttribute="leading" secondItem="NLw-DY-6gz" secondAttribute="leading" id="Dep-od-1wz"/>
+                            <constraint firstItem="eG9-7G-jCD" firstAttribute="centerX" secondItem="NLw-DY-6gz" secondAttribute="centerX" id="QqK-TV-NtP"/>
+                            <constraint firstItem="eG9-7G-jCD" firstAttribute="top" secondItem="NLw-DY-6gz" secondAttribute="top" id="VZW-mK-gA9"/>
                             <constraint firstItem="mWP-gS-xHA" firstAttribute="top" secondItem="kv6-Iq-V6r" secondAttribute="top" id="cKQ-05-EQt"/>
                             <constraint firstAttribute="top" secondItem="kv6-Iq-V6r" secondAttribute="top" id="yt8-8u-xOH"/>
                         </constraints>
@@ -557,6 +567,7 @@
                     <tabBarItem key="tabBarItem" title="Explore" image="world" id="jB8-ec-SIG"/>
                     <connections>
                         <outlet property="addPaletteButton" destination="gmE-xt-hlW" id="xs4-79-vY7"/>
+                        <outlet property="bannerView" destination="eG9-7G-jCD" id="4bL-no-1vE"/>
                         <outlet property="bottomConstraint" destination="p16-rA-Fw4" id="uaQ-gE-5we"/>
                         <outlet property="cameraView" destination="kv6-Iq-V6r" id="ZhQ-0c-ati"/>
                         <outlet property="colorCollectionViewContainer" destination="Xqk-le-6pW" id="LXQ-gK-mGW"/>
