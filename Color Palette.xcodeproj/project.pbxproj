@@ -83,7 +83,7 @@
 		D77781B922C134980059B8EC /* Color Palette.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Color Palette.entitlements"; sourceTree = "<group>"; };
 		D778A61D23D06F2800336B5D /* AnalyticsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsWrapper.swift; sourceTree = "<group>"; };
 		D788ABBA2385905000715522 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D799256822A55B93008596CF /* Color Palette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Palette.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D799256822A55B93008596CF /* Harmonify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Harmonify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D799256B22A55B93008596CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D799256D22A55B93008596CF /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		D799256F22A55B93008596CF /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 		D799256922A55B93008596CF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D799256822A55B93008596CF /* Color Palette.app */,
+				D799256822A55B93008596CF /* Harmonify.app */,
 				D799258222A55B94008596CF /* Color PaletteTests.xctest */,
 				D799258D22A55B94008596CF /* Color PaletteUITests.xctest */,
 			);
@@ -303,7 +303,7 @@
 			);
 			name = "Color Palette";
 			productName = "Color Palette";
-			productReference = D799256822A55B93008596CF /* Color Palette.app */;
+			productReference = D799256822A55B93008596CF /* Harmonify.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D799258122A55B94008596CF /* Color PaletteTests */ = {
@@ -733,7 +733,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Color Palette/Color Palette.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = "Color Palette/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -741,9 +741,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 4;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pastre.harmonify;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Harmonify;
 				SWIFT_OBJC_BRIDGING_HEADER = "Color Palette/Color_Palette-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -757,7 +757,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Color Palette/Color Palette.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = "Color Palette/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -765,9 +765,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 4;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.pastre.harmonify;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Harmonify;
 				SWIFT_OBJC_BRIDGING_HEADER = "Color Palette/Color_Palette-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
